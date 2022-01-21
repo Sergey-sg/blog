@@ -6,9 +6,12 @@ name = "pypi"
 [packages]
 django = "==3.2"
 django-environ = "*"
-django-3-jet = "*"
+django-admin-sortable2 = "*"
+setuptools = "*"
+django-jet = {editable = true, git = "https://github.com/preusx/django-jet.git"}
 
 [dev-packages]
+django-debug-toolbar= "3.2.4"
 
 [requires]
 python_version = "3.8"
