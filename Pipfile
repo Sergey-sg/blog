@@ -9,6 +9,10 @@ django-environ = "*"
 django-admin-sortable2 = "*"
 setuptools = "*"
 django-jet = {editable = true, git = "https://github.com/preusx/django-jet.git"}
+django-ckeditor = "*"
+django-filter = "*"
+django-treebeard = "*"
+django-jinja = "*"
 
 [dev-packages]
 django-debug-toolbar= "3.2.4"

@@ -13,6 +13,9 @@ https://docs.djangoproject.com/en/4.0/ref/settings/
 import os
 import environ
 from pathlib import Path
+from .setting_ckeditor import *
+import jinja2
+from django_jinja.builtins import DEFAULT_EXTENSIONS
 
 env = environ.Env(
   # set casting, default value
@@ -38,6 +41,7 @@ ALLOWED_HOSTS = []
 # Application definition
 
 INSTALLED_APPS = [
+    'django_jinja',
     'jet',
     'django.contrib.admin',
     'django.contrib.auth',
@@ -48,10 +52,15 @@ INSTALLED_APPS = [
     # installed
     'adminsortable2',
     'debug_toolbar',
-    # my apps
+    'ckeditor',
+    'ckeditor_uploader',
+    'django_filters',
+    'treebeard',
+    # created apps
     'apps.accounts',
     'apps.blog.apps.BlogConfig',
     'apps.menu',
+    'shared',
 ]
 
 MIDDLEWARE = [
@@ -69,12 +78,49 @@ ROOT_URLCONF = 'Blog.urls'
 
 TEMPLATES = [
     {
+        'BACKEND': 'django_jinja.backend.Jinja2',
+        'NAME': 'jinja2',
+        'APP_DIRS': True,
+        'DIRS': [BASE_DIR / '/markup/templates'],
+        'OPTIONS': {
+            'environment': 'shared.env.jinja2.environment',
+            'match_extension': '.jinja',
+            'newstyle_gettext': True,
+            'auto_reload': True,
+            'undefined': jinja2.Undefined,
+            'debug': True,
+
+            'filters': {},
+
+            'globals': {},
+
+            'context_processors': [
+                'django.contrib.auth.context_processors.auth',
+                'django.template.context_processors.debug',
+                'django.template.context_processors.i18n',
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
+                'django.template.context_processors.tz',
+                'django.contrib.messages.context_processors.messages',
+            ],
+
+            'extensions': DEFAULT_EXTENSIONS,
+
+            "bytecode_cache": {
+                "name": "default",
+                "backend": "django_jinja.cache.BytecodeCache",
+                "enabled": True,
+            },
+        },
+    },
+    {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [BASE_DIR / '/markup/templates']
-        ,
+        'DIRS': [],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [
+                'django.template.context_processors.media',
+                'django.template.context_processors.static',
                 'django.template.context_processors.debug',
                 'django.template.context_processors.request',
                 'django.contrib.auth.context_processors.auth',
@@ -83,6 +129,22 @@ TEMPLATES = [
         },
     },
 ]
+# TEMPLATES = [
+#     {
+#         'BACKEND': 'django.template.backends.django.DjangoTemplates',
+#         'DIRS': [BASE_DIR / '/markup/templates']
+#         ,
+#         'APP_DIRS': True,
+#         'OPTIONS': {
+#             'context_processors': [
+#                 'django.template.context_processors.debug',
+#                 'django.template.context_processors.request',
+#                 'django.contrib.auth.context_processors.auth',
+#                 'django.contrib.messages.context_processors.messages',
+#             ],
+#         },
+#     },
+# ]
 
 WSGI_APPLICATION = 'Blog.wsgi.application'
 
