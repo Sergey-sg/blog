@@ -13,6 +13,8 @@ django-ckeditor = "*"
 django-filter = "*"
 django-treebeard = "*"
 django-jinja = "*"
+python-slugify = "*"
+pillow = "*"
 
 [dev-packages]
 django-debug-toolbar= "3.2.4"

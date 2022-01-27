@@ -51,11 +51,11 @@ INSTALLED_APPS = [
     'django.contrib.staticfiles',
     # installed
     'adminsortable2',
+    'treebeard',
     'debug_toolbar',
     'ckeditor',
     'ckeditor_uploader',
     'django_filters',
-    'treebeard',
     # created apps
     'apps.accounts',
     'apps.blog.apps.BlogConfig',
@@ -202,7 +202,7 @@ STATIC_URL = 'static/'
 
 STATIC_ROOT = os.path.join(BASE_DIR, 'static')
 
-MEDIA_ROOT = os.path.join(BASE_DIR, 'static', '/media')
+MEDIA_ROOT = os.path.join(BASE_DIR, 'static', 'media/')
 
 MEDIA_URL = '/media/'
 

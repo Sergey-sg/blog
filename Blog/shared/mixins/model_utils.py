@@ -1,3 +1,5 @@
+from datetime import datetime
+
 from django.db import models
 
 
@@ -14,3 +16,13 @@ class DragDropMixins(CreatedUpdateMixins):
 
     class Meta:
         abstract = True
+
+
+class ImageNameMixins:
+    def get_image_name(self, name, filename):
+        extension = filename.split('.')[-1]
+        return f'{name}-{datetime.now()}.{extension}'
+
+    class Meta:
+        abstract = True
+

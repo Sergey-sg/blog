@@ -1,7 +1,7 @@
 from django.core.validators import RegexValidator
 from django.db import models
 
-from .constans import target_const, position_const
+from .constants import Target, Position
 from shared.mixins.model_utils import DragDropMixins
 
 
@@ -14,19 +14,19 @@ class Menu(DragDropMixins):
     item_url = models.CharField(validators=[url_regex], unique=True, max_length=2048, help_text='Enter link address')
     target = models.CharField(
         max_length=1,
-        choices=target_const,
+        choices=Target.choices,
         default='s',
         help_text='Target url'
     )
     position = models.CharField(
         max_length=1,
-        choices=position_const,
+        choices=Position.choices,
         help_text='Position object (header or footer)'
     )
     show_item = models.BooleanField('show', default=False)
 
     def __str__(self):
-        """class method returns the phone number of company in string representation"""
+        """class method returns the menu item in string representation"""
         return self.title
 
     class Meta(object):
