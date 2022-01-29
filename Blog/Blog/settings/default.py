@@ -82,7 +82,7 @@ TEMPLATES = [
         'BACKEND': 'django_jinja.backend.Jinja2',
         'NAME': 'jinja2',
         'APP_DIRS': True,
-        'DIRS': ['/markup/templates/'],
+        'DIRS': ['markup/templates/'],
         'OPTIONS': {
             'environment': 'shared.env.jinja2.environment',
             'match_extension': '.jinja',
@@ -116,7 +116,7 @@ TEMPLATES = [
     },
     {
         'BACKEND': 'django.template.backends.django.DjangoTemplates',
-        'DIRS': [],
+        'DIRS': ['markup/templates/'],
         'APP_DIRS': True,
         'OPTIONS': {
             'context_processors': [

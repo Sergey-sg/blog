@@ -37,7 +37,7 @@ class ImageArticleAdmin(admin.TabularInline):
 
 
 class ArticleAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('title', 'slug', 'author', 'category', 'created',)
+    list_display = ('title', 'slug', 'author', 'category', 'average_rating', 'created',)
     exclude = ('dd_order',)
     search_fields = ('name',)
     list_filter = ['author']

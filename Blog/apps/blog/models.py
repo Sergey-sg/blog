@@ -42,9 +42,9 @@ class Article(DragDropMixins, ImageNameMixins):
     short_description = models.TextField()
     content = RichTextField()
     # featured_articles =
-    # average_rating =
-    # number_of_reviews =
-    # number_of_likes =
+    average_rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
+    number_of_reviews = models.PositiveIntegerField()
+    number_of_likes = models.PositiveIntegerField()
 
     class Meta(object):
         verbose_name = 'article'
@@ -60,7 +60,14 @@ class Article(DragDropMixins, ImageNameMixins):
             self.slug = slugify(self.title)
         else:
             self.slug = slugify(self.slug)
-        if self.article_preview:
+        if self.pk is not None:
+            orig = Article.objects.get(pk=self.pk)
+            if orig.article_preview.name != self.article_preview.name:
+                if self.article_preview:
+                    self.article_preview.name = self.get_image_name(name=self.slug, filename=self.article_preview.name)
+                    if not self.img_alt:
+                        self.img_alt = self.title
+        else:
             self.article_preview.name = self.get_image_name(name=self.slug, filename=self.article_preview.name)
             if not self.img_alt:
                 self.img_alt = self.title

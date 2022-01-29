@@ -1,5 +1,6 @@
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.db.models import Sum
 
 import Blog
 from .constants import Status, ScoreChoices
@@ -52,4 +53,12 @@ class Score(CreatedUpdateMixins):
         ordering = ['article', '-created']
 
     def __str__(self):
-        return f'{self.article}--{self.author}--{self.created}'
+        return f'{self.article}--{self.author}--score'
+
+    def save(self, *args, **kwargs):
+        obj = Score.objects.filter(article=self.article).only('score')
+        self.article.number_of_reviews = obj.count()
+        rating = int(obj.aggregate(total_score=Sum('score'))['total_score']) / obj.count()
+        self.article.average_rating = rating
+        self.article.save()
+        super(Score, self).save(*args, **kwargs)
