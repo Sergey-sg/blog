@@ -15,21 +15,21 @@ class Category(MP_Node, CreatedUpdateMixins):
     node_order_by = ['name']
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
 
+    class Meta(object):
+        verbose_name = 'category'
+        verbose_name_plural = 'Categories'
+        ordering = ['name']
+
+    def __str__(self):
+        """class method returns the category in string representation"""
+        return self.name
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.name)
         else:
             self.slug = slugify(self.slug)
         super(Category, self).save(*args, **kwargs)
-
-    def __str__(self):
-        """class method returns the category in string representation"""
-        return self.name
-
-    class Meta(object):
-        verbose_name = 'category'
-        verbose_name_plural = 'Categories'
-        ordering = ['name']
 
 
 class Article(DragDropMixins, ImageNameMixins):
@@ -46,6 +46,15 @@ class Article(DragDropMixins, ImageNameMixins):
     # number_of_reviews =
     # number_of_likes =
 
+    class Meta(object):
+        verbose_name = 'article'
+        verbose_name_plural = 'Articles'
+        ordering = ['dd_order', '-created']
+
+    def __str__(self):
+        """class method returns the article in string representation"""
+        return self.title
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
@@ -57,33 +66,24 @@ class Article(DragDropMixins, ImageNameMixins):
                 self.img_alt = self.title
         super(Article, self).save(*args, **kwargs)
 
-    def __str__(self):
-        """class method returns the article in string representation"""
-        return self.title
-
-    class Meta(object):
-        verbose_name = 'article'
-        verbose_name_plural = 'Articles'
-        ordering = ['dd_order', '-created']
-
 
 class ImageArticle(DragDropMixins, ImageNameMixins):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
     image_article = models.ImageField(upload_to='image_article/%Y/%m/%d', help_text="image article")
     img_alt = models.CharField(max_length=200, help_text='текст, который будет загружен в случае потери изображения')
 
-    def save(self, *args, **kwargs):
-        self.image_article.name = self.get_image_name(name=self.img_alt[:15], filename=self.image_article.name)
-        super(ImageArticle, self).save(*args, **kwargs)
+    class Meta(object):
+        verbose_name = 'image'
+        verbose_name_plural = 'Images of article'
+        ordering = ['dd_order', 'created']
 
     def __str__(self):
         """class method returns the image of article in string representation"""
         return self.img_alt
 
-    class Meta(object):
-        verbose_name = 'image'
-        verbose_name_plural = 'Images of article'
-        ordering = ['dd_order', 'created']
+    def save(self, *args, **kwargs):
+        self.image_article.name = self.get_image_name(name=self.img_alt[:15], filename=self.image_article.name)
+        super(ImageArticle, self).save(*args, **kwargs)
 
 
 class TextPage(CreatedUpdateMixins):
@@ -97,18 +97,18 @@ class TextPage(CreatedUpdateMixins):
     )
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
 
+    class Meta(object):
+        verbose_name = 'text page'
+        verbose_name_plural = 'Text pages'
+        ordering = ['-created']
+
+    def __str__(self):
+        """class method returns the text page in string representation"""
+        return self.title
+
     def save(self, *args, **kwargs):
         if not self.slug:
             self.slug = slugify(self.title)
         else:
             self.slug = slugify(self.slug)
         super(TextPage, self).save(*args, **kwargs)
-
-    def __str__(self):
-        """class method returns the text page in string representation"""
-        return self.title
-
-    class Meta(object):
-        verbose_name = 'text page'
-        verbose_name_plural = 'Text pages'
-        ordering = ['-created']
