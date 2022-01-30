@@ -43,8 +43,8 @@ class Article(DragDropMixins, ImageNameMixins):
     content = RichTextField()
     # featured_articles =
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
-    number_of_reviews = models.PositiveIntegerField()
-    number_of_likes = models.PositiveIntegerField()
+    number_of_reviews = models.PositiveIntegerField(default=0)
+    number_of_likes = models.PositiveIntegerField(default=0)
 
     class Meta(object):
         verbose_name = 'article'

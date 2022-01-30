@@ -2,12 +2,61 @@
 {% load static %}
 
 {% block content %}
-<div class="container">
+<!-- боковое меню -->
+<div style="float: left;" class="d-flex flex-column flex-shrink-0 p-3 text-black col col-lg-2">
+    <ul class="nav nav-pills flex-column mb-auto">
+      <li>
+        <form method="get">
+           <div>категория:
+            <div>
+                {% for item, info in category %}
+                    {% if info.open %}
+                        <ul><li>
+                    {% else %}
+                        </li><li>
+                    {% endif %}
+                    <input type="radio" name="filter_category" step="any" id="id_filter_category" value="{{ item.id }}">
+                    <label for="id_filter_category">{{ item }}</label>
+                    {% for close in info.close %}
+                        </li></ul>
+                    {% endfor %}
+                {% endfor %}
+            </div>
+            <input class="btn btn-primary" type="submit" value="фильтровать"/>
+           </div>
+        </form>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-black">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#table"></use></svg>
+          Orders
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-black">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#grid"></use></svg>
+          Products
+        </a>
+      </li>
+      <li>
+        <a href="#" class="nav-link text-black">
+          <svg class="bi me-2" width="16" height="16"><use xlink:href="#people-circle"></use></svg>
+          Customers
+        </a>
+      </li>
+    </ul>
+</div>
+
+<div class="container col col-lg-8">
     <form method="get">
-       <div style="float: left">ordering: {{ filterset.form.o }}<input type="submit" value="sort"/></div>
+       <div style="float: left">сортировка: {{ filterset.form.ordering }} <input class="btn btn-primary" type="submit" value="сортировка"/></div>
+    </form>
+    <form method="get">
+       <div>поиск: {{ filterset.form.search }} <input class="btn btn-primary" type="submit" value="поиск"/></div>
     </form>
     <br>
     <br>
+
     {% for object in object_list %}
         <h4><a href="#">{{ object.title }}</a></h4>
         <img src="{{ object.article_preview.url }}" alt="{{ object.img_alt }}" width="200px">
@@ -20,6 +69,8 @@
                 Подробнее
             </button>
         </a>
+        <br>
+        <br>
     {% endfor %}
 </div>
 {% endblock content %}
