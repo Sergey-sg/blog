@@ -10,7 +10,6 @@ class ArticleListView(ListView):
     """
     Generates a list of article with ordering
     """
-    # permission_required = 'MiniCRM.can_see_companies'
     template_name = 'blog/home.jinja2'
     paginate_by = 16
     filterset_class = ArticleFilter

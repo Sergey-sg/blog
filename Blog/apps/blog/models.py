@@ -59,7 +59,7 @@ class Article(DragDropMixins, ImageNameMixins):
         if not self.slug:
             self.slug = slugify(self.title)
         else:
-            self.slug = slugify(self.slug)
+            self.slug = slugify(self.slug.lower())
         if self.pk is not None:
             orig = Article.objects.get(pk=self.pk)
             if orig.article_preview.name != self.article_preview.name:
