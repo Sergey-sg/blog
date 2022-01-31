@@ -42,9 +42,9 @@ class Score(CreatedUpdateMixins):
         created (datetime): data of create score
         updated (datetime): data of update score
     """
-    author = models.ForeignKey(Blog.settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
-    article = models.OneToOneField(Article, on_delete=models.CASCADE)
-    score = models.DecimalField(max_digits=1, decimal_places=0, choices=ScoreChoices.choices)
+    author = models.OneToOneField(Blog.settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+    score = models.DecimalField(max_digits=1, decimal_places=0, choices=ScoreChoices.choices, default=0)
     status = models.CharField(max_length=1, choices=Status.choices, help_text='status of comment', default='p')
 
     class Meta:
@@ -56,9 +56,9 @@ class Score(CreatedUpdateMixins):
         return f'{self.article}--{self.author}--score'
 
     def save(self, *args, **kwargs):
+        super(Score, self).save(*args, **kwargs)
         obj = Score.objects.filter(article=self.article).only('score')
         self.article.number_of_reviews = obj.count()
         rating = int(obj.aggregate(total_score=Sum('score'))['total_score']) / obj.count()
         self.article.average_rating = rating
         self.article.save()
-        super(Score, self).save(*args, **kwargs)
