@@ -19,6 +19,16 @@ class ArticleListView(ListView):
         """Return the filtered queryset"""
         queryset = self.model.objects.all()
         self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+        try:
+            categories = Category.objects.get(pk=self.request.GET['filter_category']).get_descendants()
+            queryset = self.model.objects.filter(category=self.request.GET['filter_category'])
+            if categories:
+                for category in categories:
+                    queryset1 = self.model.objects.filter(category=category)
+                    queryset = queryset | queryset1
+                return queryset
+        except Exception:
+            pass
         return self.filterset.qs.distinct()
 
     def get_context_data(self, **kwargs):
