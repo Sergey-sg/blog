@@ -1,9 +1,13 @@
+import datetime
+
 from ckeditor.fields import RichTextField
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from treebeard.mp_tree import MP_Node
 from slugify import slugify
+
 from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, ImageNameMixins
 
 import Blog
@@ -41,7 +45,7 @@ class Article(DragDropMixins, ImageNameMixins):
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     short_description = models.TextField()
     content = RichTextField()
-    # featured_articles =
+    recommended = models.ManyToManyField('self', symmetrical=False)
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     number_of_reviews = models.PositiveIntegerField(default=0)
     number_of_likes = models.PositiveIntegerField(default=0)
@@ -77,7 +81,11 @@ class Article(DragDropMixins, ImageNameMixins):
 class ImageArticle(DragDropMixins, ImageNameMixins):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
     image_article = models.ImageField(upload_to='image_article/%Y/%m/%d', help_text="image article")
-    img_alt = models.CharField(max_length=200, help_text='текст, который будет загружен в случае потери изображения')
+    img_alt = models.CharField(
+        max_length=200,
+        help_text='текст, который будет загружен в случае потери изображения',
+        blank=True
+    )
 
     class Meta(object):
         verbose_name = 'image'
@@ -89,7 +97,16 @@ class ImageArticle(DragDropMixins, ImageNameMixins):
         return self.img_alt
 
     def save(self, *args, **kwargs):
-        self.image_article.name = self.get_image_name(name=self.img_alt[:15], filename=self.image_article.name)
+        if not self.img_alt:
+            self.img_alt = f'{self.article.title}--{datetime.datetime.now()}'
+        # self.image_article.name = self.get_image_name(name=self.img_alt, filename=self.image_article.name)
+        if self.pk is not None:
+            orig = ImageArticle.objects.get(pk=self.pk)
+            if orig.image_article.name != self.image_article.name:
+                if self.image_article:
+                    self.image_article.name = self.get_image_name(name=self.img_alt, filename=self.image_article.name)
+        else:
+            self.image_article.name = self.get_image_name(name=self.img_alt, filename=self.image_article.name)
         super(ImageArticle, self).save(*args, **kwargs)
 
 

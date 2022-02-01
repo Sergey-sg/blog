@@ -43,7 +43,7 @@
     <br>
 
     {% for object in object_list %}
-        <h4><a href="#">{{ object.title }}</a></h4>
+        <h4><a href="{% url 'article_detail' object.slug %}">{{ object.title }}</a></h4>
         <img src="{{ object.article_preview.url }}" alt="{{ object.img_alt }}" width="200px">
         <div>{{ object.short_description }}</div>
         <div><a href="#">{{ object.author }}</a></div>

@@ -1,6 +1,6 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
-from django.views.generic import ListView
+from django.views.generic import ListView, DetailView
 
 from .filters import ArticleFilter
 from .models import Article, Category
@@ -37,3 +37,8 @@ class ArticleListView(ListView):
         context['filterset'] = self.filterset
         context['category'] = Category.get_annotated_list()
         return context
+
+
+class ArticleDetailView(DetailView):
+    model = Article
+    template_name = "blog/detail_article.jinja2"

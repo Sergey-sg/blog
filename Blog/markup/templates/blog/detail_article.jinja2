@@ -1,15 +1,47 @@
 {% extends 'base.jinja2' %}
 {% load static %}
 
-{% block content %}
+{% block title %}{% endblock title %}
 
-Заголовок
-Изображение
-Категория. При клике переходит на страницу “Блог” с предвыбранным параметром для фильтрации
-Контент
-Автор статьи. При клике переходит на страницу “Блог” с предвыбранным параметром для фильтрации
-Даты изменения статьи
-Секция “Рекомендуемые статьи”
-Отображаются превью “Статья”
-Кнопка “Добавить в избранное”. При клике выполняется сценарий описанные в разделе
+{% block content %}
+    <div class="container col-lg-9">
+        <br>
+        <br>
+        <h4 class="text-center">{{ article.title }}</h4>
+        <br>
+        <div class="text-center">
+            {% for image in article.imagearticle_set.all %}
+                <img class="col col-lg-3 img-thumbnail" src="{{ image.image_article.url }}" alt="{{ image.img_alt }}">
+            {% endfor %}
+        </div>
+        <p>Категория: <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
+        <br>
+        {{ article.content|safe }}
+        <br>
+        <p>Автор статьи: <a href="{% url 'home' %}?filter_author={{ article.author.pk }}">{{ article.author.get_full_name }}</a></p>
+        <p>Дата последнего изменения статьи: {{ article.updated }}</p>
+    </div>
+
+{#    <div class="col col-lg-3">#}
+{#    {{ article.recommended }}#}
+{#        {% for recommended in article.recommended %}#}
+{#            <h4><a href="{% url 'article_detail' recommended.slug %}">{{ recommended.title }}</a></h4>#}
+{#            <img src="{{ recommended.article_preview.url }}" alt="{{ recommended.img_alt }}" width="200px">#}
+{#            <div>{{ recommended.short_description }}</div>#}
+{#            <div><a href="#">{{ recommended.author }}</a></div>#}
+{#            <div>последнее обновление статьи: {{ recommended.updated }}</div>#}
+{#            <div>рейтинг: {{ recommended.average_rating }}</div>#}
+{#            <a href="{% url 'article_detail' recommended.slug %}">#}
+{#                <button type="button" class="btn btn-primary text-black">#}
+{#                    Подробнее#}
+{#                </button>#}
+{#            </a>#}
+{#            <br>#}
+{#            <br>#}
+{#        {% endfor %}#}
+{#    </div>#}
+
+{#Секция “Рекомендуемые статьи”#}
+{#Отображаются превью “Статья”#}
+{#Кнопка “Добавить в избранное”. При клике выполняется сценарий описанные в разделе#}
 {% endblock content %}
