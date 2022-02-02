@@ -32,7 +32,7 @@ class ImageNameMixins:
 class ScoreMixins:
     @staticmethod
     def add_rating_to_article(article, score):
-        article.number_of_reviews = score.count()
+        article.number_of_likes = score.count()
         total_score = score.aggregate(total_score=Sum('score'))['total_score']
         if total_score:
             rating = int(total_score) / score.count()

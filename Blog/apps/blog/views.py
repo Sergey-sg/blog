@@ -4,7 +4,7 @@ from django.views.generic import ListView, DetailView
 
 from .filters import ArticleFilter
 from .models import Article, Category
-from ..interaction.forms import ScoreCreateForm
+from ..interaction.forms import ScoreForm
 
 
 class ArticleListView(ListView):
@@ -47,7 +47,7 @@ class ArticleDetailView(DetailView):
     def get_context_data(self, **kwargs):
         """Add to context filter as "filterset" """
         context = super().get_context_data(**kwargs)
-        context['score'] = ScoreCreateForm()
+        context['score'] = ScoreForm()
         return context
 
 

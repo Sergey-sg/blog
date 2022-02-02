@@ -2,6 +2,7 @@ from django.conf import settings
 # from Blog import settings
 from ckeditor.fields import RichTextField
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 from .constants import Status, ScoreChoices
 from ..blog.models import Article
@@ -76,4 +77,14 @@ class Score(CreatedUpdateMixins, ScoreMixins):
         self.add_rating_to_article(article=self.article, score=score)
 
 
-# class FavoritesArticle(CreatedUpdateMixins):
+class FavoritesArticle(CreatedUpdateMixins):
+    subscriber = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.CASCADE)
+    article = models.ForeignKey(Article, on_delete=models.CASCADE)
+
+    class Meta:
+        verbose_name = _('избранная')
+        verbose_name_plural = _('Избранные')
+        ordering = ['article', 'subscriber', '-created']
+
+    def __str__(self):
+        return f'Favorites article: {self.article}'
