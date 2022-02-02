@@ -19,6 +19,7 @@ class User(AbstractUser, ImageNameMixins):
     photo = models.ImageField(upload_to='user_photo/%Y/%m/%d', null=True, blank=True, help_text=_("Фото профиля"))
     img_alt = models.CharField(max_length=200, null=True, blank=True,
                                help_text=_('текст, который будет загружен в случае потери изображения'))
+    # subscription = models.ManyToManyField('self', symmetrical=False)
 
     USERNAME_FIELD = 'email'
     REQUIRED_FIELDS = []

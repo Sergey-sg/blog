@@ -1,3 +1,5 @@
+from django.conf import settings
+# from Blog import settings
 import datetime
 
 from ckeditor.fields import RichTextField
@@ -10,7 +12,6 @@ from slugify import slugify
 
 from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, ImageNameMixins
 
-import Blog
 from .constants import Published
 
 
@@ -41,7 +42,7 @@ class Article(DragDropMixins, ImageNameMixins):
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
     article_preview = models.FileField(upload_to='article_preview/%Y/%m/%d', help_text="article preview")
     img_alt = models.CharField(max_length=200, null=True, blank=True, help_text='текст, который будет загружен в случае потери изображения')
-    author = models.ForeignKey(Blog.settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
+    author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     short_description = models.TextField()
     content = RichTextField()
@@ -121,7 +122,7 @@ class TextPage(CreatedUpdateMixins):
     )
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
 
-    class Meta(object):
+    class Meta:
         verbose_name = 'text page'
         verbose_name_plural = 'Text pages'
         ordering = ['-created']

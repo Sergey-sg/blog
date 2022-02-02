@@ -1,47 +1,62 @@
 {% extends 'base.jinja2' %}
-{% load static %}
+{% load score %}
 
 {% block title %}{% endblock title %}
 
 {% block content %}
-    <div class="container col-lg-9">
-        <br>
-        <br>
-        <h4 class="text-center">{{ article.title }}</h4>
-        <br>
-        <div class="text-center">
-            {% for image in article.imagearticle_set.all %}
-                <img class="col col-lg-3 img-thumbnail" src="{{ image.image_article.url }}" alt="{{ image.img_alt }}">
-            {% endfor %}
+    <div class="container-fluid">
+        <div class="row mx-auto">
+            <div class="col-lg-9">
+                <h4 class="text-center">{{ article.title }}</h4>
+                <br>
+                <div class="text-center">
+                    {% for image in article.imagearticle_set.all %}
+                        <img class="col col-lg-3 img-thumbnail" src="{{ image.image_article.url }}" alt="{{ image.img_alt }}">
+                    {% endfor %}
+                </div>
+                <p>Категория: <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
+                <p>рейтинг: {{ article.average_rating }}</p>
+                <br>
+                {{ article.content|safe }}
+                <br>
+                <p>Автор статьи: <a href="{% url 'home' %}?filter_author={{ article.author.pk }}">{{ article.author.get_full_name }}</a></p>
+                <p>Дата последнего изменения статьи: {{ article.updated }}</p>
+            <!-- добавление оценки -->
+                {% in_scores article as author_score %}
+                <div class="container" style="padding-bottom: 30px">
+                    <form action="{% if author_score %}{% url 'update_score' article.slug %}{% else %}{% url 'add_score' article.slug %}{% endif %}" method="post">
+                        {% csrf_token %}
+                        <table>
+                            {{ score.as_p }}
+                        </table>
+                        <input type="submit" value="Submit" />
+                    </form>
+                </div>
+            </div>
+        <!-- рекомендованные статьи -->
+            <div class="col-sm-5 col-lg-2 ms-lg-auto">
+                Рекомендуемые статьи:
+                <br>
+                {% for recommended in article.recommended.all %}
+                    <div class="p-3 border">
+                        <h4><a href="{% url 'article_detail' recommended.slug %}">{{ recommended.title }}</a></h4>
+                        <img src="{{ recommended.article_preview.url }}" alt="{{ recommended.img_alt }}" width="100%">
+                        <div>{{ recommended.short_description }}</div>
+                        <div><a href="{% url 'home' %}?filter_author={{ recommended.author.pk }}">{{ recommended.author.get_full_name }}</a></div>
+                        <div>последнее обновление статьи: {{ recommended.updated }}</div>
+                        <div>рейтинг: {{ recommended.average_rating }}</div>
+                        <a href="{% url 'article_detail' recommended.slug %}">
+                            <button type="button" class="btn btn-primary text-black">
+                                Подробнее
+                            </button>
+                        </a>
+                    </div>
+                        <br>
+                {% endfor %}
+            </div>
         </div>
-        <p>Категория: <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
-        <br>
-        {{ article.content|safe }}
-        <br>
-        <p>Автор статьи: <a href="{% url 'home' %}?filter_author={{ article.author.pk }}">{{ article.author.get_full_name }}</a></p>
-        <p>Дата последнего изменения статьи: {{ article.updated }}</p>
     </div>
 
-{#    <div class="col col-lg-3">#}
-{#    {{ article.recommended }}#}
-{#        {% for recommended in article.recommended %}#}
-{#            <h4><a href="{% url 'article_detail' recommended.slug %}">{{ recommended.title }}</a></h4>#}
-{#            <img src="{{ recommended.article_preview.url }}" alt="{{ recommended.img_alt }}" width="200px">#}
-{#            <div>{{ recommended.short_description }}</div>#}
-{#            <div><a href="#">{{ recommended.author }}</a></div>#}
-{#            <div>последнее обновление статьи: {{ recommended.updated }}</div>#}
-{#            <div>рейтинг: {{ recommended.average_rating }}</div>#}
-{#            <a href="{% url 'article_detail' recommended.slug %}">#}
-{#                <button type="button" class="btn btn-primary text-black">#}
-{#                    Подробнее#}
-{#                </button>#}
-{#            </a>#}
-{#            <br>#}
-{#            <br>#}
-{#        {% endfor %}#}
-{#    </div>#}
 
-{#Секция “Рекомендуемые статьи”#}
-{#Отображаются превью “Статья”#}
 {#Кнопка “Добавить в избранное”. При клике выполняется сценарий описанные в разделе#}
 {% endblock content %}
