@@ -1,8 +1,10 @@
 from django.shortcuts import redirect
-from django.views.generic import CreateView, UpdateView, DeleteView
+from django.urls import reverse_lazy
+from django.views import View
+from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
 
-from .forms import ScoreForm
-from .models import Score, FavoritesArticle
+from .forms import ScoreForm, CommentArticleForm
+from .models import Score, FavoritesArticle, CommentArticle
 from ..blog.models import Article
 
 
@@ -61,3 +63,47 @@ class FavoriteDelete(DeleteView):
         except Exception:
             pass
         return redirect(self.request.META.get('HTTP_REFERER'))
+
+
+class CommentCreate(CreateView):
+    """
+    Implementation of the creation of a new comment for article
+    """
+    model = CommentArticle
+    form_class = CommentArticleForm
+
+    def form_valid(self, form, **kwargs):
+        object_form = form.save(commit=False)
+        object_form.author = self.request.user
+        object_form.article = Article.objects.get(slug=self.kwargs['slug'])
+        object_form.save()
+        return redirect(self.request.META.get('HTTP_REFERER'))
+
+
+class CommentDelete(View):
+    """
+    Delete a comment of article
+    """
+
+    def post(self, *args, **kwargs):
+        try:
+            comment = CommentArticle.objects.get(pk=self.kwargs['pk'], author=self.request.user)
+            comment.delete()
+        except Exception:
+            pass
+        return redirect('article_detail', self.kwargs['slug'])
+
+
+class CommentUpdate(UpdateView):
+    """
+    Implementation of changes in information about the comment of article.
+    """
+    form_class = CommentArticleForm
+    template_name = 'interaction/change_comment.jinja2'
+
+    def get_object(self, queryset=None, *args, **kwargs):
+        return CommentArticle.objects.get(author=self.request.user, pk=self.kwargs['pk'])
+
+    def form_valid(self, form, **kwargs):
+        obj = form.save()
+        return redirect('article_detail', obj.article.slug)

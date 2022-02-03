@@ -1,10 +1,11 @@
 from django.shortcuts import render
 from django.urls import reverse_lazy
 from django.views.generic import ListView, DetailView
+from django.views.generic.list import MultipleObjectMixin
 
 from .filters import ArticleFilter
 from .models import Article, Category
-from ..interaction.forms import ScoreForm
+from ..interaction.forms import ScoreForm, CommentArticleForm
 
 
 class ArticleListView(ListView):
@@ -43,11 +44,13 @@ class ArticleListView(ListView):
 class ArticleDetailView(DetailView):
     model = Article
     template_name = "blog/detail_article.jinja2"
+    # paginate_by = 2
 
     def get_context_data(self, **kwargs):
         """Add to context filter as "filterset" """
         context = super().get_context_data(**kwargs)
         context['score'] = ScoreForm()
+        context['new_comment'] = CommentArticleForm()
         return context
 
 

@@ -1,9 +1,9 @@
 from django.contrib import admin
 
-from ..interaction.models import Comment, Score, FavoritesArticle
+from ..interaction.models import CommentArticle, Score, FavoritesArticle
 
 
-@admin.register(Comment)
+@admin.register(CommentArticle)
 class TextPageAdmin(admin.ModelAdmin):
     list_display = ('article', 'author', 'status', 'created',)
     list_filter = ['article', 'author', 'status']
@@ -19,4 +19,3 @@ class TextPageAdmin(admin.ModelAdmin):
 class FavoritesArticleAdmin(admin.ModelAdmin):
     list_display = ('article', 'subscriber', 'created',)
     list_filter = ['article', 'subscriber']
-

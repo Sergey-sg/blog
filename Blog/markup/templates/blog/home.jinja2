@@ -49,7 +49,7 @@
             <div><a href="{% url 'home' %}?filter_author={{ object.author.pk }}">{{ object.author.get_full_name }}</a></div>
             <div>последнее обновление статьи: {{ object.updated }}</div>
             <div>рейтинг: {{ object.average_rating }}</div>
-            <a href="#">
+            <a href="{% url 'article_detail' object.slug %}">
                 <button type="button" class="btn btn-primary text-black">
                     Подробнее
                 </button>

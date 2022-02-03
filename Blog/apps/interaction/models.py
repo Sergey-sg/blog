@@ -9,9 +9,9 @@ from ..blog.models import Article
 from shared.mixins.model_utils import CreatedUpdateMixins, ScoreMixins
 
 
-class Comment(CreatedUpdateMixins):
+class CommentArticle(CreatedUpdateMixins):
     """
-    Comment model
+    CommentArticle model
     attributes:
         author (class User): communication with the User model
         article (class Article): communication with the Article model
