@@ -3,60 +3,58 @@
 
 {% block content %}
 <!-- боковое меню -->
-<div style="float: left;" class="d-flex flex-column flex-shrink-0 p-3 text-black col col-lg-2">
-    <ul class="nav nav-pills flex-column mb-auto">
-      <li>
-        <form method="get">
-           <div>категория:
-            <div>
-                {% for item, info in category %}
-                    {% if info.open %}
-                        <ul><li>
-                    {% else %}
-                        </li><li>
-                    {% endif %}
-                    <input type="radio" name="filter_category" step="any" id="id_filter_category" value="{{ item.id }}">
-                    <label for="id_filter_category">{{ item }}</label>
-                    {% for close in info.close %}
-                        </li></ul>
+<div class="row">
+    <div style="float: left;" class="d-flex flex-column flex-shrink-0 p-3 text-black col col-lg-2">
+        <ul class="nav nav-pills flex-column mb-auto">
+          <li>
+            <form method="get">
+               <div>категория:
+                <div>
+                    {% for item, info in category %}
+                        {% if info.open %}
+                            <ul><li>
+                        {% else %}
+                            </li><li>
+                        {% endif %}
+                        <input type="radio" name="filter_category" step="any" id="id_filter_category" value="{{ item.id }}">
+                        <label for="id_filter_category">{{ item }}</label>
+                        {% for close in info.close %}
+                            </li></ul>
+                        {% endfor %}
                     {% endfor %}
-                {% endfor %}
-            </div>
-            <input class="btn btn-primary" type="submit" value="фильтровать"/>
-           </div>
-        </form>
-      </li>
-    </ul>
-</div>
+                </div>
+                <input class="btn btn-primary" type="submit" value="фильтровать"/>
+               </div>
+            </form>
+          </li>
+        </ul>
+    </div>
 
-<div class="container col col-lg-8">
-    <form method="get">
-       <div style="float: left">сортировка: {{ filterset.form.ordering }} <input class="btn btn-primary" type="submit" value="сортировка"/></div>
-    </form>
-    <form method="get">
-       <div>поиск: {{ filterset.form.search }} <input class="btn btn-primary" type="submit" value="поиск"/></div>
-    </form>
-    <form method="get">
-       <div>автор: {{ filterset.form.filter_author }} <input class="btn btn-primary" type="submit" value="фильтровать"/></div>
-    </form>
-    <br>
-    <br>
-    {% for object in object_list %}
-        <div class="container p-3 border">
-            <h4><a href="{% url 'article_detail' object.slug %}">{{ object.title }}</a></h4>
-            <img src="{{ object.article_preview.url }}" alt="{{ object.img_alt }}" width="200px">
-            <div>{{ object.short_description }}</div>
-            <div><a href="{% url 'home' %}?filter_author={{ object.author.pk }}">{{ object.author.get_full_name }}</a></div>
-            <div>последнее обновление статьи: {{ object.updated }}</div>
-            <div>рейтинг: {{ object.average_rating }}</div>
-            <a href="{% url 'article_detail' object.slug %}">
-                <button type="button" class="btn btn-primary text-black">
-                    Подробнее
-                </button>
-            </a>
-        </div>
+    <div class="container col col-lg-9 ms-lg-right">
+        <form method="get">
+
+           <div style="float: left">сортировка: {{ filterset.form.ordering }} поиск: {{ filterset.form.search }} автор: {{ filterset.form.filter_author }}</div>
+           <input class="btn btn-primary" type="submit" value="фильтровать"/>
+        </form>
         <br>
         <br>
-    {% endfor %}
+        {% for object in object_list %}
+            <div class="container p-3 border">
+                <h4><a href="{% url 'article_detail' object.slug %}">{{ object.title }}</a></h4>
+                <img src="{{ object.article_preview.url }}" alt="{{ object.img_alt }}" width="200px">
+                <div>{{ object.short_description }}</div>
+                <div><a href="{% url 'home' %}?filter_author={{ object.author.pk }}">{% if object.author.first_name %}{{ object.author.get_full_name }}{% else %}{{ object.author.email }}{% endif %}</a></div>
+                <div>последнее обновление статьи: {{ object.updated }}</div>
+                <div>рейтинг: {{ object.average_rating }}</div>
+                <a href="{% url 'article_detail' object.slug %}">
+                    <button type="button" class="btn btn-primary text-black">
+                        Подробнее
+                    </button>
+                </a>
+            </div>
+            <br>
+            <br>
+        {% endfor %}
+    </div>
 </div>
 {% endblock content %}

@@ -1,5 +1,5 @@
 from django import template
-from ..models import Score, FavoritesArticle
+from apps.interaction.models import Score, FavoritesArticle
 
 register = template.Library()
 
@@ -25,3 +25,13 @@ def in_favorite(context, article):
     if favorite:
         return True
 
+
+@register.simple_tag(takes_context=True)
+def in_subscription(context, author):
+    request = context['request']
+    try:
+        subscription = request.user.subscription.all()
+    except Exception:
+        return False
+    if author in subscription:
+        return True

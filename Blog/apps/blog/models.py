@@ -1,5 +1,4 @@
 from django.conf import settings
-# from Blog import settings
 import datetime
 
 from ckeditor.fields import RichTextField
@@ -41,14 +40,17 @@ class Article(DragDropMixins, ImageNameMixins):
     title = models.CharField(max_length=200, unique=True, validators=[MinLengthValidator(3)])
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
     article_preview = models.FileField(upload_to='article_preview/%Y/%m/%d', help_text="article preview")
-    img_alt = models.CharField(max_length=200, null=True, blank=True, help_text='текст, который будет загружен в случае потери изображения')
+    img_alt = models.CharField(
+        max_length=200,
+        null=True, blank=True,
+        help_text='текст, который будет загружен в случае потери изображения'
+    )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
     short_description = models.TextField()
     content = RichTextField()
     recommended = models.ManyToManyField('self', symmetrical=False)
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
-    number_of_reviews = models.PositiveIntegerField(default=0)
     number_of_likes = models.PositiveIntegerField(default=0)
 
     class Meta(object):
@@ -89,8 +91,8 @@ class ImageArticle(DragDropMixins, ImageNameMixins):
     )
 
     class Meta(object):
-        verbose_name = 'image'
-        verbose_name_plural = 'Images of article'
+        verbose_name = _('изображение')
+        verbose_name_plural = _('Изображения для статьи')
         ordering = ['dd_order', 'created']
 
     def __str__(self):
@@ -118,7 +120,7 @@ class TextPage(CreatedUpdateMixins):
         max_length=1,
         choices=Published.choices,
         help_text='Published or draft',
-        default='d',
+        default=Published.PUBLISHED,
     )
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
 

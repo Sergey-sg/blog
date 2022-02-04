@@ -1,5 +1,3 @@
-from ckeditor.fields import RichTextField
-from ckeditor.widgets import CKEditorWidget
 from django import forms
 
 from .models import Score, CommentArticle
@@ -17,4 +15,3 @@ class CommentArticleForm(forms.ModelForm):
     class Meta:
         model = CommentArticle
         fields = ('message',)
-

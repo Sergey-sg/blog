@@ -1,21 +1,18 @@
 from django.core.validators import RegexValidator
 from django.db import models
 
+from shared.validators.validators import URL_REGEX
 from .constants import Target, Position
 from shared.mixins.model_utils import DragDropMixins
 
 
 class Menu(DragDropMixins):
     title = models.CharField(max_length=100, unique=True)
-    url_regex = RegexValidator(
-        regex=r'^((http(s)?:\/\/)?([\w-]+\.?)+[\w-]+[.com]+([\w\-\.,@?^=%&amp;:/~\+#]*[\w\-\@?^=%&amp;/~\+#])?)',
-        message='If the link is internal it should look like this: "blog/article/", for external links it should look'
-                ' like this: "https://site.com/"')
-    item_url = models.CharField(validators=[url_regex], unique=True, max_length=2048, help_text='Enter link address')
+    item_url = models.CharField(validators=[URL_REGEX], unique=True, max_length=2048, help_text='Enter link address')
     target = models.CharField(
         max_length=1,
         choices=Target.choices,
-        default='s',
+        default=Target.SELF,
         help_text='Target url'
     )
     position = models.CharField(

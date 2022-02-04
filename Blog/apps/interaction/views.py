@@ -1,26 +1,31 @@
 from django.shortcuts import redirect
-from django.urls import reverse_lazy
 from django.views import View
-from django.views.generic import CreateView, UpdateView, DeleteView, DetailView
+from django.views.generic import CreateView, UpdateView, DeleteView
 
+from shared.mixins.views_mixins import ScoreCommentMixin, CommentScoreMixin
 from .forms import ScoreForm, CommentArticleForm
 from .models import Score, FavoritesArticle, CommentArticle
 from ..blog.models import Article
 
 
-class AddScore(CreateView):
+class AddScore(CreateView, CommentScoreMixin):
     model = Score
     form_class = ScoreForm
 
     def form_valid(self, form, *args, **kwargs):
         object_form = form.save(commit=False)
-        object_form.author = self.request.user
-        object_form.article = Article.objects.get(slug=self.kwargs['slug'])
+        author = self.request.user
+        article = Article.objects.get(slug=self.kwargs['slug'])
+        object_form.author = author
+        object_form.article = article
         object_form.save()
+        comments = self.get_comments_for_score(article=article, author=author)
+        if comments[0]:
+            comments[1].update(score=object_form)
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class UpdateScore(UpdateView):
+class UpdateScore(UpdateView, CommentScoreMixin):
     form_class = ScoreForm
 
     def get_object(self, queryset=None, *args, **kwargs):
@@ -40,6 +45,9 @@ class UpdateScore(UpdateView):
             object_form.author = author
             object_form.article = article
             object_form.save()
+            comments = self.get_comments_for_score(article=article, author=author)
+            if comments[0]:
+                comments[1].update(score=object_form)
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
@@ -65,19 +73,25 @@ class FavoriteDelete(DeleteView):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class CommentCreate(CreateView):
+class CommentCreate(CreateView, ScoreCommentMixin):
     """
     Implementation of the creation of a new comment for article
     """
     model = CommentArticle
     form_class = CommentArticleForm
+    template_name = 'interaction/comment.jinja2'
 
     def form_valid(self, form, **kwargs):
         object_form = form.save(commit=False)
-        object_form.author = self.request.user
-        object_form.article = Article.objects.get(slug=self.kwargs['slug'])
+        article = Article.objects.get(slug=self.kwargs['slug'])
+        author = self.request.user
+        object_form.author = author
+        object_form.article = article
+        score = self.get_score_for_comment(author=author, article=article)
+        if score[0]:
+            object_form.score = score[1]
         object_form.save()
-        return redirect(self.request.META.get('HTTP_REFERER'))
+        return redirect('article_detail', self.kwargs['slug'])
 
 
 class CommentDelete(View):
@@ -94,16 +108,20 @@ class CommentDelete(View):
         return redirect('article_detail', self.kwargs['slug'])
 
 
-class CommentUpdate(UpdateView):
+class CommentUpdate(UpdateView, ScoreCommentMixin):
     """
     Implementation of changes in information about the comment of article.
     """
     form_class = CommentArticleForm
-    template_name = 'interaction/change_comment.jinja2'
+    template_name = 'interaction/comment.jinja2'
 
     def get_object(self, queryset=None, *args, **kwargs):
         return CommentArticle.objects.get(author=self.request.user, pk=self.kwargs['pk'])
 
     def form_valid(self, form, **kwargs):
-        obj = form.save()
+        obj = form.save(commit=False)
+        score = self.get_score_for_comment(author=obj.author, article=obj.article)
+        if score[0]:
+            obj.score = score[1]
+        obj.save()
         return redirect('article_detail', obj.article.slug)
