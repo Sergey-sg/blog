@@ -16,13 +16,13 @@
                 </li>
                 <li class="nav-item dropdown">
                   <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    Link
+                    наши партнеры
                   </a>
                   <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                    <li><a class="dropdown-item" href="#">Action</a></li>
-                    <li><a class="dropdown-item" href="#">Another action</a></li>
-                    <li><hr class="dropdown-divider"></li>
-                    <li><a class="dropdown-item" href="#">Something else here</a></li>
+                      {{ partner }}
+                      {% for item in partner %}
+                        <li><a class="dropdown-item" href="{{ item.item_url }}">{{ item.title }}</a></li>
+                      {% endfor %}
                   </ul>
                 </li>
                 <li class="nav-item">
@@ -30,11 +30,11 @@
                 </li>
               </ul>
               <form class="d-flex">
-                  {% if user.is_authenticated %}
+                  {% if request.user.is_authenticated and request.user.is_active %}
                     <div class="dropdown" style="margin-right: 70px">
                       <a href="#" class="d-flex align-items-center text-white text-decoration-none dropdown-toggle" id="dropdownUser1" data-bs-toggle="dropdown" aria-expanded="false">
                         <img src="{% if request.user.photo %}{{ request.user.photo.url }}{% else %}{% static 'media/user_photo/default_user_photo.png' %}{% endif %}" alt="{{ request.user.img_alt }}" width="32" height="32" class="rounded-circle me-2">
-                        <strong>{% if request.user.first_name %}{{ request.user.first_name }}{% else %}{{ request.user.username }}{% endif %}</strong>
+                        <strong>{% if request.user.first_name %}{{ request.user.first_name }}{% else %}{{ request.user.email }}{% endif %}</strong>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
                         <li><a class="dropdown-item" href="{% url 'user-change' %}">Settings</a></li>

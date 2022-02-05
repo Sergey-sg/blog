@@ -1,7 +1,8 @@
 from django.urls import path, include
 
 from . import views
-from ..accounts.views import UserCreateView, CustomLoginView, MyPasswordChangeView, UserChangeView, PersonalArea
+from ..accounts.views import UserCreateView, CustomLoginView, MyPasswordChangeView, UserChangeView, PersonalArea, \
+    ConfirmRegistrationView, ActivateAccount
 from ..interaction.views import AddScore, UpdateScore, FavoriteAdd, FavoriteDelete, CommentCreate, CommentUpdate, \
     CommentDelete
 
@@ -37,5 +38,7 @@ urlpatterns = [
         path('profile/', PersonalArea.as_view(), name='personal-area'),
         path('change/', UserChangeView.as_view(), name='user-change'),
         path('password/', MyPasswordChangeView.as_view(), name='password-change'),
+        path('confirmregistration/', ConfirmRegistrationView.as_view(), name='confirm_registration'),
+        path('activate/<str:uid>/<str:token>/', ActivateAccount.as_view(), name='user_activate')
         ]),)
 ]

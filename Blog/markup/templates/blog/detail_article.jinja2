@@ -17,7 +17,7 @@
                 <p>Категория: <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
                 <p>рейтинг: {{ article.average_rating }} (количество оценок: {{ article.number_of_likes }})</p>
             <!-- добавление в избранное -->
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and request.user.is_active  %}
                     {% in_favorite article as favorite %}
                     <div class="container" style="padding-bottom: 30px">
                         <form action="{% if favorite %}{% url 'favorite_delete' article.slug %}{% else %}{% url 'favorite_add' article.slug %}{% endif %}" method="post">
@@ -41,7 +41,7 @@
                 <br>
                 <p>Автор статьи: <a href="{% url 'home' %}?filter_author={{ article.author.pk }}">{% if article.user.first_name %}{{ article.author.get_full_name }}{% else %}{{ article.author.email }}{% endif %}</a></p>
                 <p>Дата последнего изменения статьи: {{ article.updated }}</p>
-                {% if user.is_authenticated %}
+                {% if user.is_authenticated and request.user.is_active %}
             <!-- добавление оценки -->
                     {% in_scores article as author_score %}
                     <div class="container" style="padding-bottom: 30px">
@@ -78,7 +78,7 @@
                         </div>
                     </div>
                 {% else %}
-                    <p>Чтобы иметь возможность оценивать и комментировать статью, вы должны авторизоваться</p>
+                    <p>Чтобы иметь возможность оценивать и комментировать статью, вы должны авторизоваться и аккаунт должен быть подтвержден</p>
                     <!-- Button trigger modal -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       авторизоваться
