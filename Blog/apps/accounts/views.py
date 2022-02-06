@@ -5,10 +5,9 @@ from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils.encoding import force_bytes, force_text
+from django.utils.encoding import force_bytes
 from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
 from django.utils.translation import ugettext_lazy as _
-from django.views import View
 
 from django.views.generic import UpdateView, CreateView, ListView, TemplateView, FormView
 from django.contrib.auth import get_user_model
@@ -18,6 +17,8 @@ from django.template.loader import render_to_string
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomRegistrationForm
 from .tokens import account_activation_token
+from ..blog.forms import ArticleForm
+from ..blog.models import Article
 
 
 class UserChangeView(UpdateView):
@@ -81,7 +82,7 @@ class UserCreateView(CreateView):
         send_mail(
             mail_subject,
             from_email=settings.EMAIL_HOST_USER,
-            message='ссылка для подтверждения почты и завершения регистрации',
+            message=_('ссылка для подтверждения почты и завершения регистрации'),
             recipient_list=[to_email],
             html_message=message,
         )
@@ -129,23 +130,12 @@ class ConfirmRegistrationView(TemplateView):
 
 class PersonalArea(ListView):
     """
-    Send to 'profile.html' companies, messages, projects which are user-created
+    Personal area for current user
     """
     template_name = 'registration/profile.html'
-    paginate_by = 2
+    paginate_by = 8
 
-    # def get_queryset(self):
-    #     try:
-    #         personal_object = self.request.GET['personal_object']
-    #         if personal_object == 'companies':
-    #             companies = Company.objects.filter(user=self.request.user.pk).order_by('-date_created')
-    #             return companies
-    #         elif personal_object == 'projects':
-    #             projects = ProjectCompany.objects.filter(user=self.request.user.pk).order_by('-created')
-    #             return projects
-    #         elif personal_object == 'comments':
-    #             comments = Message.objects.filter(manager=self.request.user.pk).order_by('-created')
-    #             return comments
-    #     except Exception:
-    #         return Company.objects.filter(user=self.request.user.pk).order_by('-date_created')
-
+    def get_queryset(self):
+        articles = Article.objects.filter(author=self.request.user).only(
+            'slug', 'title', 'short_description', 'average_rating')
+        return articles

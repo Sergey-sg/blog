@@ -6,7 +6,7 @@
 {% block content %}
     <div class="container-fluid">
         <div class="row mx-auto">
-            <div class="col-lg-9">
+            <div class="col-lg-9 offset-1">
                 <h4 class="text-center">{{ article.title }}</h4>
                 <br>
                 <div class="text-center">
@@ -17,17 +17,19 @@
                 <p>Категория: <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
                 <p>рейтинг: {{ article.average_rating }} (количество оценок: {{ article.number_of_likes }})</p>
             <!-- добавление в избранное -->
-                {% if user.is_authenticated and request.user.is_active  %}
+                {% if request.user.is_authenticated and request.user.is_active  %}
                     {% in_favorite article as favorite %}
                     <div class="container" style="padding-bottom: 30px">
                         <form action="{% if favorite %}{% url 'favorite_delete' article.slug %}{% else %}{% url 'favorite_add' article.slug %}{% endif %}" method="post">
                             {% csrf_token %}
-                            <button type="submit" class="btn">
+                            <button type="submit" class="btn btn-outline-primary">
                                 {% if not favorite %}
+                                    добавить в избранное
                                     <span class="material-icons text-danger">
                                         favorite_border
                                     </span>
                                 {% else %}
+                                    удалить из избранного
                                     <span class="material-icons text-danger">
                                         favorite
                                     </span>
@@ -41,7 +43,7 @@
                 <br>
                 <p>Автор статьи: <a href="{% url 'home' %}?filter_author={{ article.author.pk }}">{% if article.user.first_name %}{{ article.author.get_full_name }}{% else %}{{ article.author.email }}{% endif %}</a></p>
                 <p>Дата последнего изменения статьи: {{ article.updated }}</p>
-                {% if user.is_authenticated and request.user.is_active %}
+                {% if request.user.is_authenticated and request.user.is_active  %}
             <!-- добавление оценки -->
                     {% in_scores article as author_score %}
                     <div class="container" style="padding-bottom: 30px">
@@ -79,14 +81,14 @@
                     </div>
                 {% else %}
                     <p>Чтобы иметь возможность оценивать и комментировать статью, вы должны авторизоваться и аккаунт должен быть подтвержден</p>
-                    <!-- Button trigger modal -->
+                <!-- кнопка вызова модального окна регистрации -->
                     <button type="button" class="btn btn-primary" data-bs-toggle="modal" data-bs-target="#exampleModal">
                       авторизоваться
                     </button>
                     <br>
                     <br>
 
-                    <!-- Modal -->
+                <!-- Modal -->
                     <div class="modal fade" id="exampleModal" tabindex="-1" aria-labelledby="exampleModalLabel" aria-hidden="true">
                       <div class="modal-dialog">
                         <div class="modal-content">
@@ -105,7 +107,6 @@
                                 <div class="modal-footer">
                                     <input type="submit" class="btn btn-primary" value="войти" />
                                     <input type="hidden" name="next" value="{% url 'article_detail' article.slug %}" />
-                                    {# Assumes you setup the password_reset view in your URLconf #}
                                     <p><a href="{% url 'password_reset' %}">забыли пароль?</a></p>
                                 </div>
                             </form>
@@ -114,6 +115,46 @@
                       </div>
                     </div>
                 {% endif %}
+                <hr>
+            <!-- добавление комментария -->
+                {% if request.user.is_authenticated and request.user.is_active  %}
+                    <h3>Комментарии: </h3>
+                    <div class="container" style="padding-bottom: 30px">
+                        <form action="{% url 'comment_add' article.slug %}" method="post">
+                            {% csrf_token %}
+                            <table>
+                                <tr>Оставьте свой отзыв:<br>{{ new_comment.message }}</tr>
+                                 {{ new_comment.media }}
+                            </table>
+                            <input class="btn btn-primary text-black" type="submit" value="комментировать">
+                        </form>
+                    </div>
+                {% endif %}
+            <!-- комментарии статьи -->
+                <div class="row">
+    {#                  {% for comment in article.commentarticle_set.all %}#}
+                      {% for comment in object_list %}
+                        <div class="media border p-3" style="margin-bottom: 15px">
+                            <div class="media-body">
+                                <p><i class="text-muted"><small>автор: {% if comment.author.first_name %}{{ comment.author.get_full_name }}{% else %}{{ comment.author.email }}{% endif %} дата комментария {{ comment.created }}{% if comment.score %} оценка: {{ comment.score.score }}{% endif %}</small></i></p>
+                                <p>{{ comment.message|safe}}</p>
+                                {% if comment.author == request.user %}
+                                    <div class="row">
+                                        <a href="{% url 'comment_change' article.slug comment.pk %}">
+                                            <button class="btn btn-primary text-black" type="button">
+                                                изменить комментарий
+                                            </button>
+                                        </a>
+                                        <form action="{% url 'comment_delete' article.slug comment.pk %}" method="post">
+                                            {% csrf_token %}
+                                            <input style="float: right" class="btn btn-danger text-black" type="submit" value="удалить комментарий">
+                                        </form>
+                                    </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    {% endfor %}
+                </div>
             </div>
         <!-- рекомендованные статьи -->
             <div class="col-sm-5 col-lg-2 ms-lg-auto">
@@ -134,46 +175,6 @@
                         </a>
                     </div>
                         <br>
-                {% endfor %}
-            </div>
-        <!-- добавление комментария -->
-        {% if user.is_authenticated %}
-            <h3>Комментарии: </h3>
-            <div class="container" style="padding-bottom: 30px">
-                <form action="{% url 'comment_add' article.slug %}" method="post">
-                    {% csrf_token %}
-                    <table>
-                        <tr>Оставьте свой отзыв:<br>{{ new_comment.message }}</tr>
-                         {{ new_comment.media }}
-                    </table>
-                    <input class="btn btn-primary text-black" type="submit" value="комментировать">
-                </form>
-            </div>
-        {% endif %}
-        <!-- комментарии статьи -->
-            <div class="row">
-{#                  {% for comment in article.commentarticle_set.all %}#}
-                  {% for comment in object_list %}
-                    <div class="media border p-3" style="margin-bottom: 15px">
-                        <div class="media-body">
-                            <p><i class="text-muted"><small>автор: {% if comment.author.first_name %}{{ comment.author.get_full_name }}{% else %}{{ comment.author.email }}{% endif %} дата комментария {{ comment.created }}{% if comment.score %} оценка: {{ comment.score.score }}{% endif %}</small></i></p>
-                            <p>{{ comment.message|safe}}</p>
-                            {% if comment.author == request.user %}
-                                <div class="row">
-                                    <a href="{% url 'comment_change' article.slug comment.pk %}">
-                                        <button class="btn btn-primary text-black" type="button">
-                                            изменить комментарий
-                                        </button>
-                                    </a>
-                                    <form action="{% url 'comment_delete' article.slug comment.pk %}" method="post">
-                                        {% csrf_token %}
-                                        <input style="float: right" class="btn btn-danger text-black" type="submit" value="удалить комментарий">
-                                    </form>
-                                </div>
-
-                            {% endif %}
-                        </div>
-                    </div>
                 {% endfor %}
             </div>
         </div>

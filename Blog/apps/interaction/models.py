@@ -1,5 +1,4 @@
 from django.conf import settings
-# from Blog import settings
 from ckeditor.fields import RichTextField
 from django.core.validators import MinLengthValidator
 from django.db import models
@@ -30,7 +29,7 @@ class CommentArticle(CreatedUpdateMixins):
     status = models.CharField(
         max_length=1,
         choices=Status.choices,
-        help_text='status of comment',
+        help_text=_('status of comment'),
         default=Status.PUBLISHED
     )
 
@@ -64,13 +63,13 @@ class Score(CreatedUpdateMixins, ScoreMixins):
     status = models.CharField(
         max_length=1,
         choices=Status.choices,
-        help_text='status of comment',
+        help_text=_('status of comment'),
         default=Status.PUBLISHED
     )
 
     class Meta:
-        verbose_name = 'score'
-        verbose_name_plural = 'Scores'
+        verbose_name = _('score')
+        verbose_name_plural = _('Scores')
         ordering = ['article', '-created']
 
     def __str__(self):

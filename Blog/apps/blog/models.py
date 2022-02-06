@@ -4,6 +4,7 @@ import datetime
 from ckeditor.fields import RichTextField
 from django.core.validators import MinLengthValidator
 from django.db import models
+from django.urls import reverse
 from django.utils.translation import ugettext_lazy as _
 
 from treebeard.mp_tree import MP_Node
@@ -20,8 +21,8 @@ class Category(MP_Node, CreatedUpdateMixins):
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
 
     class Meta(object):
-        verbose_name = 'category'
-        verbose_name_plural = 'Categories'
+        verbose_name = _('category')
+        verbose_name_plural = _('Categories')
         ordering = ['name']
 
     def __str__(self):
@@ -39,23 +40,27 @@ class Category(MP_Node, CreatedUpdateMixins):
 class Article(DragDropMixins, ImageNameMixins):
     title = models.CharField(max_length=200, unique=True, validators=[MinLengthValidator(3)])
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
-    article_preview = models.FileField(upload_to='article_preview/%Y/%m/%d', help_text="article preview")
+    article_preview = models.ImageField(upload_to='article_preview/%Y/%m/%d', help_text="article preview")
     img_alt = models.CharField(
         max_length=200,
         null=True, blank=True,
-        help_text='текст, который будет загружен в случае потери изображения'
+        help_text=_('текст, который будет загружен в случае потери изображения')
     )
     author = models.ForeignKey(settings.AUTH_USER_MODEL, on_delete=models.SET_NULL, null=True)
     category = models.ForeignKey(Category, on_delete=models.SET_NULL, null=True)
-    short_description = models.TextField()
-    content = RichTextField()
-    recommended = models.ManyToManyField('self', symmetrical=False)
+    short_description = models.CharField(max_length=350, verbose_name=_('описание статьи'))
+    content = RichTextField(verbose_name=_('содержание статьи'))
+    recommended = models.ManyToManyField(
+        'self',
+        symmetrical=False,
+        verbose_name=_('рекомендованные статьи'),
+    )
     average_rating = models.DecimalField(max_digits=2, decimal_places=1, default=0)
     number_of_likes = models.PositiveIntegerField(default=0)
 
     class Meta(object):
-        verbose_name = 'article'
-        verbose_name_plural = 'Articles'
+        verbose_name = _('article')
+        verbose_name_plural = _('Articles')
         ordering = ['dd_order', '-created']
 
     def __str__(self):
@@ -80,13 +85,19 @@ class Article(DragDropMixins, ImageNameMixins):
                 self.img_alt = self.title
         super(Article, self).save(*args, **kwargs)
 
+    def get_absolute_url(self):
+        """
+        Returns the URL to access the article instance.
+        """
+        return reverse('article_detail', args=[self.slug])
+
 
 class ImageArticle(DragDropMixins, ImageNameMixins):
     article = models.ForeignKey(Article, on_delete=models.CASCADE, null=True)
     image_article = models.ImageField(upload_to='image_article/%Y/%m/%d', help_text="image article")
     img_alt = models.CharField(
         max_length=200,
-        help_text='текст, который будет загружен в случае потери изображения',
+        help_text=_('текст, который будет загружен в случае потери изображения'),
         blank=True
     )
 
@@ -102,7 +113,6 @@ class ImageArticle(DragDropMixins, ImageNameMixins):
     def save(self, *args, **kwargs):
         if not self.img_alt:
             self.img_alt = f'{self.article.title}--{datetime.datetime.now()}'
-        # self.image_article.name = self.get_image_name(name=self.img_alt, filename=self.image_article.name)
         if self.pk is not None:
             orig = ImageArticle.objects.get(pk=self.pk)
             if orig.image_article.name != self.image_article.name:
@@ -125,8 +135,8 @@ class TextPage(CreatedUpdateMixins):
     slug = models.SlugField(unique=True, help_text='used to generate URL', null=True, blank=True)
 
     class Meta:
-        verbose_name = 'text page'
-        verbose_name_plural = 'Text pages'
+        verbose_name = _('text page')
+        verbose_name_plural = _('Text pages')
         ordering = ['-created']
 
     def __str__(self):
