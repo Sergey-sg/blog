@@ -5,11 +5,11 @@
         <h5>Section</h5>
       </div>
       <div class="col-9">
-          <a href="#" class="text-muted">Home</a>
-          <a href="#" class="text-muted">Features</a>
-          <a href="#" class="text-muted">Pricing</a>
-          <a href="#" class="text-muted">FAQs</a>
-          <a href="#" class="text-muted">About</a>
+          {% for item in menu_items %}
+             {% if item.position == 'f' %}
+                <a class="text-muted" href="{{ item.item_url }}" target="{{ item.target }}">{{ item.title }}</a>
+             {% endif %}
+          {% endfor %}
       </div>
     </div>
 

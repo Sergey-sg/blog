@@ -2,8 +2,8 @@ from django.db import models
 
 
 class Target(models.TextChoices):
-    BLANK = ('b', '_blank')
-    SELF = ('s', '_self')
+    BLANK = ('_blank', 'blank')
+    SELF = ('_self', 'self')
 
 
 class Position(models.TextChoices):

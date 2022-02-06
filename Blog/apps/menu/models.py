@@ -1,4 +1,3 @@
-from django.core.validators import RegexValidator
 from django.db import models
 
 from shared.validators.validators import URL_REGEX
@@ -10,7 +9,7 @@ class Menu(DragDropMixins):
     title = models.CharField(max_length=100, unique=True)
     item_url = models.CharField(validators=[URL_REGEX], unique=True, max_length=2048, help_text='Enter link address')
     target = models.CharField(
-        max_length=1,
+        max_length=6,
         choices=Target.choices,
         default=Target.SELF,
         help_text='Target url'

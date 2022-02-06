@@ -14,8 +14,8 @@ urlpatterns = [
             path('update/', views.ArticleUpdate.as_view(), name='article_update'),
             path('detail/', views.ArticleDetailView.as_view(), name='article_detail'),
             path('score/', include([
-                        path('add/', AddScore.as_view(), name='add_score'),
-                        path('update/', UpdateScore.as_view(), name='update_score'),
+                path('add/', AddScore.as_view(), name='add_score'),
+                path('update/', UpdateScore.as_view(), name='update_score'),
             ])),
             path('favorites/', include([
                 path('add/', FavoriteAdd.as_view(), name='favorite_add'),
