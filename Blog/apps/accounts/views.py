@@ -86,23 +86,6 @@ class UserCreateView(CreateView):
             recipient_list=[to_email],
             html_message=message,
         )
-        # msg_html = render_to_string(
-        #     'registration/msg.html',
-        #     {'link': f"""{current_site.domain}{reverse_lazy('home')}"""}
-        # )
-
-        # mail = send_mail(
-        #     'регистрация',
-        #     from_email=settings.DEFAULT_FROM_EMAIL,
-        #     message=f"""ссылка для подтверждения почты и завершения регистрации """,
-        #     recipient_list=[to_mail],
-        #     fail_silently=True,
-        #     html_message=msg_html,
-        # )
-        # if not mail:
-        #     return super(UserCreateView, self).form_invalid(form)
-        # else:
-        #     messages.error(self.request, 'Ошибка отправки письма')
         return super(UserCreateView, self).form_valid(form)
 
 

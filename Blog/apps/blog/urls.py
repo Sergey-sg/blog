@@ -44,5 +44,9 @@ urlpatterns = [
         path('password/', MyPasswordChangeView.as_view(), name='password-change'),
         path('confirmregistration/', ConfirmRegistrationView.as_view(), name='confirm_registration'),
         path('activate/<str:uid>/<str:token>/', ActivateAccount.as_view(), name='user_activate')
-        ]),)
+        ]),),
+    path('text-page/', include([
+        path('', views.TextPageList.as_view(), name='text_page_list'),
+        path('<slug:slug>/', views.TextPageDetail.as_view(), name='text_page_detail'),
+    ]))
 ]

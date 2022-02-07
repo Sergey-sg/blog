@@ -27,6 +27,8 @@ urlpatterns = [
     path('accounts/', include('django.contrib.auth.urls')),
 ]
 
+handler404 = "Blog.views.page_not_found_view"
+
 if settings.DEBUG:
     import debug_toolbar
     urlpatterns = [path('__debug__/', include(debug_toolbar.urls)), ] + urlpatterns

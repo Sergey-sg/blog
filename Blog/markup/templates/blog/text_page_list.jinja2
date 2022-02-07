@@ -1,0 +1,12 @@
+{% extends 'base.jinja2' %}
+
+{% block content %}
+
+    {% for object in object_list %}
+        <div class="container p-3 border">
+            <p>{{ object.title }}</p>
+            <p>{{ object.content|safe }}</p>
+        </div>
+    {% endfor %}
+
+{% endblock content %}

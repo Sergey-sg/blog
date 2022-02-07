@@ -1,3 +1,4 @@
+from django.contrib.sites.models import Site
 from django.db import models
 
 from shared.validators.validators import URL_REGEX
@@ -21,11 +22,18 @@ class Menu(DragDropMixins):
     )
     show_item = models.BooleanField('show', default=False)
 
-    def __str__(self):
-        """class method returns the menu item in string representation"""
-        return self.title
-
     class Meta(object):
         verbose_name = 'menu item'
         verbose_name_plural = 'Menu items'
         ordering = ['dd_order', 'created']
+
+    def __str__(self):
+        """class method returns the menu item in string representation"""
+        return self.title
+
+    def save(self, *args, **kwargs):
+        if self.target == Target.SELF:
+            domain = Site.objects.get_current().domain
+            if domain not in self.item_url:
+                self.item_url = f'{domain}/{self.item_url}'
+        super(Menu, self).save(*args, **kwargs)

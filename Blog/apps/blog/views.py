@@ -7,7 +7,7 @@ from django.contrib.auth import get_user_model
 
 from .filters import ArticleFilter
 from .forms import ArticleForm, ImageArticleInlineFormset
-from .models import Article, Category
+from .models import Article, Category, TextPage
 from ..interaction.forms import ScoreForm, CommentArticleForm
 from ..interaction.models import CommentArticle
 
@@ -166,3 +166,20 @@ class ArticleUpdate(UpdateView):
 
     def form_invalid(self, form, *args):
         return self.render_to_response(self.get_context_data(form=form, imagearticle_form=args[0]))
+
+
+class TextPageList(ListView):
+    template_name = 'blog/text_page_list.jinja2'
+    paginate_by = 8
+
+    def get_queryset(self):
+        return TextPage.objects.filter(published='p')
+
+
+class TextPageDetail(DetailView):
+    model = TextPage
+    template_name = 'blog/text_page_detail.jinja2'
+
+    def get_queryset(self):
+        queryset = super(TextPageDetail, self).get_queryset()
+        return queryset.filter(published='p')
