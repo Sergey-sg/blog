@@ -4,6 +4,7 @@ from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic.list import MultipleObjectMixin
 from django.contrib.auth import get_user_model
+from django_filters.views import FilterView
 
 from .filters import ArticleFilter
 from .forms import ArticleForm, ImageArticleInlineFormset
@@ -12,34 +13,41 @@ from ..interaction.forms import ScoreForm, CommentArticleForm
 from ..interaction.models import CommentArticle
 
 
-class ArticleListView(ListView):
+class ArticleListView(FilterView):
     """
     Generates a list of article with ordering
     """
     template_name = 'blog/home.jinja2'
-    paginate_by = 16
+    paginate_by = 2
     filterset_class = ArticleFilter
     model = Article
 
     def get_queryset(self):
-        """Return the filtered queryset"""
-        queryset = self.model.objects.all()
-        self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-        try:
-            categories = Category.objects.get(pk=self.request.GET['filter_category']).get_descendants()
-            queryset = self.model.objects.filter(category=self.request.GET['filter_category'])
-            if categories:
-                for category in categories:
-                    queryset1 = self.model.objects.filter(category=category)
-                    queryset = queryset | queryset1
-                return queryset
-        except Exception:
-            pass
-        return self.filterset.qs.distinct()
+        qs = super(ArticleListView, self).get_queryset()
+        if 'filter_category' in self.request.GET:
+            qs = qs.filter(category_id=self.request.GET['filter_category'])
+        return qs
+
+
+    # def get_queryset(self):
+    #     """Return the filtered queryset"""
+    #     queryset = super(ArticleListView, self).get_queryset()    # self.model.objects.all()
+    #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
+    #     try:
+    #         categories = Category.objects.get(pk=self.request.GET['filter_category']).get_descendants()
+    #         queryset = self.model.objects.filter(category=self.request.GET['filter_category'])
+    #         if categories:
+    #             for category in categories:
+    #                 queryset1 = self.model.objects.filter(category=category)
+    #                 queryset = queryset | queryset1
+    #             return queryset
+    #     except Exception:
+    #         pass
+    #     return self.filterset.qs.distinct()
 
     def get_context_data(self, **kwargs):
         """Add to context filter as "filterset" """
-        context = super().get_context_data(**kwargs)
+        context = super(ArticleListView, self).get_context_data()
         context['filterset'] = self.filterset
         context['category'] = Category.get_annotated_list()
         return context

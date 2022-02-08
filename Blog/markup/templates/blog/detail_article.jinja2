@@ -1,10 +1,17 @@
 {% extends 'base.jinja2' %}
 {% load score %}
 
-{% block title %}{% endblock title %}
+{% block title %}{{ article.title }}{% endblock title %}
 
 {% block content %}
     <div class="container-fluid">
+        <div>
+            крошки: {% for parent in article.category.get_ancestors %}
+                        <a href="{% url 'home' %}?filter_category={{ parent.pk }}">{{ parent.name }}</a>
+                        =>
+                    {% endfor %}
+            <a>{{ article.category.name }}</a>
+        </div>
         <div class="row mx-auto">
             <div class="col-lg-9 offset-1">
                 <h4 class="text-center">{{ article.title }}</h4>
