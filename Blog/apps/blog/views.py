@@ -1,5 +1,7 @@
 from django.contrib.auth.forms import AuthenticationForm
-from django.shortcuts import redirect
+from django.contrib.auth.mixins import LoginRequiredMixin
+from django.http import HttpResponse
+from django.shortcuts import redirect, get_object_or_404
 from django.views import View
 from django.views.generic import ListView, DetailView, CreateView, UpdateView
 from django.views.generic.list import MultipleObjectMixin
@@ -28,23 +30,6 @@ class ArticleListView(FilterView):
             qs = qs.filter(category_id=self.request.GET['filter_category'])
         return qs
 
-
-    # def get_queryset(self):
-    #     """Return the filtered queryset"""
-    #     queryset = super(ArticleListView, self).get_queryset()    # self.model.objects.all()
-    #     self.filterset = self.filterset_class(self.request.GET, queryset=queryset)
-    #     try:
-    #         categories = Category.objects.get(pk=self.request.GET['filter_category']).get_descendants()
-    #         queryset = self.model.objects.filter(category=self.request.GET['filter_category'])
-    #         if categories:
-    #             for category in categories:
-    #                 queryset1 = self.model.objects.filter(category=category)
-    #                 queryset = queryset | queryset1
-    #             return queryset
-    #     except Exception:
-    #         pass
-    #     return self.filterset.qs.distinct()
-
     def get_context_data(self, **kwargs):
         """Add to context filter as "filterset" """
         context = super(ArticleListView, self).get_context_data()
@@ -69,7 +54,7 @@ class ArticleDetailView(DetailView, MultipleObjectMixin):
         return context
 
 
-class AddSubscription(View):
+class AddSubscription(LoginRequiredMixin, View):
 
     def post(self, *args, **kwargs):
         user = self.request.user
@@ -82,7 +67,7 @@ class AddSubscription(View):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class SubscriptionDelete(View):
+class SubscriptionDelete(LoginRequiredMixin, View):
 
     def post(self, *args, **kwargs):
         user = self.request.user
@@ -95,7 +80,7 @@ class SubscriptionDelete(View):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class ArticleCreate(CreateView):
+class ArticleCreate(LoginRequiredMixin, CreateView):
 
     model = Article
     form_class = ArticleForm
@@ -137,39 +122,38 @@ class ArticleCreate(CreateView):
         return self.render_to_response(self.get_context_data(form=form, imagearticle_form=args[0]))
 
 
-class ArticleUpdate(UpdateView):
+class ArticleUpdate(LoginRequiredMixin, UpdateView):
     """
     Displays a form for editing information about a company.
     """
-    model = Article
     form_class = ArticleForm
     template_name = 'blog/article_update.jinja2'
 
-    def get_queryset(self, *args, **kwargs):
-        queryset = super(ArticleUpdate, self).get_queryset()
-        return queryset.filter(author=self.request.user)
+    def get_object(self, queryset=None):
+        return get_object_or_404(Article, author=self.request.user, slug=self.kwargs['slug'])
 
-    def get_context_data(self, **kwargs):
-        context = super(ArticleUpdate, self).get_context_data(**kwargs)
-        if self.request.POST:
-            context['imagearticle_form'] = ImageArticleInlineFormset(
-                self.request.POST,
-                self.request.FILES,
-                instance=self.object
-            )
-        else:
-            context['imagearticle_form'] = ImageArticleInlineFormset(instance=self.object)
-        return context
+    def get(self, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        imagearticle_form = ImageArticleInlineFormset(instance=self.object)
+        return self.render_to_response(self.get_context_data(form=form, imagearticle_form=imagearticle_form))
 
-    def form_valid(self, form, *args):
-        context = self.get_context_data()
-        imagearticle_form = context['imagearticle_form']
+    def post(self, request, *args, **kwargs):
+        self.object = self.get_object()
+        form_class = self.get_form_class()
+        form = self.get_form(form_class)
+        imagearticle_form = ImageArticleInlineFormset(request.POST, request.FILES, instance=self.object)
         if form.is_valid() and imagearticle_form.is_valid():
-            # self.object = form.save()
-            form.save()
-            imagearticle_form.save()
+            return self.form_valid(form, imagearticle_form)
         else:
             return self.form_invalid(form, imagearticle_form)
+
+    def form_valid(self, form, *args):
+        obj_form = form.save()
+        inlineform_object = args[0]
+        inlineform_object.article = obj_form
+        inlineform_object.save()
         return super(ArticleUpdate, self).form_valid(form)
 
     def form_invalid(self, form, *args):

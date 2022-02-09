@@ -1,5 +1,6 @@
 from django.conf import settings
 from django.contrib.auth.forms import PasswordChangeForm
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView
 from django.contrib.sites.shortcuts import get_current_site
 from django.http import HttpResponse
@@ -17,11 +18,10 @@ from django.template.loader import render_to_string
 
 from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomRegistrationForm
 from .tokens import account_activation_token
-from ..blog.forms import ArticleForm
 from ..blog.models import Article
 
 
-class UserChangeView(UpdateView):
+class UserChangeView(LoginRequiredMixin, UpdateView):
     """
     Custom user change for users
     """
@@ -35,7 +35,7 @@ class UserChangeView(UpdateView):
         return reverse_lazy('personal-area')
 
 
-class MyPasswordChangeView(PasswordChangeView):
+class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     """
     Custom password change for users
     """
@@ -111,7 +111,7 @@ class ConfirmRegistrationView(TemplateView):
     template_name = 'registration/confirm_email_message_done.html'
 
 
-class PersonalArea(ListView):
+class PersonalArea(LoginRequiredMixin, ListView):
     """
     Personal area for current user
     """

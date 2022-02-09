@@ -1,3 +1,4 @@
+from django.contrib.auth.mixins import LoginRequiredMixin
 from django.shortcuts import redirect
 from django.views import View
 from django.views.generic import CreateView, UpdateView, DeleteView
@@ -8,7 +9,7 @@ from .models import Score, FavoritesArticle, CommentArticle
 from ..blog.models import Article
 
 
-class AddScore(CreateView, CommentScoreMixin):
+class AddScore(LoginRequiredMixin, CommentScoreMixin, CreateView):
     model = Score
     form_class = ScoreForm
 
@@ -25,7 +26,7 @@ class AddScore(CreateView, CommentScoreMixin):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class UpdateScore(UpdateView, CommentScoreMixin):
+class UpdateScore(LoginRequiredMixin, CommentScoreMixin, UpdateView):
     form_class = ScoreForm
 
     def get_object(self, queryset=None, *args, **kwargs):
@@ -51,7 +52,7 @@ class UpdateScore(UpdateView, CommentScoreMixin):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class FavoriteAdd(CreateView):
+class FavoriteAdd(LoginRequiredMixin, CreateView):
     model = FavoritesArticle
 
     def post(self, *args, **kwargs):
@@ -60,7 +61,7 @@ class FavoriteAdd(CreateView):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class FavoriteDelete(DeleteView):
+class FavoriteDelete(LoginRequiredMixin, DeleteView):
     model = FavoritesArticle
 
     def post(self, *args, **kwargs):
@@ -73,7 +74,7 @@ class FavoriteDelete(DeleteView):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class CommentCreate(CreateView, ScoreCommentMixin):
+class CommentCreate(LoginRequiredMixin, ScoreCommentMixin, CreateView):
     """
     Implementation of the creation of a new comment for article
     """
@@ -94,7 +95,7 @@ class CommentCreate(CreateView, ScoreCommentMixin):
         return redirect('article_detail', self.kwargs['slug'])
 
 
-class CommentDelete(View):
+class CommentDelete(LoginRequiredMixin, View):
     """
     Delete a comment of article
     """
@@ -108,7 +109,7 @@ class CommentDelete(View):
         return redirect('article_detail', self.kwargs['slug'])
 
 
-class CommentUpdate(UpdateView, ScoreCommentMixin):
+class CommentUpdate(LoginRequiredMixin, ScoreCommentMixin, UpdateView):
     """
     Implementation of changes in information about the comment of article.
     """
