@@ -1,3 +1,10 @@
+from django.conf import settings
+from django.contrib.auth import get_user_model
+from django.contrib.sites.models import Site
+from django.core.mail import send_mass_mail
+from django.urls import reverse_lazy
+from django.utils.translation import ugettext_lazy as _
+
 from apps.interaction.models import Score, CommentArticle
 
 
@@ -25,3 +32,31 @@ class CommentScoreMixin:
             return [False]
         else:
             return [False]
+
+
+class SendSubscriptionMixin:
+
+    @staticmethod
+    def send_to_subscriptions(article):
+        user = get_user_model()
+        to_emails = user.objects.filter(subscription__pk=article.author.pk) # .only('email')
+        domain = Site.objects.get_current().domain
+        messages = None
+        author_name = article.author.get_full_name() or article.author.email
+        for sub_user in to_emails:
+            subscript_user_name = sub_user.get_full_name() or sub_user.email
+            message = (
+                _('Новая статья в вашей подписке'),
+                _(f"""{subscript_user_name} Вы подписаны на {author_name},
+                 у автора появилась новая статья "{article.title}"
+                 перейдите по адресу к статье {domain}{reverse_lazy('article_detail', kwargs={'slug':article.slug})}
+                 """),
+                settings.EMAIL_HOST_USER,
+                [sub_user.email],
+            )
+            if messages is None:
+                messages = (message,)
+            else:
+                messages += (message,)
+        if messages is not None:
+            send_mass_mail(messages)
