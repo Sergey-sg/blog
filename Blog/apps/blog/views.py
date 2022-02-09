@@ -8,6 +8,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django.contrib.auth import get_user_model
 from django_filters.views import FilterView
 
+from shared.mixins.views_mixins import SendSubscriptionMixin
 from .filters import ArticleFilter
 from .forms import ArticleForm, ImageArticleInlineFormset
 from .models import Article, Category, TextPage
@@ -80,7 +81,7 @@ class SubscriptionDelete(LoginRequiredMixin, View):
         return redirect(self.request.META.get('HTTP_REFERER'))
 
 
-class ArticleCreate(LoginRequiredMixin, CreateView):
+class ArticleCreate(LoginRequiredMixin, SendSubscriptionMixin, CreateView):
 
     model = Article
     form_class = ArticleForm
@@ -116,6 +117,7 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
                         inlineform_object.save()
                 except Exception:
                     pass
+        self.send_to_subscriptions(article=object_form)
         return super(ArticleCreate, self).form_valid(form)
 
     def form_invalid(self, form, *args):
