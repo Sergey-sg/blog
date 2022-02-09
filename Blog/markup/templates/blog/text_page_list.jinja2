@@ -1,6 +1,12 @@
 {% extends 'base.jinja2' %}
 
 {% block content %}
+    <!-- хлебные крошки -->
+    <p class="container">
+        <a href="{% url 'home' %}">Главная</a>/
+{#        <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a>/#}
+        <a>текстовая страница</a>
+    </p>
 
     {% for object in object_list %}
         <div class="container p-3 border">

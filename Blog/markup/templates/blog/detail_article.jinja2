@@ -4,14 +4,17 @@
 {% block title %}{{ article.title }}{% endblock title %}
 
 {% block content %}
+  <!-- хлебные крошки -->
+    <p class="container">
+        <a href="{% url 'home' %}">Главная</a>/
+        {% for parent in article.category.get_ancestors %}
+            <a href="{% url 'home' %}?filter_category={{ parent.pk }}">{{ parent.name }}</a>
+            /
+        {% endfor %}
+        <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a>/
+        <a>{{ article.title }}</a>
+    </p>
     <div class="container-fluid">
-        <div>
-            крошки: {% for parent in article.category.get_ancestors %}
-                        <a href="{% url 'home' %}?filter_category={{ parent.pk }}">{{ parent.name }}</a>
-                        =>
-                    {% endfor %}
-            <a>{{ article.category.name }}</a>
-        </div>
         <div class="row mx-auto">
             <div class="col-lg-9 offset-1">
                 <h4 class="text-center">{{ article.title }}</h4>
@@ -168,7 +171,7 @@
                 Рекомендуемые статьи:
                 <br>
                 {% for recommended in article.recommended.all %}
-                    <div class="p-3 border">
+                    <div class="container p-3 border">
                         <h4><a href="{% url 'article_detail' recommended.slug %}">{{ recommended.title }}</a></h4>
                         <img src="{{ recommended.article_preview.url }}" alt="{{ recommended.img_alt }}" width="100%">
                         <div>{{ recommended.short_description }}</div>
