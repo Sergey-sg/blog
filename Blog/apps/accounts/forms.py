@@ -5,20 +5,21 @@ from .models import User
 
 
 class CustomUserCreationForm(UserCreationForm):
-
+    """Model form for create user"""
     class Meta:
         model = User
         fields = ('email', 'password',)
 
 
 class CustomUserChangeForm(UserChangeForm):
-
+    """Model form for update user"""
     class Meta:
         model = User
         fields = ('first_name', 'last_name', 'phone_number', 'photo', 'img_alt')
 
 
 class CustomRegistrationForm(UserCreationForm):
+    """Model form for create user"""
     is_active = False
 
     class Meta:

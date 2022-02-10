@@ -47,10 +47,10 @@ class SendSubscriptionMixin:
             subscript_user_name = sub_user.get_full_name() or sub_user.email
             message = (
                 _('Новая статья в вашей подписке'),
-                _(f"""{subscript_user_name} Вы подписаны на {author_name},
-                 у автора появилась новая статья "{article.title}"
-                 перейдите по адресу к статье {domain}{reverse_lazy('article_detail', kwargs={'slug':article.slug})}
-                 """),
+                f"""{subscript_user_name} {_('Вы подписаны на')} {author_name},
+                 {_('у автора появилась новая статья')} "{article.title}"
+                 {_('перейдите по адресу к статье')} {domain}{reverse_lazy('article_detail', kwargs={'slug':article.slug})}
+                 """,
                 settings.EMAIL_HOST_USER,
                 [sub_user.email],
             )

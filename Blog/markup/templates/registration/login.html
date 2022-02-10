@@ -1,22 +1,24 @@
 {% extends "base.jinja2" %}
 
+{% block title %}{{_('Вход')}}{% endblock title %}
+
 {% block content %}
 
 {% load static %}
 
     <div class="container">
       {% if user.is_authenticated %}
-        <p>Your account doesn't have access to this page. To proceed,
-        please login with an account that has access.</p>
+        <p>{{ _('У вашего аккаунта нет доступа к этой странице. Для продолжения,
+         пожалуйста, войдите с учетной записью, которая имеет доступ.') }}</p>
       {% else %}
-        <p>Please login with your account</p>
+        <p>{{ _('Пожалуйста, войдите в свою учетную запись') }}</p>
       {% endif %}
 
  <div class="container">
     <div class="row">
          <div class="col-md-4 col-md-offset-4">
-             <a class="btn btn-primary" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">Log in</a>
-             <a class="btn btn-primary" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">Register</a>
+             <a class="btn btn-primary" data-toggle="modal" href="javascript:void(0)" onclick="openLoginModal();">{{ _('войти') }}</a>
+             <a class="btn btn-primary" data-toggle="modal" href="javascript:void(0)" onclick="openRegisterModal();">{{ _('зарегистрироваться') }}</a>
          </div>
     </div>
  </div>
@@ -25,7 +27,7 @@
     <div class="modal-dialog login animated">
         <div class="modal-content">
             <div class="modal-header">
-                <h4 class="modal-title">Login with</h4>
+                <h4 class="modal-title">{{ _('Войти используя учетную запись') }}</h4>
                 <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
             </div>
             <div class="modal-body">
@@ -41,7 +43,7 @@
                                 <table>
                                     <tr>
                                         <td>{% if form.errors %}
-                                              <p>Your username and password didn't match. Please try again.</p>
+                                              <p>{{ _('Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз.') }}</p>
                                             {% endif %}
                                         </td>
                                     </tr>
@@ -53,14 +55,14 @@
                                     <tr>
                                         <td>{{ form.password.label_tag }}</td>
                                         <td><label><input id="password-input" type="password" name="password" autocomplete="current-password"></label></td>
-                                        <td><label><input type="checkbox" class="password-checkbox"> show password</label></td>
+                                        <td><label><input type="checkbox" class="password-checkbox"> {{ _('показать пароль') }}</label></td>
                                     </tr>
                                 </table>
 
-                                <input type="submit" class="btn btn-primary" value="login" />
+                                <input type="submit" class="btn btn-primary" value="{{ _('войти') }}" />
                                 <input type="hidden" name="next" value="{{ next }}" />
                                {# Assumes you setup the password_reset view in your URLconf #}
-                                <p><a href="{% url 'password_reset' %}">Lost password?</a></p>
+                                <p><a href="{% url 'password_reset' %}">{{ _('забыли пароль') }}?</a></p>
                            </form>
                         </div>
                     </div>
@@ -77,10 +79,10 @@
                                            {{ row.label }}
                                            {% if create_user_form.password1 == row %}
                                                <input id="register-password1-input" type="password" name="password1" autocomplete="new-password">
-                                               <label><input type="checkbox" class="register-password1-checkbox"> show password</label></br>
+                                               <label><input type="checkbox" class="register-password1-checkbox"> {{ _('показать пароль') }}</label></br>
                                            {% elif create_user_form.password2 == row %}
                                                <input id="register-password2-input" type="password" name="password2" autocomplete="new-password">
-                                               <label><input type="checkbox" class="register-password2-checkbox"> show password</label></br>
+                                               <label><input type="checkbox" class="register-password2-checkbox"> {{ _('показать пароль') }}</label></br>
                                            {% endif %}
                                            {{ row.help_text }} {{ row.error }} </br>
                                        {% else %}
@@ -88,7 +90,7 @@
                                        {% endif %}
                                    {% endfor %}
                                 </table>
-                                <input class="btn btn-primary" type="submit" value="register" />
+                                <input class="btn btn-primary" type="submit" value="{{ _('зарегистрироваться') }}" />
                             </form>
                         </div>
                     </div>
@@ -96,13 +98,13 @@
             </div>
             <div class="modal-footer">
                 <div class="forgot login-footer">
-                    <span>Looking to
-                        <a href="javascript: showRegisterForm();">create an account</a>
+                    <span>{{ _('перейти к') }}
+                        <a href="javascript: showRegisterForm();"> {{ _('созданию нового аккаунта')}}</a>
                     ?</span>
                 </div>
                 <div class="forgot register-footer" style="display:none">
-                <span>Already have an account?</span>
-                <a href="javascript: showLoginForm();">Login</a>
+                <span>{{ _('уже есть аккаунт') }}?</span>
+                <a href="javascript: showLoginForm();">{{ _('войти') }}</a>
                 </div>
             </div>
         </div>

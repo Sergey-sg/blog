@@ -6,6 +6,7 @@ from .models import Article, ImageArticle
 
 
 class ArticleForm(forms.ModelForm):
+    """model form of Article"""
 
     class Meta:
         model = Article
@@ -26,6 +27,7 @@ class ArticleForm(forms.ModelForm):
         }
 
 
+# inlineformset for adding images to an article
 ImageArticleInlineFormset = inlineformset_factory(
     Article,
     ImageArticle,

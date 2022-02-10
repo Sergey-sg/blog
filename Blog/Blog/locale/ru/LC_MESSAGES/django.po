@@ -1,0 +1,791 @@
+# SOME DESCRIPTIVE TITLE.
+# Copyright (C) YEAR THE PACKAGE'S COPYRIGHT HOLDER
+# This file is distributed under the same license as the PACKAGE package.
+# FIRST AUTHOR <EMAIL@ADDRESS>, YEAR.
+#
+#, fuzzy
+msgid ""
+msgstr ""
+"Project-Id-Version: PACKAGE VERSION\n"
+"Report-Msgid-Bugs-To: \n"
+"POT-Creation-Date: 2022-02-10 15:52+0200\n"
+"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
+"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"Language-Team: LANGUAGE <LL@li.org>\n"
+"Language: \n"
+"MIME-Version: 1.0\n"
+"Content-Type: text/plain; charset=UTF-8\n"
+"Content-Transfer-Encoding: 8bit\n"
+"Plural-Forms: nplurals=4; plural=(n%10==1 && n%100!=11 ? 0 : n%10>=2 && n"
+"%10<=4 && (n%100<12 || n%100>14) ? 1 : n%10==0 || (n%10>=5 && n%10<=9) || (n"
+"%100>=11 && n%100<=14)? 2 : 3);\n"
+
+#: Blog/settings/default.py:184
+msgid "Русский"
+msgstr "Русский"
+
+#: Blog/settings/default.py:185
+#, fuzzy
+#| msgid "Українська"
+msgid "Українськa"
+msgstr "Украинский"
+
+#: apps/accounts/apps.py:8
+msgid "Accounts"
+msgstr "Аккаунты"
+
+#: apps/accounts/managers.py:15
+msgid "email- обязательное поле"
+msgstr "email- обязательное поле"
+
+#: apps/accounts/managers.py:31
+msgid "Superuser must have is_staff=True."
+msgstr "У суперпользователя должно быть is_staff=True."
+
+#: apps/accounts/managers.py:33
+msgid "Superuser must have is_superuser=True."
+msgstr "У суперпользователя должно быть is_staff=True."
+
+#: apps/accounts/models.py:22
+msgid "email"
+msgstr "email"
+
+#: apps/accounts/models.py:23
+msgid "used to login the site"
+msgstr "используется для входа на сайт"
+
+#: apps/accounts/models.py:31
+msgid "phone number"
+msgstr "телефонный номер"
+
+#: apps/accounts/models.py:32
+msgid "The phone number must be in the format: \"+380999999999\""
+msgstr "Номер телефона должен быть в формате: \"+380999999999\""
+
+#: apps/accounts/models.py:37
+msgid "photo"
+msgstr "фото"
+
+#: apps/accounts/models.py:38
+msgid "Profile photo"
+msgstr "Фото профиля"
+
+#: apps/accounts/models.py:43 apps/blog/models.py:102 apps/blog/models.py:207
+msgid "image alternative"
+msgstr "текстовая альтернатива изображения"
+
+#: apps/accounts/models.py:44 apps/blog/models.py:103 apps/blog/models.py:208
+msgid "text to be loaded in case of image loss"
+msgstr "текст для загрузки в случае потери изображения"
+
+#: apps/accounts/models.py:48
+msgid "subscription"
+msgstr "подписка"
+
+#: apps/accounts/models.py:49
+msgid "author subscription"
+msgstr "подписки на автора"
+
+#: apps/accounts/models.py:60
+msgid "user"
+msgstr "пользователь"
+
+#: apps/accounts/models.py:61
+msgid "Users"
+msgstr "Пользователи"
+
+#: apps/accounts/views.py:84
+msgid "Activating your account"
+msgstr "Активация вашей учетной записи"
+
+#: apps/accounts/views.py:96
+msgid "link to confirm email and complete registration"
+msgstr "ссылка для подтверждения электронной почты и завершения регистрации"
+
+#: apps/blog/apps.py:8
+msgid "Blog"
+msgstr "Блог"
+
+#: apps/blog/constants.py:9
+msgid "draft"
+msgstr "черновик"
+
+#: apps/blog/constants.py:10 apps/blog/models.py:259
+#: apps/interaction/constants.py:9
+msgid "published"
+msgstr "публикация"
+
+#: apps/blog/models.py:33
+msgid "name"
+msgstr "имя"
+
+#: apps/blog/models.py:34
+msgid "category name"
+msgstr "имя категории"
+
+#: apps/blog/models.py:39 apps/blog/models.py:90 apps/blog/models.py:265
+msgid "used to generate URL"
+msgstr "используется для генерации URL"
+
+#: apps/blog/models.py:45 apps/blog/models.py:116
+msgid "category"
+msgstr "категория"
+
+#: apps/blog/models.py:46
+msgid "Categories"
+msgstr "Категории"
+
+#: apps/blog/models.py:85 apps/blog/models.py:249 apps/menu/models.py:24
+msgid "title"
+msgstr "заголовок"
+
+#: apps/blog/models.py:86
+msgid "title of article"
+msgstr "заголовок статьи"
+
+#: apps/blog/models.py:96
+#, fuzzy
+#| msgid "article_preview"
+msgid "article preview"
+msgstr "изображение предпросмотра статьи"
+
+#: apps/blog/models.py:109 apps/interaction/models.py:25
+#: apps/interaction/models.py:76
+msgid "author"
+msgstr "автор"
+
+#: apps/blog/models.py:110
+msgid "author of article"
+msgstr "автор статьи"
+
+#: apps/blog/models.py:117
+msgid "category of article"
+msgstr "категория статьи"
+
+#: apps/blog/models.py:121
+msgid "short description"
+msgstr "краткое описание"
+
+#: apps/blog/models.py:122
+msgid "a short description about the article"
+msgstr "краткое описание статьи"
+
+#: apps/blog/models.py:125 apps/blog/models.py:253
+msgid "content"
+msgstr "содержание"
+
+#: apps/blog/models.py:126
+msgid "the content of the article"
+msgstr "содержание статьи"
+
+#: apps/blog/models.py:131
+msgid "recommended"
+msgstr "рекомендуемые"
+
+#: apps/blog/models.py:132
+msgid "recommended articles"
+msgstr "рекомендуемые статьи"
+
+#: apps/blog/models.py:138
+msgid "average rating"
+msgstr "средний рейтинг"
+
+#: apps/blog/models.py:139
+msgid "average article rating"
+msgstr "средний рейтинг статьи"
+
+#: apps/blog/models.py:143
+#, fuzzy
+#| msgid "number_of_likes"
+msgid "number of likes"
+msgstr "количество оценок"
+
+#: apps/blog/models.py:144
+msgid "number of article ratings"
+msgstr "количество оценок статьи"
+
+#: apps/blog/models.py:148 apps/blog/models.py:198
+#: apps/interaction/models.py:30 apps/interaction/models.py:82
+msgid "article"
+msgstr "статья"
+
+#: apps/blog/models.py:149
+msgid "Articles"
+msgstr "Статьи"
+
+#: apps/blog/models.py:199
+msgid "linked Article model with image"
+msgstr "связанная модель статьи с изображением"
+
+#: apps/blog/models.py:203 apps/blog/models.py:213
+msgid "image"
+msgstr "изображение"
+
+#: apps/blog/models.py:214
+msgid "Images for article"
+msgstr "Изображения для статьи"
+
+#: apps/blog/models.py:250
+msgid "title of text page"
+msgstr "заголовок текстовой страницы"
+
+#: apps/blog/models.py:254
+msgid "the content of the text page"
+msgstr "содержание текстовой страницы"
+
+#: apps/blog/models.py:260
+msgid "Published or draft"
+msgstr "Опубликовано или черновик"
+
+#: apps/blog/models.py:270
+msgid "text page"
+msgstr "текстовая страница"
+
+#: apps/blog/models.py:271
+msgid "Text pages"
+msgstr "Текстовые страницы"
+
+#: apps/interaction/apps.py:8
+msgid "Interaction"
+msgstr "Взаимодействие"
+
+#: apps/interaction/constants.py:10
+msgid "blocked"
+msgstr "заблокировать"
+
+#: apps/interaction/models.py:26
+msgid "author of comment"
+msgstr "автор комментария"
+
+#: apps/interaction/models.py:31
+msgid "commented article"
+msgstr "комментируемая статья"
+
+#: apps/interaction/models.py:37 apps/interaction/models.py:90
+#: apps/interaction/models.py:102
+msgid "score"
+msgstr "оценка"
+
+#: apps/interaction/models.py:38
+msgid "assessment of the author of the commented article"
+msgstr "оценка автора комментируемой статьи"
+
+#: apps/interaction/models.py:41
+msgid "message"
+msgstr "сообщение"
+
+#: apps/interaction/models.py:43
+msgid "message (comment) of article"
+msgstr "сообщение (комментарий) статьи"
+
+#: apps/interaction/models.py:48 apps/interaction/models.py:96
+msgid "status"
+msgstr "статус"
+
+#: apps/interaction/models.py:49 apps/interaction/models.py:97
+msgid "status of comment"
+msgstr "статус комментария"
+
+#: apps/interaction/models.py:54
+msgid "comment"
+msgstr "комментарий"
+
+#: apps/interaction/models.py:55
+msgid "Comments"
+msgstr "Комментарии"
+
+#: apps/interaction/models.py:77 apps/interaction/models.py:83
+msgid "author of score"
+msgstr "автор оценки"
+
+#: apps/interaction/models.py:91
+msgid "assessment of the author of the article"
+msgstr "оценка статьи"
+
+#: apps/interaction/models.py:103
+msgid "Scores"
+msgstr "Оценки"
+
+#: apps/interaction/models.py:136
+msgid "favorite"
+msgstr "избранная"
+
+#: apps/interaction/models.py:137
+msgid "Favorites"
+msgstr "Избранные"
+
+#: apps/menu/apps.py:8
+msgid "Menu"
+msgstr "Меню"
+
+#: apps/menu/constants.py:6
+msgid "blank"
+msgstr "наружная"
+
+#: apps/menu/constants.py:7
+msgid "self"
+msgstr "внутрення"
+
+#: apps/menu/constants.py:11
+msgid "header"
+msgstr "верхнее меню"
+
+#: apps/menu/constants.py:12
+msgid "footer"
+msgstr "нижнее меню"
+
+#: apps/menu/models.py:28
+msgid "Enter link address"
+msgstr "Введите адрес ссылки"
+
+#: apps/menu/models.py:29
+msgid "url address"
+msgstr "url адрес"
+
+#: apps/menu/models.py:35
+msgid "Target url"
+msgstr "внутренний или наружный url"
+
+#: apps/menu/models.py:36
+msgid "target"
+msgstr "направление"
+
+#: apps/menu/models.py:41
+msgid "Position object (header or footer)"
+msgstr "Позиция объекта (верхнее или нижнее меню)"
+
+#: apps/menu/models.py:42
+msgid "position"
+msgstr "позиция"
+
+#: apps/menu/models.py:45
+msgid "show"
+msgstr "показать"
+
+#: apps/menu/models.py:46
+msgid "show or hidden url address"
+msgstr "показать или скрыть URL-адрес"
+
+#: apps/menu/models.py:51
+msgid "Menu item"
+msgstr "пункт меню"
+
+#: apps/menu/models.py:52
+msgid "Menu items"
+msgstr "Пункты меню"
+
+#: markup/templates/404.html:3
+msgid "Нет такой страницы"
+msgstr "Нет такой страницы"
+
+#: markup/templates/404.html:10
+msgid "На главную"
+msgstr "На главную"
+
+#: markup/templates/blog/article_create.jinja2:3
+msgid "Новая статья"
+msgstr "Новая статья"
+
+#: markup/templates/blog/article_create.jinja2:14
+#: markup/templates/blog/article_update.jinja2:14
+msgid "сохранить статью"
+msgstr "сохранить статью"
+
+#: markup/templates/blog/article_update.jinja2:3
+msgid "Изменение статьи"
+msgstr "Изменение статьи"
+
+#: markup/templates/blog/detail_article.jinja2:9
+#: markup/templates/blog/text_page_list.jinja2:8
+#: markup/templates/menu/header.jinja2:5
+msgid "Главная"
+msgstr "Главная"
+
+#: markup/templates/blog/detail_article.jinja2:27
+msgid "Категория"
+msgstr "Категория"
+
+#: markup/templates/blog/detail_article.jinja2:28
+#: markup/templates/blog/detail_article.jinja2:187
+#: markup/templates/blog/home.jinja2:50
+#: markup/templates/registration/profile.html:46
+msgid "рейтинг"
+msgstr "рейтинг"
+
+#: markup/templates/blog/detail_article.jinja2:28
+msgid "количество оценок"
+msgstr "количество оценок"
+
+#: markup/templates/blog/detail_article.jinja2:37
+msgid "добавить в избранное"
+msgstr "добавить в избранное"
+
+#: markup/templates/blog/detail_article.jinja2:42
+msgid "удалить из избранного"
+msgstr "удалить из избранного"
+
+#: markup/templates/blog/detail_article.jinja2:54
+msgid "Автор статьи"
+msgstr "Автор статьи"
+
+#: markup/templates/blog/detail_article.jinja2:55
+msgid "Дата последнего изменения статьи"
+msgstr "Дата последнего изменения статьи"
+
+#: markup/templates/blog/detail_article.jinja2:65
+msgid "оценить"
+msgstr "оценить"
+
+#: markup/templates/blog/detail_article.jinja2:77
+msgid "подписаться на автора"
+msgstr "подписаться на автора"
+
+#: markup/templates/blog/detail_article.jinja2:83
+msgid "отписаться от автора"
+msgstr "отписаться от автора"
+
+#: markup/templates/blog/detail_article.jinja2:97
+msgid "авторизоваться"
+msgstr "авторизоваться"
+
+#: markup/templates/blog/detail_article.jinja2:107
+msgid "Авторизация"
+msgstr "Авторизация"
+
+#: markup/templates/blog/detail_article.jinja2:119
+#: markup/templates/registration/login.html:20
+#: markup/templates/registration/login.html:62
+#: markup/templates/registration/login.html:107
+msgid "войти"
+msgstr "войти"
+
+#: markup/templates/blog/detail_article.jinja2:121
+#: markup/templates/registration/login.html:65
+msgid "забыли пароль"
+msgstr "забыли пароль"
+
+#: markup/templates/blog/detail_article.jinja2:132
+msgid "Комментарии"
+msgstr "Комментарии"
+
+#: markup/templates/blog/detail_article.jinja2:137
+msgid "Оставьте свой отзыв"
+msgstr "Оставьте свой отзыв"
+
+#: markup/templates/blog/detail_article.jinja2:140
+msgid "комментировать"
+msgstr "комментировать"
+
+#: markup/templates/blog/detail_article.jinja2:152
+#: markup/templates/blog/detail_article.jinja2:185
+#: markup/templates/blog/home.jinja2:38 markup/templates/blog/home.jinja2:48
+msgid "автор"
+msgstr "автор"
+
+#: markup/templates/blog/detail_article.jinja2:153
+msgid "дата комментария"
+msgstr "дата комментария"
+
+#: markup/templates/blog/detail_article.jinja2:153
+msgid "оценка"
+msgstr "оценка"
+
+#: markup/templates/blog/detail_article.jinja2:162
+#: markup/templates/interaction/comment.jinja2:13
+msgid "изменить комментарий"
+msgstr "изменить комментарий"
+
+#: markup/templates/blog/detail_article.jinja2:167
+msgid "удалить комментарий"
+msgstr "удалить комментарий"
+
+#: markup/templates/blog/detail_article.jinja2:178
+msgid "Рекомендуемые статьи"
+msgstr "Рекомендуемые статьи"
+
+#: markup/templates/blog/detail_article.jinja2:186
+#: markup/templates/blog/home.jinja2:49
+msgid "последнее обновление статьи"
+msgstr "последнее обновление статьи"
+
+#: markup/templates/blog/detail_article.jinja2:190
+#: markup/templates/blog/home.jinja2:53
+msgid "Подробнее"
+msgstr "Подробнее"
+
+#: markup/templates/blog/home.jinja2:4
+msgid "Блог"
+msgstr "Блог"
+
+#: markup/templates/blog/home.jinja2:13
+msgid "категория"
+msgstr "категория"
+
+#: markup/templates/blog/home.jinja2:28 markup/templates/blog/home.jinja2:39
+msgid "фильтровать"
+msgstr "фильтровать"
+
+#: markup/templates/blog/home.jinja2:37
+msgid "сортировка"
+msgstr "сортировка"
+
+#: markup/templates/blog/home.jinja2:37
+msgid "поиск"
+msgstr "поиск"
+
+#: markup/templates/blog/text_page_list.jinja2:3
+msgid "Текстовые страницы"
+msgstr "Текстовые страницы"
+
+#: markup/templates/blog/text_page_list.jinja2:9
+msgid "текстовая страница"
+msgstr "текстовая страница"
+
+#: markup/templates/interaction/comment.jinja2:3
+msgid "Изменение комментария"
+msgstr "Изменение комментария"
+
+#: markup/templates/interaction/comment.jinja2:10
+msgid "Измените свой отзыв"
+msgstr "Измените свой отзыв"
+
+#: markup/templates/menu/footer.jinja2:5
+msgid "Партнеры"
+msgstr "Партнеры"
+
+#: markup/templates/menu/footer.jinja2:18
+msgid "Сергей Глушак"
+msgstr "Сергей Глушак"
+
+#: markup/templates/menu/footer.jinja2:18
+msgid "Все права защищены."
+msgstr "Все права защищены."
+
+#: markup/templates/menu/header.jinja2:12
+msgid "Страница текстовая"
+msgstr "Страница текстовая"
+
+#: markup/templates/menu/header.jinja2:32
+msgid "изменить аккаунт"
+msgstr "изменить аккаунт"
+
+#: markup/templates/menu/header.jinja2:33
+msgid "личний кабинет"
+msgstr "личный кабинет"
+
+#: markup/templates/menu/header.jinja2:35
+msgid "выйти"
+msgstr "выйти"
+
+#: markup/templates/menu/header.jinja2:39
+msgid "Войти"
+msgstr "Войти"
+
+#: markup/templates/registration/change_user.html:3
+msgid "Изменение аккаунта"
+msgstr "Изменение аккаунта"
+
+#: markup/templates/registration/confirm_email_message_done.html:3
+msgid "Подтвердите email"
+msgstr "Подтвердите email"
+
+#: markup/templates/registration/create_user.html:3
+msgid "Создание аккаунта"
+msgstr "Создание аккаунта"
+
+#: markup/templates/registration/create_user.html:13
+msgid "зарегистрировать"
+msgstr "зарегистрировать"
+
+#: markup/templates/registration/logged_out.html:3
+msgid "Выход"
+msgstr "Выход"
+
+#: markup/templates/registration/logged_out.html:6
+msgid "Вы вышли из аккаунта"
+msgstr "Вы вышли из аккаунта"
+
+#: markup/templates/registration/logged_out.html:8
+msgid "Нажмите здесь, чтобы снова войти"
+msgstr "Нажмите здесь, чтобы снова войти"
+
+#: markup/templates/registration/login.html:3
+msgid "Вход"
+msgstr "Вход"
+
+#: markup/templates/registration/login.html:14
+msgid "Пожалуйста, войдите в свою учетную запись"
+msgstr "Пожалуйста, войдите в свою учетную запись"
+
+#: markup/templates/registration/login.html:21
+#: markup/templates/registration/login.html:93
+msgid "зарегистрироваться"
+msgstr "зарегистрироваться"
+
+#: markup/templates/registration/login.html:30
+msgid "Войти используя учетную запись"
+msgstr "Войти используя учетную запись"
+
+#: markup/templates/registration/login.html:46
+msgid "Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз."
+msgstr "Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз."
+
+#: markup/templates/registration/login.html:58
+#: markup/templates/registration/login.html:82
+#: markup/templates/registration/login.html:85
+#: markup/templates/registration/password_change.html:18
+#: markup/templates/registration/password_change.html:21
+#: markup/templates/registration/password_change.html:24
+#: markup/templates/registration/password_reset_confirm.html:18
+#: markup/templates/registration/password_reset_confirm.html:26
+msgid "показать пароль"
+msgstr "показать пароль"
+
+#: markup/templates/registration/login.html:101
+msgid "перейти к"
+msgstr "перейти к"
+
+#: markup/templates/registration/login.html:102
+msgid "созданию нового аккаунта"
+msgstr "созданию нового аккаунта"
+
+#: markup/templates/registration/login.html:106
+msgid "уже есть аккаунт"
+msgstr "уже есть аккаунт"
+
+#: markup/templates/registration/msg.html:3
+msgid "закончите регистрацию перейдя по ссылке"
+msgstr "закончите регистрацию перейдя по ссылке"
+
+#: markup/templates/registration/msg.html:4
+msgid "ссылка"
+msgstr "ссылка"
+
+#: markup/templates/registration/password_change.html:3
+msgid "Изменение пароля"
+msgstr "Изменение пароля"
+
+#: markup/templates/registration/password_reset_complete.html:3
+msgid "Успешное изменение пароля"
+msgstr "Успешное изменение пароля"
+
+#: markup/templates/registration/password_reset_complete.html:7
+msgid "Пароль успешно изменен"
+msgstr "Пароль успешно изменен"
+
+#: markup/templates/registration/password_reset_complete.html:8
+msgid "авторизоваться?"
+msgstr "авторизоваться?"
+
+#: markup/templates/registration/password_reset_confirm.html:3
+#: markup/templates/registration/password_reset_confirm.html:16
+msgid "Новый пароль"
+msgstr "Новый пароль"
+
+#: markup/templates/registration/password_reset_confirm.html:10
+msgid "Пожайлуста введите (и подтвердите) ваш новый пароль."
+msgstr "Пожалуйста введите (и подтвердите) ваш новый пароль."
+
+#: markup/templates/registration/password_reset_confirm.html:24
+msgid "Подтвердить пароль"
+msgstr "Подтвердить пароль"
+
+#: markup/templates/registration/password_reset_confirm.html:32
+msgid "сохранить пароль"
+msgstr "сохранить пароль"
+
+#: markup/templates/registration/password_reset_confirm.html:37
+msgid "Сброс пароля не удался"
+msgstr "Сброс пароля не удался"
+
+#: markup/templates/registration/password_reset_confirm.html:38
+msgid ""
+"Ссылка для сброса пароля недействительна, возможно, потому, что она уже "
+"использовалась. Пожалуйста, запросите сброс нового пароля."
+msgstr ""
+"Ссылка для сброса пароля недействительна, возможно, потому, что она уже "
+"использовалась. Пожалуйста, запросите сброс нового пароля."
+
+#: markup/templates/registration/password_reset_done.html:3
+msgid "Подтверждение сброса пароля"
+msgstr "Подтверждение сброса пароля"
+
+#: markup/templates/registration/password_reset_done.html:7
+msgid ""
+"Мы отправили вам инструкции по установке пароля по электронной почте. Если "
+"они не пришли через несколько минут, проверьте папку со спамом."
+msgstr ""
+"Мы отправили вам инструкции по установке пароля по электронной почте. Если "
+"они не пришли через несколько минут, проверьте папку со спамом."
+
+#: markup/templates/registration/password_reset_email.html:1
+msgid "Кто-то попросил сбросить пароль для электронной почты"
+msgstr "Кто-то попросил сбросить пароль для электронной почты"
+
+#: markup/templates/registration/password_reset_email.html:2
+msgid "Перейдите по ссылке ниже для сброса пароля"
+msgstr "Перейдите по ссылке ниже для сброса пароля"
+
+#: markup/templates/registration/password_reset_form.html:3
+msgid "Сброс пароля"
+msgstr "Сброс пароля"
+
+#: markup/templates/registration/password_reset_form.html:7
+msgid "забыли пароль?"
+msgstr "забыли пароль?"
+
+#: markup/templates/registration/password_reset_form.html:8
+msgid ""
+"Введите свой адрес электронной почты ниже, и мы вышлем инструкции по "
+"настройке нового адреса."
+msgstr ""
+"Введите свой адрес электронной почты ниже, и мы вышлем инструкции по "
+"настройке нового адреса."
+
+#: markup/templates/registration/password_reset_form.html:14
+msgid "сбросить пароль"
+msgstr "сбросить пароль"
+
+#: markup/templates/registration/profile.html:3
+msgid "Личный кабинет"
+msgstr "Личный кабинет"
+
+#: markup/templates/registration/profile.html:16
+msgid "изменить фото"
+msgstr "изменить фото"
+
+#: markup/templates/registration/profile.html:27
+msgid "новая статья"
+msgstr "новая статья"
+
+#: markup/templates/registration/profile.html:34
+msgid "Мои статьи"
+msgstr "Мои статьи"
+
+#: markup/templates/registration/profile.html:50
+msgid "изменить статью"
+msgstr "изменить статью"
+
+#: markup/templates/registration/profile.html:63
+msgid "Избранные статьи"
+msgstr "Избранные статьи"
+
+#: shared/mixins/views_mixins.py:49
+msgid "Новая статья в вашей подписке"
+msgstr "Новая статья в вашей подписке"
+
+#: shared/validators/validators.py:6
+msgid ""
+"If the link is internal it should look like this: \"blog/article/\", for "
+"external links it should look like this: \"https://www.site.com/\""
+msgstr ""
+"Если ссылка внутренняя, она должна выглядеть так: \"blog/article/\","
+"внешние ссылки должны выглядеть так: \"https://www.site.com/\""
+
+#: shared/validators/validators.py:12
+msgid ""
+"The phone number must be in the format: \"+380999999999\". Starts with "
+"\"+380\" and 9 digits."
+msgstr ""
+"Номер телефона должен быть в формате: \"+380999999999\". Начинается с "
+"\"+380\" и 9 цифр."

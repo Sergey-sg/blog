@@ -1,16 +1,17 @@
-from typing import Union
-
 import django_filters
 from django.contrib.auth import get_user_model
+from django.db.models import QuerySet
 
 from .models import Article, Category
 
 
 class NumberInFilter(django_filters.BaseInFilter, django_filters.NumberFilter):
+    """filter to sort queryset digits(primary key)"""
     pass
 
 
 class ArticleFilter(django_filters.FilterSet):
+    """filter for Article"""
 
     authors = set(Article.objects.all().values_list('author', flat=True))
     user = get_user_model()
@@ -28,7 +29,8 @@ class ArticleFilter(django_filters.FilterSet):
         fields = ('title', 'average_rating', 'category', 'author')
 
     @staticmethod
-    def filter_categories(queryset, name, value):
+    def filter_categories(queryset, name, value) -> QuerySet:
+        """get the filter value by category and return the combined queryset from all child categories"""
         try:
             categories = Category.objects.get(pk=value[0]).get_descendants()
             if categories:

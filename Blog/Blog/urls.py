@@ -13,6 +13,7 @@ Including another URLconf
     1. Import the include() function: from django.urls import include, path
     2. Add a URL to urlpatterns:  path('blog/', include('blog.urls'))
 """
+from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
 from django.urls import path, include
@@ -23,9 +24,13 @@ urlpatterns = [
     path('jet/', include('jet.urls', 'jet')),  # Django JET URLS
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
-    path('', include('apps.blog.urls')),
+    # path('', include('apps.blog.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
 ]
+
+urlpatterns += i18n_patterns(
+    path('', include('apps.blog.urls')),
+)
 
 handler404 = "Blog.views.page_not_found_view"
 

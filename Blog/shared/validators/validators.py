@@ -9,5 +9,5 @@ URL_REGEX = RegexValidator(
 
 PHONE_REGEX = RegexValidator(
         regex=r'^\+380\d{9}',
-        message=_('Номер телефона должен быть в формате: "+380999999999". Начинается из "+380" и 9 цифр.')
+        message=_('The phone number must be in the format: "+380999999999". Starts with "+380" and 9 digits.')
 )

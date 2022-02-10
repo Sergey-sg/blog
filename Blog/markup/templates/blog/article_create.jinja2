@@ -1,6 +1,6 @@
 {% extends 'base.jinja2' %}
 
-{% block title %}Новая статья{% endblock %}
+{% block title %}{{_('Новая статья')}}{% endblock %}
 
 {% block content %}
     <div class="container" style="padding-bottom: 30px">
@@ -11,7 +11,7 @@
                  {{ form.as_p }}
                  {{ imagearticle_form.as_p }}
             </table>
-            <input class="btn btn-primary text-black" type="submit" value="сохранить статью">
+            <input class="btn btn-primary text-black" type="submit" value="{{_('сохранить статью')}}">
         </form>
     </div>
 {% endblock content %}

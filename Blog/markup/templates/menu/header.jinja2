@@ -2,27 +2,24 @@
        <!-- Nav bar -->
         <nav class="navbar navbar-expand-lg navbar-dark bg-dark" style="margin-bottom: 40px">
           <div class="container-fluid">
-            <a class="navbar-brand" href="{% url 'home' %}">Главная</a>
+            <a class="navbar-brand" href="{% url 'home' %}">{{_('Главная')}}</a>
             <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navbarScroll" aria-controls="navbarScroll" aria-expanded="false" aria-label="Toggle navigation">
               <span class="navbar-toggler-icon"></span>
             </button>
             <div class="collapse navbar-collapse" id="navbarScroll">
               <ul class="navbar-nav me-auto my-2 my-lg-0 navbar-nav-scroll" style="--bs-scroll-height: 100px;">
-                <li class="nav-item dropdown">
-                  <a class="nav-link dropdown-toggle" href="#" id="navbarScrollingDropdown" role="button" data-bs-toggle="dropdown" aria-expanded="false">
-                    наши партнеры
-                  </a>
-                  <ul class="dropdown-menu" aria-labelledby="navbarScrollingDropdown">
-                      {% for item in menu_items %}
-                          {% if item.position == 'h' %}
-                            <li><a class="dropdown-item" href="{{ item.item_url }}" target="{{ item.target }}">{{ item.title }}</a></li>
-                          {% endif %}
-                      {% endfor %}
-                  </ul>
-                </li>
                 <li class="nav-item">
-                  <a class="nav-link" href="{% url 'text_page_list' %}">Страница “Текстовая”</a>
+                    <a class="nav-link" href="{% url 'text_page_list' %}">{{_('Страница текстовая')}}</a>
                 </li>
+                {% for item in menu_items %}
+                  {% if item.position == 'h' %}
+                    <li class="nav-item">
+                        <a class="nav-link" href="{{ item.item_url }}" target="{{ item.target }}">
+                            {{ item.title }}
+                        </a>
+                    </li>
+                  {% endif %}
+                {% endfor %}
               </ul>
               <form class="d-flex">
                   {% if request.user.is_authenticated and request.user.is_active %}
@@ -32,14 +29,14 @@
                         <strong>{% if request.user.first_name %}{{ request.user.first_name }}{% else %}{{ request.user.email }}{% endif %}</strong>
                       </a>
                       <ul class="dropdown-menu dropdown-menu-dark text-small shadow" aria-labelledby="dropdownUser1">
-                        <li><a class="dropdown-item" href="{% url 'user-change' %}">Settings</a></li>
-                        <li><a class="dropdown-item" href="{% url 'personal-area' %}">Profile</a></li>
+                        <li><a class="dropdown-item" href="{% url 'user-change' %}">{{ _('изменить аккаунт') }}</a></li>
+                        <li><a class="dropdown-item" href="{% url 'personal-area' %}">{{ _('личний кабинет') }}</a></li>
                         <li><hr class="dropdown-divider"></li>
-                        <li><a class="dropdown-item" href="{% url 'logout' %}">Sign out</a></li>
+                        <li><a class="dropdown-item" href="{% url 'logout' %}">{{ _('выйти')}}</a></li>
                       </ul>
                     </div>
                   {% else %}
-                      <li><a class="text-white" href="{% url 'login' %}">Login</a></li>
+                      <li><a class="text-white" href="{% url 'login' %}">{{ _('Войти') }}</a></li>
                   {% endif %}
               </form>
             </div>

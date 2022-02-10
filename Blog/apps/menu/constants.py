@@ -1,11 +1,12 @@
 from django.db import models
+from django.utils.translation import ugettext_lazy as _
 
 
 class Target(models.TextChoices):
-    BLANK = ('_blank', 'blank')
-    SELF = ('_self', 'self')
+    BLANK = ('_blank', _('blank'))
+    SELF = ('_self', _('self'))
 
 
 class Position(models.TextChoices):
-    HEADER = ('h', 'header')
-    FOOTER = ('f', 'footer')
+    HEADER = ('h', _('header'))
+    FOOTER = ('f', _('footer'))

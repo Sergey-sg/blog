@@ -1,6 +1,8 @@
 {% extends 'base.jinja2' %}
 {% load static %}
 
+{% block title %}{{ _('Блог') }}{% endblock title %}
+
 {% block content %}
 <!-- боковое меню -->
 <div class="row">
@@ -8,7 +10,7 @@
         <ul class="nav nav-pills flex-column mb-auto">
           <li>
             <form method="get">
-               <div>категория:
+               <div>{{_('категория')}}:
                 <div>
                     {% for item, info in category %}
                         {% if info.open %}
@@ -23,7 +25,7 @@
                         {% endfor %}
                     {% endfor %}
                 </div>
-                <input class="btn btn-primary" type="submit" value="фильтровать"/>
+                <input class="btn btn-primary" type="submit" value="{{_('фильтровать')}}"/>
                </div>
             </form>
           </li>
@@ -32,8 +34,9 @@
 
     <div class="container col col-lg-9 ms-lg-right">
         <form method="get">
-           <div style="float: left">сортировка: {{ filterset.form.ordering }} поиск: {{ filterset.form.search }} автор: {{ filterset.form.filter_author }}</div>
-           <input class="btn btn-primary" type="submit" value="фильтровать"/>
+           <div style="float: left">{{_('сортировка')}}: {{ filterset.form.ordering }} {{_('поиск')}}: {{ filterset.form.search }}
+               {{_('автор')}}: {{ filterset.form.filter_author }}</div>
+           <input class="btn btn-primary" type="submit" value="{{_('фильтровать')}}"/>
         </form>
         <br>
         <br>
@@ -42,12 +45,12 @@
                 <h4><a href="{% url 'article_detail' object.slug %}">{{ object.title }}</a></h4>
                 <img src="{{ object.article_preview.url }}" alt="{{ object.img_alt }}" width="200px">
                 <div>{{ object.short_description }}</div>
-                <div><a href="{% url 'home' %}?filter_author={{ object.author.pk }}">{% if object.author.first_name %}{{ object.author.get_full_name }}{% else %}{{ object.author.email }}{% endif %}</a></div>
-                <div>последнее обновление статьи: {{ object.updated }}</div>
-                <div>рейтинг: {{ object.average_rating }}</div>
+                <div>{{ _('автор') }}: <a href="{% url 'home' %}?filter_author={{ object.author.pk }}">{% if object.author.first_name %}{{ object.author.get_full_name }}{% else %}{{ object.author.email }}{% endif %}</a></div>
+                <div>{{_('последнее обновление статьи')}}: {{ object.updated }}</div>
+                <div>{{_('рейтинг')}}: {{ object.average_rating }}</div>
                 <a href="{% url 'article_detail' object.slug %}">
                     <button type="button" class="btn btn-primary text-black">
-                        Подробнее
+                        {{_('Подробнее')}}
                     </button>
                 </a>
             </div>

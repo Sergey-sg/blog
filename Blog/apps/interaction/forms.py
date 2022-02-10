@@ -4,6 +4,7 @@ from .models import Score, CommentArticle
 
 
 class ScoreForm(forms.ModelForm):
+    """model form of scores"""
 
     class Meta:
         model = Score
@@ -11,6 +12,7 @@ class ScoreForm(forms.ModelForm):
 
 
 class CommentArticleForm(forms.ModelForm):
+    """model form of comment of article"""
 
     class Meta:
         model = CommentArticle

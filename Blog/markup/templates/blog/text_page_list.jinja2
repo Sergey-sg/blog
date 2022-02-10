@@ -1,16 +1,17 @@
 {% extends 'base.jinja2' %}
 
+{% block title %}{{ _('Текстовые страницы') }}{% endblock title %}
+
 {% block content %}
     <!-- хлебные крошки -->
     <p class="container">
-        <a href="{% url 'home' %}">Главная</a>/
-{#        <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a>/#}
-        <a>текстовая страница</a>
+        <a href="{% url 'home' %}">{{_('Главная')}}</a>/
+        <a>{{_('текстовая страница')}}</a>
     </p>
 
     {% for object in object_list %}
         <div class="container p-3 border">
-            <p>{{ object.title }}</p>
+            <p><a href="{% url 'text_page_detail' object.slug %}">{{ object.title }}</a></p>
             <p>{{ object.content|safe }}</p>
         </div>
     {% endfor %}
