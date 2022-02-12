@@ -1,8 +1,10 @@
+from django.contrib.auth.views import PasswordResetConfirmView, PasswordResetDoneView, PasswordResetCompleteView, \
+    PasswordResetView, LogoutView
 from django.urls import path, include
 
 from . import views
 from ..accounts.views import UserCreateView, CustomLoginView, MyPasswordChangeView, UserChangeView, PersonalArea, \
-    ConfirmRegistrationView, ActivateAccount, LogOut
+    ConfirmRegistrationView, ActivateAccount
 from ..interaction.views import AddScore, UpdateScore, FavoriteAdd, FavoriteDelete, CommentCreate, CommentUpdate, \
     CommentDelete
 
@@ -38,13 +40,28 @@ urlpatterns = [
     ])),
     path('accounts/', include([
         path('login/', CustomLoginView.as_view(), name='login'),
-        path('logout/', LogOut.as_view(), name='logout'),
+        path('logout/', LogoutView.as_view(template_name='registration/logged_out.jinja2'), name='logout'),
         path('create/', UserCreateView.as_view(), name='create_user'),
         path('profile/', PersonalArea.as_view(), name='personal-area'),
         path('change/', UserChangeView.as_view(), name='user-change'),
-        path('password/', MyPasswordChangeView.as_view(), name='password-change'),
+        path('password/', include([
+            path('change/', MyPasswordChangeView.as_view(), name='password-change'),
+            path('reset/', include([
+                path('', PasswordResetView.as_view(template_name='registration/password_reset_form.jinja2'),
+                     name='password_reset'),
+                path('done/', PasswordResetDoneView.as_view(template_name='registration/password_reset_done.jinja2'),
+                     name='password_reset_done'),
+                path('<uidb64>/<token>/',
+                     PasswordResetConfirmView.as_view(template_name="registration/password_reset_confirm.jinja2"),
+                     name='password_reset_confirm'
+                     ),
+                path('complete/', PasswordResetCompleteView.as_view(
+                    template_name='registration/password_reset_complete.jinja2'), name='password_reset_complete'),
+            ])),
+        ])),
+
         path('confirmregistration/', ConfirmRegistrationView.as_view(), name='confirm_registration'),
-        path('activate/<str:uid>/<str:token>/', ActivateAccount.as_view(), name='user_activate')
+        path('activate/<str:uid>-<str:token>/', ActivateAccount.as_view(), name='user_activate')
         ]),),
     path('text-pages/', include([
         path('', views.TextPageList.as_view(), name='text_page_list'),

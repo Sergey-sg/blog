@@ -136,8 +136,3 @@ class PersonalArea(LoginRequiredMixin, ListView):
         articles = Article.objects.filter(author=self.request.user).only(
             'slug', 'title', 'short_description', 'average_rating')
         return articles
-
-
-class LogOut(TemplateView):
-    """load logout page"""
-    template_name = 'registration/logged_out.jinja2'

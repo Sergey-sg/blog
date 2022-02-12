@@ -13,6 +13,8 @@
         <p>{{ _('Пожалуйста, войдите в свою учетную запись') }}</p>
       {% endif %}
 
+    <p>{{ message }}</p>
+
  <div class="container">
     <div class="row">
          <div class="col-md-4 col-md-offset-4">
@@ -41,10 +43,10 @@
                                 {% csrf_token %}
                                 <table>
                                     <tr>
-                                        <td>{% if form.errors %}
-                                              <p>{{ _('Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз.') }}</p>
-                                            {% endif %}
-                                        </td>
+                                        {% if form.errors %}
+                                              <p class="text-danger">{{ _('Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз.') }}</p>
+                                        {% endif %}
+
                                     </tr>
                                     <tr>
                                       <td>{{ form.username.label_tag() }}</td>

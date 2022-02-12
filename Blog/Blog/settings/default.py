@@ -89,7 +89,7 @@ TEMPLATES = [
         'BACKEND': 'django_jinja.backend.Jinja2',
         'NAME': 'jinja2',
         'APP_DIRS': True,
-        'DIRS': ['markup/templates/',],
+        'DIRS': ['markup/templates/'],
         'OPTIONS': {
            'environment': 'shared.env.jinja2.environment',
            'match_extension': '.jinja2',
@@ -224,8 +224,8 @@ INTERNAL_IPS = [
     "127.0.0.1",
 ]
 
-EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
-# EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
+# EMAIL_BACKEND = 'django.core.mail.backends.smtp.EmailBackend'
+EMAIL_BACKEND = "django.core.mail.backends.filebased.EmailBackend"
 EMAIL_FILE_PATH = str(BASE_DIR.joinpath('sent_emails'))
 
 EMAIL_USE_TLS = True
