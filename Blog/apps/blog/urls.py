@@ -2,7 +2,7 @@ from django.urls import path, include
 
 from . import views
 from ..accounts.views import UserCreateView, CustomLoginView, MyPasswordChangeView, UserChangeView, PersonalArea, \
-    ConfirmRegistrationView, ActivateAccount
+    ConfirmRegistrationView, ActivateAccount, LogOut
 from ..interaction.views import AddScore, UpdateScore, FavoriteAdd, FavoriteDelete, CommentCreate, CommentUpdate, \
     CommentDelete
 
@@ -38,6 +38,7 @@ urlpatterns = [
     ])),
     path('accounts/', include([
         path('login/', CustomLoginView.as_view(), name='login'),
+        path('logout/', LogOut.as_view(), name='logout'),
         path('create/', UserCreateView.as_view(), name='create_user'),
         path('profile/', PersonalArea.as_view(), name='personal-area'),
         path('change/', UserChangeView.as_view(), name='user-change'),
@@ -45,7 +46,7 @@ urlpatterns = [
         path('confirmregistration/', ConfirmRegistrationView.as_view(), name='confirm_registration'),
         path('activate/<str:uid>/<str:token>/', ActivateAccount.as_view(), name='user_activate')
         ]),),
-    path('text-page/', include([
+    path('text-pages/', include([
         path('', views.TextPageList.as_view(), name='text_page_list'),
         path('<slug:slug>/', views.TextPageDetail.as_view(), name='text_page_detail'),
     ]))

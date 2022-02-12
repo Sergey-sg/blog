@@ -4,15 +4,16 @@ from django.contrib.sites.models import Site
 from django.core.mail import send_mass_mail
 from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
+from slugify import slugify
 
-from apps.interaction.models import Score, CommentArticle
+# from apps.interaction.models import Score, CommentArticle
 
 
 class ScoreCommentMixin:
     @staticmethod
-    def get_score_for_comment(author, article):
+    def get_score_for_comment(author, article, model):
         try:
-            score = Score.objects.get(author=author, article=article)
+            score = model.objects.get(author=author, article=article)
             if score:
                 return [True, score]
         except Exception:
@@ -23,9 +24,9 @@ class ScoreCommentMixin:
 
 class CommentScoreMixin:
     @staticmethod
-    def get_comments_for_score(author, article):
+    def get_comments_for_score(author, article, model):
         try:
-            comments = CommentArticle.objects.filter(author=author, article=article)
+            comments = model.objects.filter(author=author, article=article)
             if comments:
                 return [True, comments]
         except Exception:
@@ -60,3 +61,22 @@ class SendSubscriptionMixin:
                 messages += (message,)
         if messages is not None:
             send_mass_mail(messages)
+
+
+class CurrentSlugMixin:
+    @staticmethod
+    def get_current_slug(slug, alt, model):
+        print('in')
+        if not slug:
+            slug = slugify(alt)
+        else:
+            slug = slugify(slug)
+        m_slug = model.objects.get(slug=slug)
+        print(m_slug)
+        if m_slug:
+            print('in')
+            if m_slug.slug[-1] in '123456789':
+                slug = slug[:-1] + str(int(m_slug.slug[-1]) + 1)
+            else:
+                slug += '1'
+        return slug

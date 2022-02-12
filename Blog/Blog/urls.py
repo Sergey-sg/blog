@@ -16,7 +16,7 @@ Including another URLconf
 from django.conf.urls.i18n import i18n_patterns
 from django.conf.urls.static import static
 from django.contrib import admin
-from django.urls import path, include
+from django.urls import path, include, re_path
 
 from . import settings
 
@@ -33,6 +33,11 @@ urlpatterns += i18n_patterns(
 )
 
 handler404 = "Blog.views.page_not_found_view"
+
+if 'rosetta' in settings.INSTALLED_APPS:
+    urlpatterns += [
+        re_path(r'^rosetta/', include('rosetta.urls'))
+    ]
 
 if settings.DEBUG:
     import debug_toolbar

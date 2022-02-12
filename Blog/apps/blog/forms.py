@@ -34,4 +34,5 @@ ImageArticleInlineFormset = inlineformset_factory(
     fields=('image_article', 'img_alt',),
     extra=5,
     can_delete_extra=False,
+    can_delete=True
 )

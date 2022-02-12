@@ -1,5 +1,6 @@
 {% extends 'base.jinja2' %}
-{% load static %}
+{#{% load static %}#}
+{{ static }}
 
 {% block title %}{{ _('Блог') }}{% endblock title %}
 
@@ -42,13 +43,13 @@
         <br>
         {% for object in object_list %}
             <div class="container p-3 border">
-                <h4><a href="{% url 'article_detail' object.slug %}">{{ object.title }}</a></h4>
+                <h4><a href="{{ url('article_detail', object.slug) }}">{{ object.title }}</a></h4>
                 <img src="{{ object.article_preview.url }}" alt="{{ object.img_alt }}" width="200px">
                 <div>{{ object.short_description }}</div>
-                <div>{{ _('автор') }}: <a href="{% url 'home' %}?filter_author={{ object.author.pk }}">{% if object.author.first_name %}{{ object.author.get_full_name }}{% else %}{{ object.author.email }}{% endif %}</a></div>
+                <div>{{ _('автор') }}: <a href="{{ url('home') }}?filter_author={{ object.author.pk }}">{% if object.author.first_name %}{{ object.author.get_full_name() }}{% else %}{{ object.author.email }}{% endif %}</a></div>
                 <div>{{_('последнее обновление статьи')}}: {{ object.updated }}</div>
                 <div>{{_('рейтинг')}}: {{ object.average_rating }}</div>
-                <a href="{% url 'article_detail' object.slug %}">
+                <a href="{{ url('article_detail', object.slug) }}">
                     <button type="button" class="btn btn-primary text-black">
                         {{_('Подробнее')}}
                     </button>

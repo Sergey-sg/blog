@@ -8,24 +8,22 @@ msgid ""
 msgstr ""
 "Project-Id-Version: PACKAGE VERSION\n"
 "Report-Msgid-Bugs-To: \n"
-"POT-Creation-Date: 2022-02-10 16:09+0200\n"
-"PO-Revision-Date: YEAR-MO-DA HO:MI+ZONE\n"
-"Last-Translator: FULL NAME <EMAIL@ADDRESS>\n"
+"POT-Creation-Date: 2022-02-12 10:45+0200\n"
+"PO-Revision-Date: 2022-02-12 10:52+0221\n"
+"Last-Translator: Сергей Глушак <glushak_sergey@i.ua>\n"
 "Language-Team: LANGUAGE <LL@li.org>\n"
 "Language: \n"
 "MIME-Version: 1.0\n"
 "Content-Type: text/plain; charset=UTF-8\n"
 "Content-Transfer-Encoding: 8bit\n"
-"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != "
-"11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % "
-"100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || "
-"(n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"Plural-Forms: nplurals=4; plural=(n % 1 == 0 && n % 10 == 1 && n % 100 != 11 ? 0 : n % 1 == 0 && n % 10 >= 2 && n % 10 <= 4 && (n % 100 < 12 || n % 100 > 14) ? 1 : n % 1 == 0 && (n % 10 ==0 || (n % 10 >=5 && n % 10 <=9) || (n % 100 >=11 && n % 100 <=14 )) ? 2: 3);\n"
+"X-Translated-Using: django-rosetta 0.9.8\n"
 
-#: Blog/settings/default.py:184
+#: Blog/settings/default.py:191
 msgid "Русский"
 msgstr "Російська"
 
-#: Blog/settings/default.py:185
+#: Blog/settings/default.py:192
 msgid "Українськa"
 msgstr "Українська"
 
@@ -69,11 +67,11 @@ msgstr "фото"
 msgid "Profile photo"
 msgstr "Фото профілю"
 
-#: apps/accounts/models.py:43 apps/blog/models.py:102 apps/blog/models.py:207
+#: apps/accounts/models.py:43 apps/blog/models.py:105 apps/blog/models.py:213
 msgid "image alternative"
 msgstr "альтернатива зображення"
 
-#: apps/accounts/models.py:44 apps/blog/models.py:103 apps/blog/models.py:208
+#: apps/accounts/models.py:44 apps/blog/models.py:106 apps/blog/models.py:214
 msgid "text to be loaded in case of image loss"
 msgstr "текст, який буде завантажено у разі втрати зображення"
 
@@ -99,7 +97,8 @@ msgstr "Активація вашого облікового запису"
 
 #: apps/accounts/views.py:96
 msgid "link to confirm email and complete registration"
-msgstr "посилання для підтвердження електронної пошти та завершення реєстрації"
+msgstr ""
+"посилання для підтвердження електронної пошти та завершення реєстрації"
 
 #: apps/blog/apps.py:8
 msgid "Blog"
@@ -109,134 +108,134 @@ msgstr "Блог"
 msgid "draft"
 msgstr "чернетка"
 
-#: apps/blog/constants.py:10 apps/blog/models.py:259
+#: apps/blog/constants.py:10 apps/blog/models.py:265
 #: apps/interaction/constants.py:9
 msgid "published"
 msgstr "опублікувати"
 
-#: apps/blog/models.py:33
+#: apps/blog/models.py:34
 msgid "name"
 msgstr "ім'я"
 
-#: apps/blog/models.py:34
+#: apps/blog/models.py:35
 msgid "category name"
 msgstr "им'я категорії"
 
-#: apps/blog/models.py:39 apps/blog/models.py:90 apps/blog/models.py:265
+#: apps/blog/models.py:40 apps/blog/models.py:93 apps/blog/models.py:271
 msgid "used to generate URL"
 msgstr "використовується для створення URL-адреси"
 
-#: apps/blog/models.py:45 apps/blog/models.py:116
+#: apps/blog/models.py:46 apps/blog/models.py:119
 msgid "category"
 msgstr "категорія"
 
-#: apps/blog/models.py:46
+#: apps/blog/models.py:47
 msgid "Categories"
 msgstr "Категорії"
 
-#: apps/blog/models.py:85 apps/blog/models.py:249 apps/menu/models.py:24
+#: apps/blog/models.py:88 apps/blog/models.py:255 apps/menu/models.py:24
 msgid "title"
 msgstr "заголовок"
 
-#: apps/blog/models.py:86
+#: apps/blog/models.py:89
 msgid "title of article"
 msgstr "заголовок статті"
 
-#: apps/blog/models.py:96
+#: apps/blog/models.py:99
 msgid "article preview"
 msgstr "попереднє зображення статті"
 
-#: apps/blog/models.py:109 apps/interaction/models.py:25
+#: apps/blog/models.py:112 apps/interaction/models.py:25
 #: apps/interaction/models.py:76
 msgid "author"
 msgstr "автор"
 
-#: apps/blog/models.py:110
+#: apps/blog/models.py:113
 msgid "author of article"
 msgstr "автор статті"
 
-#: apps/blog/models.py:117
+#: apps/blog/models.py:120
 msgid "category of article"
 msgstr "категорія статті"
 
-#: apps/blog/models.py:121
+#: apps/blog/models.py:124
 msgid "short description"
 msgstr "короткий опис"
 
-#: apps/blog/models.py:122
+#: apps/blog/models.py:125
 msgid "a short description about the article"
 msgstr "короткий опис статті"
 
-#: apps/blog/models.py:125 apps/blog/models.py:253
+#: apps/blog/models.py:128 apps/blog/models.py:259
 msgid "content"
 msgstr "зміст"
 
-#: apps/blog/models.py:126
+#: apps/blog/models.py:129
 msgid "the content of the article"
 msgstr "зміст статті"
 
-#: apps/blog/models.py:131
+#: apps/blog/models.py:134
 msgid "recommended"
 msgstr "рекомендація"
 
-#: apps/blog/models.py:132
+#: apps/blog/models.py:135
 msgid "recommended articles"
 msgstr "рекомендовані статті"
 
-#: apps/blog/models.py:138
+#: apps/blog/models.py:141
 msgid "average rating"
 msgstr "середній рейтинг"
 
-#: apps/blog/models.py:139
+#: apps/blog/models.py:142
 msgid "average article rating"
 msgstr "середній рейтинг статті"
 
-#: apps/blog/models.py:143
+#: apps/blog/models.py:146
 msgid "number of likes"
 msgstr "кількість оцінок"
 
-#: apps/blog/models.py:144
+#: apps/blog/models.py:147
 msgid "number of article ratings"
 msgstr "кількість оцінок статті"
 
-#: apps/blog/models.py:148 apps/blog/models.py:198
+#: apps/blog/models.py:151 apps/blog/models.py:202
 #: apps/interaction/models.py:30 apps/interaction/models.py:82
 msgid "article"
 msgstr "стаття"
 
-#: apps/blog/models.py:149
+#: apps/blog/models.py:152
 msgid "Articles"
 msgstr "Статті"
 
-#: apps/blog/models.py:199
+#: apps/blog/models.py:203
 msgid "linked Article model with image"
 msgstr "пов’язана модель статті із зображенням"
 
-#: apps/blog/models.py:203 apps/blog/models.py:213
+#: apps/blog/models.py:207 apps/blog/models.py:219
 msgid "image"
 msgstr "зображення"
 
-#: apps/blog/models.py:214
+#: apps/blog/models.py:220
 msgid "Images for article"
 msgstr "Зображення статті"
 
-#: apps/blog/models.py:250
+#: apps/blog/models.py:256
 msgid "title of text page"
 msgstr "заголовок текстової сторінки"
 
-#: apps/blog/models.py:254
+#: apps/blog/models.py:260
 msgid "the content of the text page"
 msgstr "зміст текстової сторінки"
 
-#: apps/blog/models.py:260
+#: apps/blog/models.py:266
 msgid "Published or draft"
 msgstr "Опубліковано або чорновик"
 
-#: apps/blog/models.py:270
+#: apps/blog/models.py:276
 msgid "text page"
 msgstr "текстова сторінка"
 
-#: apps/blog/models.py:271
+#: apps/blog/models.py:277
 msgid "Text pages"
 msgstr "Текстові сторінки"
 
@@ -369,13 +368,13 @@ msgstr "Пункт меню"
 msgid "Menu items"
 msgstr "Пункти меню"
 
-#: markup/templates/404.html:3
+#: markup/templates/404.jinja2:3
 msgid "Нет такой страницы"
 msgstr "Немає такої сторінки"
 
-#: markup/templates/404.html:10
+#: markup/templates/404.jinja2:10
 msgid "На главную"
-msgstr ""
+msgstr "На головну"
 
 #: markup/templates/blog/article_create.jinja2:3
 msgid "Новая статья"
@@ -390,143 +389,150 @@ msgstr "зберегти статтю"
 msgid "Изменение статьи"
 msgstr "Зміна статті"
 
-#: markup/templates/blog/detail_article.jinja2:9
+#: markup/templates/blog/detail_article.jinja2:8
+#: markup/templates/blog/text_page_detail.jinja2:6
 #: markup/templates/blog/text_page_list.jinja2:8
-#: markup/templates/menu/header.jinja2:5
+#: markup/templates/menu/header.jinja2:4
 msgid "Главная"
 msgstr "Головна"
 
-#: markup/templates/blog/detail_article.jinja2:27
+#: markup/templates/blog/detail_article.jinja2:26
 msgid "Категория"
 msgstr "Категорія"
 
-#: markup/templates/blog/detail_article.jinja2:28
-#: markup/templates/blog/detail_article.jinja2:187
-#: markup/templates/blog/home.jinja2:50
-#: markup/templates/registration/profile.html:46
+#: markup/templates/blog/detail_article.jinja2:27
+#: markup/templates/blog/detail_article.jinja2:186
+#: markup/templates/blog/home.jinja2:51
+#: markup/templates/registration/profile.jinja2:44
 msgid "рейтинг"
 msgstr "рейтинг"
 
-#: markup/templates/blog/detail_article.jinja2:28
+#: markup/templates/blog/detail_article.jinja2:27
 msgid "количество оценок"
 msgstr "кількість оцінок"
 
-#: markup/templates/blog/detail_article.jinja2:37
+#: markup/templates/blog/detail_article.jinja2:36
 msgid "добавить в избранное"
 msgstr "Додати в обране"
 
-#: markup/templates/blog/detail_article.jinja2:42
+#: markup/templates/blog/detail_article.jinja2:41
 msgid "удалить из избранного"
 msgstr "видалити із обраного"
 
-#: markup/templates/blog/detail_article.jinja2:54
+#: markup/templates/blog/detail_article.jinja2:53
 msgid "Автор статьи"
 msgstr "Автор статті"
 
-#: markup/templates/blog/detail_article.jinja2:55
+#: markup/templates/blog/detail_article.jinja2:54
 msgid "Дата последнего изменения статьи"
 msgstr "Дата останньої зміни статті"
 
-#: markup/templates/blog/detail_article.jinja2:65
+#: markup/templates/blog/detail_article.jinja2:64
 msgid "оценить"
 msgstr "оцінити"
 
-#: markup/templates/blog/detail_article.jinja2:77
+#: markup/templates/blog/detail_article.jinja2:76
 msgid "подписаться на автора"
 msgstr "підписатися на автора"
 
-#: markup/templates/blog/detail_article.jinja2:83
+#: markup/templates/blog/detail_article.jinja2:82
 msgid "отписаться от автора"
 msgstr "відписатися від автора"
 
-#: markup/templates/blog/detail_article.jinja2:97
+#: markup/templates/blog/detail_article.jinja2:96
 msgid "авторизоваться"
 msgstr "авторизуватися"
 
-#: markup/templates/blog/detail_article.jinja2:107
+#: markup/templates/blog/detail_article.jinja2:106
 msgid "Авторизация"
 msgstr "Авторизація"
 
-#: markup/templates/blog/detail_article.jinja2:119
-#: markup/templates/registration/login.html:20
-#: markup/templates/registration/login.html:62
-#: markup/templates/registration/login.html:107
+#: markup/templates/blog/detail_article.jinja2:118
+#: markup/templates/registration/login.jinja2:19
+#: markup/templates/registration/login.jinja2:61
+#: markup/templates/registration/login.jinja2:106
 msgid "войти"
 msgstr "Увійти"
 
-#: markup/templates/blog/detail_article.jinja2:121
-#: markup/templates/registration/login.html:65
+#: markup/templates/blog/detail_article.jinja2:120
+#: markup/templates/registration/login.jinja2:64
 msgid "забыли пароль"
 msgstr "Забули пароль"
 
-#: markup/templates/blog/detail_article.jinja2:132
+#: markup/templates/blog/detail_article.jinja2:131
 msgid "Комментарии"
 msgstr "Коментарі"
 
-#: markup/templates/blog/detail_article.jinja2:137
+#: markup/templates/blog/detail_article.jinja2:136
 msgid "Оставьте свой отзыв"
 msgstr "Залишіть свій відгук"
 
-#: markup/templates/blog/detail_article.jinja2:140
+#: markup/templates/blog/detail_article.jinja2:139
 msgid "комментировать"
 msgstr "коментувати"
 
-#: markup/templates/blog/detail_article.jinja2:152
-#: markup/templates/blog/detail_article.jinja2:185
-#: markup/templates/blog/home.jinja2:38 markup/templates/blog/home.jinja2:48
+#: markup/templates/blog/detail_article.jinja2:151
+#: markup/templates/blog/detail_article.jinja2:184
+#: markup/templates/blog/home.jinja2:39 markup/templates/blog/home.jinja2:49
 msgid "автор"
 msgstr "автор"
 
-#: markup/templates/blog/detail_article.jinja2:153
+#: markup/templates/blog/detail_article.jinja2:152
 msgid "дата комментария"
 msgstr "дата коментаря"
 
-#: markup/templates/blog/detail_article.jinja2:153
+#: markup/templates/blog/detail_article.jinja2:152
 msgid "оценка"
 msgstr "оцінка"
 
-#: markup/templates/blog/detail_article.jinja2:162
+#: markup/templates/blog/detail_article.jinja2:161
 #: markup/templates/interaction/comment.jinja2:13
 msgid "изменить комментарий"
 msgstr "змінити коментар"
 
-#: markup/templates/blog/detail_article.jinja2:167
+#: markup/templates/blog/detail_article.jinja2:166
 msgid "удалить комментарий"
 msgstr "видалити коментар"
 
-#: markup/templates/blog/detail_article.jinja2:178
+#: markup/templates/blog/detail_article.jinja2:177
 msgid "Рекомендуемые статьи"
 msgstr "Рекомендовані статті"
 
-#: markup/templates/blog/detail_article.jinja2:186
-#: markup/templates/blog/home.jinja2:49
+#: markup/templates/blog/detail_article.jinja2:185
+#: markup/templates/blog/home.jinja2:50
 msgid "последнее обновление статьи"
 msgstr "останнє оновлення статті"
 
-#: markup/templates/blog/detail_article.jinja2:190
-#: markup/templates/blog/home.jinja2:53
+#: markup/templates/blog/detail_article.jinja2:189
+#: markup/templates/blog/home.jinja2:54
 msgid "Подробнее"
 msgstr "Детальніше"
 
-#: markup/templates/blog/home.jinja2:4
+#: markup/templates/blog/home.jinja2:5
 msgid "Блог"
 msgstr "Блог"
 
-#: markup/templates/blog/home.jinja2:13
+#: markup/templates/blog/home.jinja2:14
 msgid "категория"
 msgstr "категорія"
 
-#: markup/templates/blog/home.jinja2:28 markup/templates/blog/home.jinja2:39
+#: markup/templates/blog/home.jinja2:29 markup/templates/blog/home.jinja2:40
 msgid "фильтровать"
 msgstr "фільтрувати"
 
-#: markup/templates/blog/home.jinja2:37
+#: markup/templates/blog/home.jinja2:38
 msgid "сортировка"
 msgstr "сортування"
 
-#: markup/templates/blog/home.jinja2:37
+#: markup/templates/blog/home.jinja2:38
 msgid "поиск"
 msgstr "пошук"
+
+#: markup/templates/blog/text_page_detail.jinja2:7
+#, fuzzy
+#| msgid "Текстовые страницы"
+msgid "список текстовых страниц"
+msgstr "Текстові сторінки"
 
 #: markup/templates/blog/text_page_list.jinja2:3
 msgid "Текстовые страницы"
@@ -535,6 +541,10 @@ msgstr "Текстові сторінки"
 #: markup/templates/blog/text_page_list.jinja2:9
 msgid "текстовая страница"
 msgstr "текстова сторінка"
+
+#: markup/templates/blog/text_page_list.jinja2:16
+msgid "чтобы увидеть больше нажимай"
+msgstr "щоб побачити більше натискай"
 
 #: markup/templates/interaction/comment.jinja2:3
 msgid "Изменение комментария"
@@ -556,95 +566,110 @@ msgstr "Сергій Глушак"
 msgid "Все права защищены."
 msgstr "Всі права захищені."
 
-#: markup/templates/menu/header.jinja2:12
+#: markup/templates/menu/header.jinja2:11
 msgid "Страница текстовая"
 msgstr "Сторінка текстова"
 
-#: markup/templates/menu/header.jinja2:32
+#: markup/templates/menu/header.jinja2:31
 msgid "изменить аккаунт"
 msgstr "змінити обліковий запис"
 
-#: markup/templates/menu/header.jinja2:33
+#: markup/templates/menu/header.jinja2:32
 msgid "личний кабинет"
 msgstr "особистий кабінет"
 
-#: markup/templates/menu/header.jinja2:35
+#: markup/templates/menu/header.jinja2:34
 msgid "выйти"
 msgstr "вийти"
 
-#: markup/templates/menu/header.jinja2:39
+#: markup/templates/menu/header.jinja2:38
 msgid "Войти"
 msgstr "Увійти"
 
-#: markup/templates/registration/change_user.html:3
+#: markup/templates/registration/change_user.jinja2:3
 msgid "Изменение аккаунта"
 msgstr "Зміна облікового запису"
 
-#: markup/templates/registration/confirm_email_message_done.html:3
+#: markup/templates/registration/change_user.jinja2:9
+msgid "Complete information about yourself"
+msgstr "Повна інформація про себе"
+
+#: markup/templates/registration/change_user.jinja2:11
+msgid "Change information about yourself"
+msgstr "Змінити інформацію про себе"
+
+#: markup/templates/registration/change_user.jinja2:19
+#: markup/templates/registration/password_change.jinja2:29
+msgid "Submit"
+msgstr "Підтвердити"
+
+#: markup/templates/registration/confirm_email_message_done.jinja2:3
 msgid "Подтвердите email"
 msgstr "Підтвердіть email"
 
-#: markup/templates/registration/create_user.html:3
+#: markup/templates/registration/create_user.jinja2:3
 msgid "Создание аккаунта"
 msgstr "Створення облікового запису"
 
-#: markup/templates/registration/create_user.html:13
+#: markup/templates/registration/create_user.jinja2:13
 msgid "зарегистрировать"
 msgstr "зареєструвати"
 
-#: markup/templates/registration/logged_out.html:3
+#: markup/templates/registration/logged_out.jinja2:3
 msgid "Выход"
 msgstr "Вихід"
 
-#: markup/templates/registration/logged_out.html:6
+#: markup/templates/registration/logged_out.jinja2:8
 msgid "Вы вышли из аккаунта"
 msgstr "Ви вийшли з облікового запису"
 
-#: markup/templates/registration/logged_out.html:8
+#: markup/templates/registration/logged_out.jinja2:10
 msgid "Нажмите здесь, чтобы снова войти"
 msgstr "Натисніть тут, щоб знову увійти"
 
-#: markup/templates/registration/login.html:3
+#: markup/templates/registration/login.jinja2:3
 msgid "Вход"
 msgstr "Вхід"
 
-#: markup/templates/registration/login.html:14
+#: markup/templates/registration/login.jinja2:13
 msgid "Пожалуйста, войдите в свою учетную запись"
 msgstr "Будь ласка, увійдіть до свого облікового запису"
 
-#: markup/templates/registration/login.html:21
-#: markup/templates/registration/login.html:93
+#: markup/templates/registration/login.jinja2:20
+#: markup/templates/registration/login.jinja2:92
 msgid "зарегистрироваться"
 msgstr "зареєструватися"
 
-#: markup/templates/registration/login.html:30
+#: markup/templates/registration/login.jinja2:29
 msgid "Войти используя учетную запись"
 msgstr "Увійти за допомогою облікового запису"
 
-#: markup/templates/registration/login.html:46
-msgid "Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз."
-msgstr "Ім'я користувача та пароль не співпадають. Будь ласка, спробуйте ще раз."
+#: markup/templates/registration/login.jinja2:45
+msgid ""
+"Имя пользователя и пароль не совпадают. Пожалуйста, попробуйте еще раз."
+msgstr ""
+"Ім'я користувача та пароль не співпадають. Будь ласка, спробуйте ще раз."
 
-#: markup/templates/registration/login.html:58
-#: markup/templates/registration/login.html:82
-#: markup/templates/registration/login.html:85
-#: markup/templates/registration/password_change.html:18
-#: markup/templates/registration/password_change.html:21
-#: markup/templates/registration/password_change.html:24
+#: markup/templates/registration/login.jinja2:57
+#: markup/templates/registration/login.jinja2:81
+#: markup/templates/registration/login.jinja2:84
+#: markup/templates/registration/password_change.jinja2:16
+#: markup/templates/registration/password_change.jinja2:19
+#: markup/templates/registration/password_change.jinja2:22
 #: markup/templates/registration/password_reset_confirm.html:18
 #: markup/templates/registration/password_reset_confirm.html:26
 msgid "показать пароль"
 msgstr "показати пароль"
 
-#: markup/templates/registration/login.html:101
+#: markup/templates/registration/login.jinja2:100
 msgid "перейти к"
 msgstr "перейти до"
 
-#: markup/templates/registration/login.html:102
+#: markup/templates/registration/login.jinja2:101
 msgid "созданию нового аккаунта"
 msgstr "створення нового облікового запису"
 
-#: markup/templates/registration/login.html:106
+#: markup/templates/registration/login.jinja2:105
 msgid "уже есть аккаунт"
 msgstr "вже є обліковий запис"
 
@@ -656,7 +681,7 @@ msgstr "закінчіть реєстрацію перейшовши за пос
 msgid "ссылка"
 msgstr "посилання"
 
-#: markup/templates/registration/password_change.html:3
+#: markup/templates/registration/password_change.jinja2:3
 msgid "Изменение пароля"
 msgstr "Зміна пароля"
 
@@ -698,8 +723,8 @@ msgid ""
 "Ссылка для сброса пароля недействительна, возможно, потому, что она уже "
 "использовалась. Пожалуйста, запросите сброс нового пароля."
 msgstr ""
-"Посилання для скидання пароля недійсне, можливо, тому, що воно вже"
-"Використання. Будь ласка, зверніться до скидання нового пароля."
+"Посилання для скидання пароля недійсне, можливо, тому, що воно "
+"вжеВикористання. Будь ласка, зверніться до скидання нового пароля."
 
 #: markup/templates/registration/password_reset_done.html:3
 msgid "Подтверждение сброса пароля"
@@ -710,8 +735,8 @@ msgid ""
 "Мы отправили вам инструкции по установке пароля по электронной почте. Если "
 "они не пришли через несколько минут, проверьте папку со спамом."
 msgstr ""
-"Ми надіслали вам інструкції щодо встановлення пароля електронною поштою. Якщо "
-"Вони не прийшли через кілька хвилин, перевірте папку зі спамом."
+"Ми надіслали вам інструкції щодо встановлення пароля електронною поштою. "
+"Якщо Вони не прийшли через кілька хвилин, перевірте папку зі спамом."
 
 #: markup/templates/registration/password_reset_email.html:1
 msgid "Кто-то попросил сбросить пароль для электронной почты"
@@ -741,31 +766,31 @@ msgstr ""
 msgid "сбросить пароль"
 msgstr "скинути пароль"
 
-#: markup/templates/registration/profile.html:3
+#: markup/templates/registration/profile.jinja2:3
 msgid "Личный кабинет"
 msgstr "Особистий кабінет"
 
-#: markup/templates/registration/profile.html:16
+#: markup/templates/registration/profile.jinja2:14
 msgid "изменить фото"
 msgstr "змінити фото"
 
-#: markup/templates/registration/profile.html:27
+#: markup/templates/registration/profile.jinja2:25
 msgid "новая статья"
 msgstr "нова стаття"
 
-#: markup/templates/registration/profile.html:34
+#: markup/templates/registration/profile.jinja2:32
 msgid "Мои статьи"
 msgstr "Мої статті"
 
-#: markup/templates/registration/profile.html:50
+#: markup/templates/registration/profile.jinja2:48
 msgid "изменить статью"
 msgstr "змінити статтю"
 
-#: markup/templates/registration/profile.html:63
+#: markup/templates/registration/profile.jinja2:61
 msgid "Избранные статьи"
 msgstr "обрані статті"
 
-#: shared/mixins/views_mixins.py:49
+#: shared/mixins/views_mixins.py:50
 msgid "Новая статья в вашей подписке"
 msgstr "Нова стаття у вашій підписці"
 
@@ -782,5 +807,5 @@ msgid ""
 "The phone number must be in the format: \"+380999999999\". Starts with "
 "\"+380\" and 9 digits."
 msgstr ""
-"Номер телефону має бути у форматі: \"+380999999999\". Починається з "
-"\"+380\" і 9 цифр."
+"Номер телефону має бути у форматі: \"+380999999999\". Починається з \"+380\""
+" і 9 цифр."

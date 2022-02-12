@@ -1,17 +1,16 @@
 {% extends 'base.jinja2' %}
-{% load score %}
 
 {% block title %}{{ article.title }}{% endblock title %}
 
 {% block content %}
   <!-- хлебные крошки -->
     <p class="container">
-        <a href="{% url 'home' %}">{{_('Главная')}}</a>/
-        {% for parent in article.category.get_ancestors %}
-            <a href="{% url 'home' %}?filter_category={{ parent.pk }}">{{ parent.name }}</a>
+        <a href="{{ url('home') }}">{{_('Главная')}}</a>/
+        {% for parent in article.category.get_ancestors() %}
+            <a href="{{ url('home') }}?filter_category={{ parent.pk }}">{{ parent.name }}</a>
             /
         {% endfor %}
-        <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a>/
+        <a href="{{ url('home') }}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a>/
         <a>{{ article.title }}</a>
     </p>
     <div class="container-fluid">
@@ -20,17 +19,17 @@
                 <h4 class="text-center">{{ article.title }}</h4>
                 <br>
                 <div class="text-center">
-                    {% for image in article.imagearticle_set.all %}
+                    {% for image in article.imagearticle_set.all() %}
                         <img class="col col-lg-3 img-thumbnail" src="{{ image.image_article.url }}" alt="{{ image.img_alt }}">
                     {% endfor %}
                 </div>
-                <p>{{_('Категория')}}: <a href="{% url 'home' %}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
+                <p>{{_('Категория')}}: <a href="{{ url('home') }}?filter_category={{ article.category.pk }}">{{ article.category.name }}</a></p>
                 <p>{{_('рейтинг')}}: {{ article.average_rating }} ({{_('количество оценок')}}: {{ article.number_of_likes }})</p>
             <!-- добавление в избранное -->
                 {% if request.user.is_authenticated and request.user.is_active  %}
-                    {% in_favorite article as favorite %}
+                    {% set favorite = in_favorite(request=request, article=article) %}
                     <div class="container" style="padding-bottom: 30px">
-                        <form action="{% if favorite %}{% url 'favorite_delete' article.slug %}{% else %}{% url 'favorite_add' article.slug %}{% endif %}" method="post">
+                        <form action="{% if favorite %}{{ url('favorite_delete', article.slug) }}{% else %}{{ url('favorite_add', article.slug) }}{% endif %}" method="post">
                             {% csrf_token %}
                             <button type="submit" class="btn btn-outline-primary">
                                 {% if not favorite %}
@@ -51,25 +50,25 @@
                 <br>
                 {{ article.content|safe }}
                 <br>
-                <p>{{_('Автор статьи')}}: <a href="{% url 'home' %}?filter_author={{ article.author.pk }}">{% if article.user.first_name %}{{ article.author.get_full_name }}{% else %}{{ article.author.email }}{% endif %}</a></p>
+                <p>{{_('Автор статьи')}}: <a href="{{ url('home') }}?filter_author={{ article.author.pk }}">{% if article.author.first_name %}{{ article.author.get_full_name() }}{% else %}{{ article.author.email }}{% endif %}</a></p>
                 <p>{{_('Дата последнего изменения статьи')}}: {{ article.updated }}</p>
                 {% if request.user.is_authenticated and request.user.is_active  %}
             <!-- добавление оценки -->
-                    {% in_scores article as author_score %}
+                    {% set author_score = in_scores(request=request, article=article) %}
                     <div class="container" style="padding-bottom: 30px">
-                        <form action="{% if author_score %}{% url 'update_score' article.slug %}{% else %}{% url 'add_score' article.slug %}{% endif %}" method="post">
+                        <form action="{% if author_score %}{{ url('update_score', article.slug) }}{% else %}{{ url('add_score', article.slug) }}{% endif %}" method="post">
                             {% csrf_token %}
                             <table>
-                                {{ score.as_p }}
+                                {{ score.as_p() }}
                             </table>
                             <input class="btn btn-primary text-black" type="submit" value="{{_('оценить')}}">
                         </form>
                     </div>
             <!-- добавление подписки -->
                     <div class="row">
-                        {% in_subscription article.author as subscription %}
+                        {% set subscription = in_subscription(request=request, author=article.author) %}
                         <div class="container" style="padding-bottom: 30px">
-                            <form action="{% if subscription %}{% url 'subscription_delete' article.author.pk %}{% else %}{% url 'subscription_add' article.author.pk %}{% endif %}" method="post">
+                            <form action="{% if subscription %}{{ url('subscription_delete', article.author.pk) }}{% else %}{{ url('subscription_add', article.author.pk) }}{% endif %}" method="post">
                                 {% csrf_token %}
                                 <button type="submit" class="btn btn-outline-primary">
                                     {% if not subscription %}
@@ -108,17 +107,17 @@
                             <button type="button" class="btn-close" data-bs-dismiss="modal" aria-label="Close"></button>
                           </div>
                           <div class="modal-body">
-                            <form method="post" action="{% url 'login' %}">
+                            <form method="post" action="{{ url('login') }}">
                                 {% csrf_token %}
                                 <table>
                                     <tr>
-                                        <td>{{ login.as_p }}</td>
+                                        <td>{{ login.as_p() }}</td>
                                     </tr>
                                 </table>
                                 <div class="modal-footer">
                                     <input type="submit" class="btn btn-primary" value="{{_('войти')}}" />
-                                    <input type="hidden" name="next" value="{% url 'article_detail' article.slug %}" />
-                                    <p><a href="{% url 'password_reset' %}">{{_('забыли пароль')}}?</a></p>
+                                    <input type="hidden" name="next" value="{{ url('article_detail', article.slug) }}" />
+                                    <p><a href="{{ url('password_reset') }}">{{_('забыли пароль')}}?</a></p>
                                 </div>
                             </form>
                           </div>
@@ -131,7 +130,7 @@
                 {% if request.user.is_authenticated and request.user.is_active  %}
                     <h3>{{_('Комментарии')}}: </h3>
                     <div class="container" style="padding-bottom: 30px">
-                        <form action="{% url 'comment_add' article.slug %}" method="post">
+                        <form action="{{ url('comment_add', article.slug) }}" method="post">
                             {% csrf_token %}
                             <table>
                                 <tr>{{_('Оставьте свой отзыв')}}:<br>{{ new_comment.message }}</tr>
@@ -149,20 +148,20 @@
                             <div class="media-body">
                                 <p>
                                     <i class="text-muted">
-                                        <small>{{_('автор')}}: {% if comment.author.first_name %}{{ comment.author.get_full_name }}{% else %}{{ comment.author.email }}{% endif %}
+                                        <small>{{_('автор')}}: {% if comment.author.first_name %}{{ comment.author.get_full_name() }}{% else %}{{ comment.author.email }}{% endif %}
                                                {{_('дата комментария')}} {{ comment.created }}{% if comment.score %} {{_('оценка')}}: {{ comment.score.score }}{% endif %}
                                         </small>
                                     </i>
                                 </p>
-                                <p>{{ comment.message|safe}}</p>
+                                <p>{{ comment.message|safe }}</p>
                                 {% if comment.author == request.user %}
                                     <div class="row">
-                                        <a href="{% url 'comment_change' article.slug comment.pk %}">
+                                        <a href="{{ url('comment_change', article.slug, comment.pk) }}">
                                             <button class="btn btn-primary text-black" type="button">
                                                 {{_('изменить комментарий')}}
                                             </button>
                                         </a>
-                                        <form action="{% url 'comment_delete' article.slug comment.pk %}" method="post">
+                                        <form action="{{ url('comment_delete', article.slug, comment.pk) }}" method="post">
                                             {% csrf_token %}
                                             <input style="float: right" class="btn btn-danger text-black" type="submit" value="{{_('удалить комментарий')}}">
                                         </form>
@@ -177,15 +176,15 @@
             <div class="col-sm-5 col-lg-2 ms-lg-auto">
                 {{_('Рекомендуемые статьи')}}:
                 <br>
-                {% for recommended in article.recommended.all %}
+                {% for recommended in article.recommended.all() %}
                     <div class="container p-3 border">
-                        <h4><a href="{% url 'article_detail' recommended.slug %}">{{ recommended.title }}</a></h4>
+                        <h4><a href="{{ url('article_detail', recommended.slug) }}">{{ recommended.title }}</a></h4>
                         <img src="{{ recommended.article_preview.url }}" alt="{{ recommended.img_alt }}" width="100%">
                         <div>{{ recommended.short_description }}</div>
-                        <div>{{ _('автор') }}: <a href="{% url 'home' %}?filter_author={{ recommended.author.pk }}">{% if recommended.author.first_name %}{{ recommended.author.get_full_name }}{% else %}{{ recommended.author.email }}{% endif %}</a></div>
+                        <div>{{ _('автор') }}: <a href="{{ url('home') }}?filter_author={{ recommended.author.pk }}">{% if recommended.author.first_name %}{{ recommended.author.get_full_name() }}{% else %}{{ recommended.author.email }}{% endif %}</a></div>
                         <div>{{_('последнее обновление статьи')}}: {{ recommended.updated }}</div>
                         <div>{{_('рейтинг')}}: {{ recommended.average_rating }}</div>
-                        <a href="{% url 'article_detail' recommended.slug %}">
+                        <a href="{{ url('article_detail', recommended.slug) }}">
                             <button type="button" class="btn btn-primary text-black">
                                 {{_('Подробнее')}}
                             </button>

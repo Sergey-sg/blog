@@ -7,7 +7,7 @@
         <form action="" method="post">
             {% csrf_token %}
             <table>
-                <tr>{{_('Измените свой отзыв')}}:<br>{{ form.as_p }}</tr>
+                <tr>{{_('Измените свой отзыв')}}:<br>{{ form.as_p() }}</tr>
                  {{ form.media }}
             </table>
             <input class="btn btn-primary text-black" type="submit" value="{{_('изменить комментарий')}}">

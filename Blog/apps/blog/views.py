@@ -12,7 +12,7 @@ from django.views.generic.list import MultipleObjectMixin
 from django.contrib.auth import get_user_model
 from django_filters.views import FilterView
 
-from shared.mixins.views_mixins import SendSubscriptionMixin
+from shared.mixins.views_mixins import SendSubscriptionMixin, CurrentSlugMixin
 from .filters import ArticleFilter
 from .forms import ArticleForm, ImageArticleInlineFormset
 from .models import Article, Category, TextPage
@@ -144,7 +144,7 @@ class ArticleCreate(LoginRequiredMixin, SendSubscriptionMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form, imagearticle_form=args[0]))
 
 
-class ArticleUpdate(LoginRequiredMixin, UpdateView):
+class ArticleUpdate(LoginRequiredMixin, CurrentSlugMixin, UpdateView):
     """
     Displays a form for editing information about article.
     """
@@ -205,4 +205,4 @@ class TextPageDetail(DetailView):
     def get_queryset(self) -> TextPage:
         """returns only published page"""
         queryset = super(TextPageDetail, self).get_queryset()
-        return get_object_or_404(queryset, published='p')
+        return queryset.filter(published='p')

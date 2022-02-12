@@ -8,8 +8,8 @@
             {% csrf_token %}
             <table>
                  {{ form.media }}
-                 {{ form.as_p }}
-                 {{ imagearticle_form.as_p }}
+                 {{ form.as_p() }}
+                 {{ imagearticle_form.as_p() }}
             </table>
             <input class="btn btn-primary text-black" type="submit" value="{{_('сохранить статью')}}">
         </form>

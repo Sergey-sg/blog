@@ -1,0 +1,13 @@
+{% extends "base.jinja2" %}
+
+{% block title %}{{_('Выход')}}{% endblock title %}
+
+{% block content %}
+
+    <div class="container">
+        <p>{{ _('Вы вышли из аккаунта')}}!</p>
+
+        <a href="{{ url('login') }}">{{ _('Нажмите здесь, чтобы снова войти') }}.</a>
+    </div>
+
+{% endblock %}

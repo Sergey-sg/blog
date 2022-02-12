@@ -46,6 +46,7 @@ ALLOWED_HOSTS = ['127.0.0.1']
 INSTALLED_APPS = [
     'django_jinja',
     'jet',
+    'modeltranslation',
     'django.contrib.admin',
     'django.contrib.auth',
     'django.contrib.contenttypes',
@@ -60,6 +61,7 @@ INSTALLED_APPS = [
     'ckeditor_uploader',
     'django_filters',
     'django.contrib.sites',
+    'rosetta',
     # created apps
     'apps.accounts',
     'apps.blog.apps.BlogConfig',
@@ -87,36 +89,40 @@ TEMPLATES = [
         'BACKEND': 'django_jinja.backend.Jinja2',
         'NAME': 'jinja2',
         'APP_DIRS': True,
-        'DIRS': ['markup/templates/'],
+        'DIRS': ['markup/templates/',],
         'OPTIONS': {
-            'environment': 'shared.env.jinja2.environment',
-            'match_extension': '.jinja',
-            'newstyle_gettext': True,
-            'auto_reload': True,
-            'undefined': jinja2.Undefined,
-            'debug': True,
+           'environment': 'shared.env.jinja2.environment',
+           'match_extension': '.jinja2',
+           'newstyle_gettext': True,
+           'auto_reload': True,
+           'undefined': jinja2.Undefined,
+           'debug': True,
 
-            'filters': {},
+           'filters': {},
 
-            'globals': {},
+           "globals": {
+                'available_languages': 'shared.templatetags.language.get_lang_urls',
+           },
 
-            'context_processors': [
-                'django.contrib.auth.context_processors.auth',
-                'django.template.context_processors.debug',
-                'django.template.context_processors.i18n',
-                'django.template.context_processors.media',
-                'django.template.context_processors.static',
-                'django.template.context_processors.tz',
-                'django.contrib.messages.context_processors.messages',
-            ],
+           'context_processors': [
+              'django.contrib.auth.context_processors.auth',
+              'django.template.context_processors.debug',
+              'django.template.context_processors.i18n',
+              'django.template.context_processors.media',
+              'django.template.context_processors.static',
+              'django.template.context_processors.tz',
+              'django.contrib.messages.context_processors.messages',
+              # context processor for menu items.
+              'apps.menu.context_processors.access_menu_items',
+           ],
 
-            'extensions': DEFAULT_EXTENSIONS,
+           'extensions': DEFAULT_EXTENSIONS,
 
-            "bytecode_cache": {
-                "name": "default",
-                "backend": "django_jinja.cache.BytecodeCache",
-                "enabled": True,
-            },
+           "bytecode_cache": {
+              "name": "default",
+              "backend": "django_jinja.cache.BytecodeCache",
+              "enabled": True,
+           },
         },
     },
     {
@@ -173,6 +179,9 @@ AUTH_PASSWORD_VALIDATORS = [
 
 # Internationalization
 # https://docs.djangoproject.com/en/4.0/topics/i18n/
+
+MODELTRANSLATION_FALLBACK_LANGUAGES = ('ru', 'uk')
+# MODELTRANSLATION_AUTO_POPULATE = 'default'
 
 LANGUAGE_CODE = 'ru'
 TIME_ZONE = 'Europe/Zaporozhye'

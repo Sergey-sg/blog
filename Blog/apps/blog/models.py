@@ -13,11 +13,12 @@ from treebeard.mp_tree import MP_Node
 from slugify import slugify
 
 from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, ImageNameMixins
+from shared.mixins.views_mixins import CurrentSlugMixin
 
 from .constants import Published
 
 
-class Category(MP_Node, CreatedUpdateMixins):
+class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
     """
     Category model
         attributes:
@@ -52,14 +53,16 @@ class Category(MP_Node, CreatedUpdateMixins):
 
     def save(self, *args: Any, **kwargs: dict[str, Any]) -> None:
         """if the slug is not created then it is created from the name of the category"""
-        if not self.slug:
-            self.slug = slugify(self.name)
+        origin = Category.objects.get(pk=self.pk)
+        if origin and self.slug == origin.slug:
+            pass
         else:
-            self.slug = slugify(self.slug)
+            self.slug = self.get_current_slug(slug=self.slug, alt=self.name, model=Category)
+        self.slug = self.get_current_slug(slug=self.slug, alt=self.name, model=Category)
         super(Category, self).save(*args, **kwargs)
 
 
-class Article(ImageNameMixins, DragDropMixins):
+class Article(ImageNameMixins, CurrentSlugMixin, DragDropMixins):
     """
     Article model
         attributes:
@@ -144,7 +147,7 @@ class Article(ImageNameMixins, DragDropMixins):
         help_text=_('number of article ratings')
     )
 
-    class Meta(object):
+    class Meta:
         verbose_name = _('article')
         verbose_name_plural = _('Articles')
         ordering = ['dd_order', '-created']
@@ -156,10 +159,11 @@ class Article(ImageNameMixins, DragDropMixins):
     def save(self, *args, **kwargs) -> None:
         """if the slug is not created then it is created from the title of the article
         and rename article preview image"""
-        if not self.slug:
-            self.slug = slugify(self.title)
+        origin = Article.objects.get(pk=self.pk)
+        if origin and self.slug == origin.slug:
+            pass
         else:
-            self.slug = slugify(self.slug.lower())
+            self.slug = self.get_current_slug(slug=self.slug, alt=self.title, model=Article)
         if self.pk is not None:    # if the article already exists then it is checked for a change in the preview image
             orig = Article.objects.get(pk=self.pk)
             if orig.article_preview.name != self.article_preview.name:
@@ -201,7 +205,9 @@ class ImageArticle(DragDropMixins, ImageNameMixins):
     image_article = models.ImageField(
         upload_to='image_article/%Y/%m/%d',
         verbose_name=_('image'),
-        help_text="article image")
+        help_text="article image",
+        blank=True
+    )
     img_alt = models.CharField(
         max_length=200,
         verbose_name=_('image alternative'),

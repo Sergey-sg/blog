@@ -1,42 +1,34 @@
 from django.contrib import admin
 from treebeard.admin import TreeAdmin
 from treebeard.forms import movenodeform_factory
-from adminsortable2.admin import SortableAdminMixin
+from adminsortable2.admin import SortableAdminMixin, SortableInlineAdminMixin
 
+from modeltranslation.admin import TranslationAdmin, TranslationTabularInline
+
+from .forms import ImageArticleInlineFormset
 from .models import Category, Article, ImageArticle, TextPage
 
 
-class MyAdmin(TreeAdmin):
+class CategoryAdmin(TreeAdmin, TranslationAdmin):
     list_display = ['name', 'created']
     search_fields = ('name', )
     exclude = ('path', 'depth', 'numchild', '_position')
     form = movenodeform_factory(Category)
     ordering = ('path', 'depth', 'numchild', 'name', 'created', )
 
-admin.site.register(Category, MyAdmin)
+
+admin.site.register(Category, CategoryAdmin)
 
 
-# @admin.register(Article)
-# class ArticleAdmin(SortableAdminMixin, admin.ModelAdmin):
-#     list_display = ('title', 'slug', 'author', 'category', 'created',)
-#     exclude = ('dd_order',)
-#     search_fields = ('name',)
-#     list_filter = ['author']
-#
-#
-@admin.register(ImageArticle)
-class ImageOfArticleAdmin(SortableAdminMixin, admin.ModelAdmin):
-    list_display = ('img_alt', 'article', 'image_article', 'created',)
-    exclude = ('dd_order',)
-    list_filter = ['article']
-
-
-class ImageArticleAdmin(admin.TabularInline):
+class ImageArticleAdmin(SortableInlineAdminMixin, TranslationTabularInline):
     model = ImageArticle
+    formset = ImageArticleInlineFormset
     exclude = ('dd_order',)
+    can_delete = True
 
 
-class ArticleAdmin(SortableAdminMixin, admin.ModelAdmin):
+@admin.register(Article)
+class ArticleAdmin(SortableAdminMixin, TranslationAdmin):
     list_display = ('title', 'slug', 'author', 'category', 'average_rating', 'created',)
     exclude = ('dd_order',)
     search_fields = ('name',)
@@ -45,10 +37,8 @@ class ArticleAdmin(SortableAdminMixin, admin.ModelAdmin):
         ImageArticleAdmin,
     ]
 
-admin.site.register(Article, ArticleAdmin)
-
 
 @admin.register(TextPage)
-class TextPageAdmin(admin.ModelAdmin):
+class TextPageAdmin(TranslationAdmin, admin.ModelAdmin):
     list_display = ('title', 'published', 'created',)
     search_fields = ('title',)

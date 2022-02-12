@@ -28,7 +28,7 @@ class UserChangeView(LoginRequiredMixin, UpdateView):
     """
     Displays and processes the change user page
     """
-    template_name = 'registration/change_user.html'
+    template_name = 'registration/change_user.jinja2'
     form_class = CustomUserChangeForm
 
     def get_object(self, queryset=None) -> object:
@@ -44,7 +44,7 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
     """
     Custom password change for users
     """
-    template_name = 'registration/password_change.html'
+    template_name = 'registration/password_change.jinja2'
     form_class = PasswordChangeForm
 
     def get_object(self, queryset=None) -> object:
@@ -59,7 +59,7 @@ class MyPasswordChangeView(LoginRequiredMixin, PasswordChangeView):
 
 class CustomLoginView(LoginView):
     """Login view with form for create new user"""
-    template_name = 'registration/login.html'
+    template_name = 'registration/login.jinja2'
 
     def get_context_data(self, *args, **kwargs) -> dict[str, Any]:
         """return form for login and create new user"""
@@ -71,7 +71,7 @@ class CustomLoginView(LoginView):
 class UserCreateView(CreateView):
     """Displays and processes the new user page"""
     model = get_user_model()
-    template_name = 'registration/create_user.html'
+    template_name = 'registration/create_user.jinja2'
     form_class = CustomRegistrationForm
     success_url = reverse_lazy('confirm_registration')
 
@@ -122,17 +122,22 @@ class ActivateAccount(FormView):
 
 class ConfirmRegistrationView(TemplateView):
     """Displays a successful registration page"""
-    template_name = 'registration/confirm_email_message_done.html'
+    template_name = 'registration/confirm_email_message_done.jinja2'
 
 
 class PersonalArea(LoginRequiredMixin, ListView):
     """
     Personal area for current user
     """
-    template_name = 'registration/profile.html'
+    template_name = 'registration/profile.jinja2'
     paginate_by = 8
 
     def get_queryset(self) -> QuerySet[Article]:
         articles = Article.objects.filter(author=self.request.user).only(
             'slug', 'title', 'short_description', 'average_rating')
         return articles
+
+
+class LogOut(TemplateView):
+    """load logout page"""
+    template_name = 'registration/logged_out.jinja2'

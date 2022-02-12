@@ -4,8 +4,10 @@ from django.contrib.auth.admin import UserAdmin
 from .forms import CustomUserCreationForm, CustomUserChangeForm
 from .models import User
 
+from modeltranslation.admin import TranslationAdmin
 
-class CustomUserAdmin(UserAdmin):
+
+class CustomUserAdmin(TranslationAdmin, UserAdmin):
     add_form = CustomUserCreationForm
     form = CustomUserChangeForm
     model = User
@@ -13,7 +15,7 @@ class CustomUserAdmin(UserAdmin):
     list_filter = ('email', 'is_staff', 'is_active',)
     fieldsets = (
         (None, {'fields':
-                ('first_name', 'last_name', 'phone_number', 'photo', 'subscription', 'img_alt')
+                ('first_name', 'last_name', 'phone_number', 'photo', 'img_alt', 'subscription')
                 }),
         ('Permissions', {'fields': ('is_staff', 'is_active')}),
     )

@@ -28,7 +28,7 @@ class AddScore(LoginRequiredMixin, CommentScoreMixin, CreateView):
         object_form.author = author
         object_form.article = article
         object_form.save()
-        comments = self.get_comments_for_score(article=article, author=author)
+        comments = self.get_comments_for_score(article=article, author=author, model=CommentArticle)
         if comments[0]:
             comments[1].update(score=object_form)
         return redirect(self.request.META.get('HTTP_REFERER'))
@@ -60,7 +60,7 @@ class UpdateScore(LoginRequiredMixin, CommentScoreMixin, UpdateView):
             object_form.author = author
             object_form.article = article
             object_form.save()
-            comments = self.get_comments_for_score(article=article, author=author)
+            comments = self.get_comments_for_score(article=article, author=author, model=CommentArticle)
             if comments[0]:
                 comments[1].update(score=object_form)
         return redirect(self.request.META.get('HTTP_REFERER'))
@@ -106,7 +106,7 @@ class CommentCreate(LoginRequiredMixin, ScoreCommentMixin, CreateView):
         author = self.request.user
         object_form.author = author
         object_form.article = article
-        score = self.get_score_for_comment(author=author, article=article)
+        score = self.get_score_for_comment(author=author, article=article, model=Score)
         if score[0]:
             object_form.score = score[1]
         object_form.save()
@@ -142,7 +142,7 @@ class CommentUpdate(LoginRequiredMixin, ScoreCommentMixin, UpdateView):
     def form_valid(self, form: CommentArticleForm, **kwargs: dict[str, Any]) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
         """saves the form and adds the author's score"""
         obj = form.save(commit=False)
-        score = self.get_score_for_comment(author=obj.author, article=obj.article)
+        score = self.get_score_for_comment(author=obj.author, article=obj.article, model=Score)
         if score[0]:
             obj.score = score[1]
         obj.save()

@@ -1,5 +1,16 @@
 {% extends 'base.jinja2' %}
 
 {% block content %}
+    <!-- хлебные крошки -->
+    <p class="container">
+        <a href="{{ url('home') }}">{{_('Главная')}}</a>/
+        <a href="{{ url('text_page_list') }}">{{_('список текстовых страниц')}}</a>/
+        <a>{{ object.title }}</a>
+    </p>
+
+    <div class="container p-3 border">
+        <p class="text-center">{{ object.title }}</p>
+        <p>{{ object.content|safe }}</p>
+    </div>
 
 {% endblock content %}

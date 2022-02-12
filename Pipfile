@@ -16,6 +16,8 @@ django-jinja = "*"
 python-slugify = "*"
 pillow = "*"
 django-utils-six = "*"
+django-modeltranslation = "*"
+django-rosetta = "*"
 
 [dev-packages]
 django-debug-toolbar= "3.2.4"

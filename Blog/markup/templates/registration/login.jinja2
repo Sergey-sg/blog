@@ -3,8 +3,7 @@
 {% block title %}{{_('Вход')}}{% endblock title %}
 
 {% block content %}
-
-{% load static %}
+{#{% load static %}#}
 
     <div class="container">
       {% if user.is_authenticated %}
@@ -48,12 +47,12 @@
                                         </td>
                                     </tr>
                                     <tr>
-                                      <td>{{ form.username.label_tag }}</td>
+                                      <td>{{ form.username.label_tag() }}</td>
                                       <td>{{ form.username }}</td>
                                     </tr>
 
                                     <tr>
-                                        <td>{{ form.password.label_tag }}</td>
+                                        <td>{{ form.password.label_tag() }}</td>
                                         <td><label><input id="password-input" type="password" name="password" autocomplete="current-password"></label></td>
                                         <td><label><input type="checkbox" class="password-checkbox"> {{ _('показать пароль') }}</label></td>
                                     </tr>
@@ -62,7 +61,7 @@
                                 <input type="submit" class="btn btn-primary" value="{{ _('войти') }}" />
                                 <input type="hidden" name="next" value="{{ next }}" />
                                {# Assumes you setup the password_reset view in your URLconf #}
-                                <p><a href="{% url 'password_reset' %}">{{ _('забыли пароль') }}?</a></p>
+                                <p><a href="{{ url('password_reset') }}">{{ _('забыли пароль') }}?</a></p>
                            </form>
                         </div>
                     </div>
@@ -71,11 +70,11 @@
                 <div class="box">
                     <div class="content registerBox" style="display:none;">
                         <div class="form">
-                            <form action="{% url 'create_user' %}" method="post" enctype="multipart/form-data" id="post-form">
+                            <form action="{{ url('create_user') }}" method="post" enctype="multipart/form-data" id="post-form">
                                 {% csrf_token %}
                                 <table>
                                    {% for row in create_user_form %}
-                                       {% if 'Password' in row.label %}
+                                       {% if 'Password' or 'Пароль' in row.label %}
                                            {{ row.label }}
                                            {% if create_user_form.password1 == row %}
                                                <input id="register-password1-input" type="password" name="password1" autocomplete="new-password">
@@ -84,9 +83,9 @@
                                                <input id="register-password2-input" type="password" name="password2" autocomplete="new-password">
                                                <label><input type="checkbox" class="register-password2-checkbox"> {{ _('показать пароль') }}</label></br>
                                            {% endif %}
-                                           {{ row.help_text }} {{ row.error }} </br>
+                                           {{ row.help_text|safe }} {{ row.error }} </br>
                                        {% else %}
-                                           {{ row.label }} {{ row }} {{ row.help_text }} {{ row.error }} </br>
+                                           {{ row.label }} {{ row }} {{ row.help_text|safe }} {{ row.error }} </br>
                                        {% endif %}
                                    {% endfor %}
                                 </table>
@@ -116,5 +115,5 @@
 <script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
 <script type="text/javascript" src="https://bootstraptema.ru/plugins/2015/b-v3-3-6/bootstrap.min.js"></script>
 <script src="https://bootstraptema.ru/_sf/3/394.js" type="text/javascript"></script>
-<script src="{% static 'script/script.js' %}"></script>
+<script src="{{ static ('script/script.js') }}"></script>
 {% endblock %}

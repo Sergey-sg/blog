@@ -5,14 +5,16 @@
 {% block content %}
     <!-- хлебные крошки -->
     <p class="container">
-        <a href="{% url 'home' %}">{{_('Главная')}}</a>/
+        <a href="{{ url('home') }}">{{_('Главная')}}</a>/
         <a>{{_('текстовая страница')}}</a>
     </p>
 
     {% for object in object_list %}
         <div class="container p-3 border">
-            <p><a href="{% url 'text_page_detail' object.slug %}">{{ object.title }}</a></p>
-            <p>{{ object.content|safe }}</p>
+            <p><a href="{{ url('text_page_detail', object.slug) }}">{{ object.title }}</a></p>
+            <p>{{ object.content[:200]|safe }}...
+                <a href="{{ url('text_page_detail', object.slug) }}">{{ _('чтобы увидеть больше нажимай') }}</a>
+            </p>
         </div>
     {% endfor %}
 

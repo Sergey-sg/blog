@@ -1,12 +1,10 @@
-from django import template
+from django_jinja import library
+
 from apps.interaction.models import Score, FavoritesArticle
 
-register = template.Library()
 
-
-@register.simple_tag(takes_context=True)
-def in_scores(context, article):
-    request = context['request']
+@library.global_function
+def in_scores(request, article):
     try:
         score = Score.objects.get(author=request.user, article=article)
     except Exception:
@@ -15,9 +13,8 @@ def in_scores(context, article):
         return True
 
 
-@register.simple_tag(takes_context=True)
-def in_favorite(context, article):
-    request = context['request']
+@library.global_function
+def in_favorite(request, article):
     try:
         favorite = FavoritesArticle.objects.get(subscriber=request.user, article=article)
     except Exception:
@@ -26,9 +23,8 @@ def in_favorite(context, article):
         return True
 
 
-@register.simple_tag(takes_context=True)
-def in_subscription(context, author):
-    request = context['request']
+@library.global_function
+def in_subscription(request, author):
     try:
         subscription = request.user.subscription.all()
     except Exception:
