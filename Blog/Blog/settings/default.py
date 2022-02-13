@@ -17,6 +17,7 @@ from pathlib import Path
 from django.urls import reverse_lazy
 
 from .setting_ckeditor import *
+from .drf import *
 import jinja2
 from django_jinja.builtins import DEFAULT_EXTENSIONS
 
@@ -58,6 +59,7 @@ INSTALLED_APPS = [
     'treebeard',
     'debug_toolbar',
     'ckeditor',
+    'rest_framework',
     'ckeditor_uploader',
     'django_filters',
     'django.contrib.sites',

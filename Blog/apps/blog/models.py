@@ -159,7 +159,10 @@ class Article(ImageNameMixins, CurrentSlugMixin, DragDropMixins):
     def save(self, *args, **kwargs) -> None:
         """if the slug is not created then it is created from the title of the article
         and rename article preview image"""
-        origin = Article.objects.get(pk=self.pk)
+        try:
+            origin = Article.objects.get(pk=self.pk)
+        except Exception:
+            origin = False
         if origin and self.slug == origin.slug:
             pass
         else:

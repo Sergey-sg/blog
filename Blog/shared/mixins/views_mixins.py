@@ -66,15 +66,15 @@ class SendSubscriptionMixin:
 class CurrentSlugMixin:
     @staticmethod
     def get_current_slug(slug, alt, model):
-        print('in')
         if not slug:
             slug = slugify(alt)
         else:
             slug = slugify(slug)
-        m_slug = model.objects.get(slug=slug)
-        print(m_slug)
+        try:
+            m_slug = model.objects.get(slug=slug)
+        except Exception:
+            m_slug = False
         if m_slug:
-            print('in')
             if m_slug.slug[-1] in '123456789':
                 slug = slug[:-1] + str(int(m_slug.slug[-1]) + 1)
             else:
