@@ -1,8 +1,11 @@
 from django.contrib.auth import get_user_model
+from django.db.models import QuerySet
+from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
 
 from api.blog.serializers import ArticleSerializer, UserSerializer, CategorySerializer, ImageArticleSerializer, \
     TextPageSerializer
+from apps.blog.filters import ArticleFilter
 from apps.blog.models import Article, Category, ImageArticle, TextPage
 
 
@@ -24,6 +27,14 @@ class ArticleListView(generics.ListCreateAPIView):
 
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    filterset_class = ArticleFilter
+
+    def get_queryset(self) -> QuerySet:
+        """return queryset with filter"""
+        qs = super(ArticleListView, self).get_queryset()
+        if 'filter_category' in self.request.GET and self.request.GET['filter_category']:
+            qs = qs.filter(category_id=self.request.GET['filter_category'])
+        return qs
 
 
 class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):

@@ -26,7 +26,7 @@ urlpatterns = [
                 path('list/', views.TextPageListView.as_view(), name='api_text_page_list'),
                 path('<int:pk>/', views.TextPageDetailView.as_view(), name='textpage-detail'),
             ])),
-            path()
+            path('interaction/', include('api.interaction.urls')),
         ])),
     ])),
 ]

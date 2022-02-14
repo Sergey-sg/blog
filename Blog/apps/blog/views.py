@@ -32,7 +32,7 @@ class ArticleListView(FilterView):
     def get_queryset(self) -> QuerySet:
         """return queryset with filter"""
         qs = super(ArticleListView, self).get_queryset()
-        if 'filter_category' in self.request.GET:
+        if 'filter_category' in self.request.GET and self.request.GET['filter_category']:
             qs = qs.filter(category_id=self.request.GET['filter_category'])
         return qs
 
