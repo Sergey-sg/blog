@@ -10,7 +10,7 @@
             <div style="margin-top: 10px">
                 <form action="{{ url('user-change') }}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    <input type="file" name="photo">
+                    {{ user_photo_form.as_p() }}
                     <p><input class="btn btn-secondary text-black" type="submit" value="{{_('изменить фото')}}"></p>
                 </form>
             </div>

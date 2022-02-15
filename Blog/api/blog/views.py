@@ -1,12 +1,12 @@
 from django.contrib.auth import get_user_model
 from django.db.models import QuerySet
-from django_filters.rest_framework import DjangoFilterBackend
 from rest_framework import viewsets, generics
 
 from api.blog.serializers import ArticleSerializer, UserSerializer, CategorySerializer, ImageArticleSerializer, \
     TextPageSerializer
 from apps.blog.filters import ArticleFilter
 from apps.blog.models import Article, Category, ImageArticle, TextPage
+from shared.mixins.views_mixins import SendSubscriptionMixin
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,7 +23,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
-class ArticleListView(generics.ListCreateAPIView):
+class ArticleListView(SendSubscriptionMixin, generics.ListCreateAPIView):
 
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer

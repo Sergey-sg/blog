@@ -19,7 +19,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomRegistrationForm
+from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomRegistrationForm, UserPhotoChangeForm
 from .tokens import account_activation_token
 from ..blog.models import Article
 
@@ -136,3 +136,8 @@ class PersonalArea(LoginRequiredMixin, ListView):
         articles = Article.objects.filter(author=self.request.user).only(
             'slug', 'title', 'short_description', 'average_rating')
         return articles
+
+    def get_context_data(self, *, object_list=None, **kwargs):
+        context = super(PersonalArea, self).get_context_data(**kwargs)
+        context['user_photo_form'] = UserPhotoChangeForm(instance=self.request.user)
+        return context

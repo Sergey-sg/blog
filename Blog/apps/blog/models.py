@@ -13,7 +13,7 @@ from treebeard.mp_tree import MP_Node
 from slugify import slugify
 
 from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, ImageNameMixins
-from shared.mixins.views_mixins import CurrentSlugMixin
+from shared.mixins.views_mixins import CurrentSlugMixin, SendSubscriptionMixin
 
 from .constants import Published
 
@@ -62,7 +62,7 @@ class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
         super(Category, self).save(*args, **kwargs)
 
 
-class Article(ImageNameMixins, CurrentSlugMixin, DragDropMixins):
+class Article(ImageNameMixins, CurrentSlugMixin, SendSubscriptionMixin, DragDropMixins):
     """
     Article model
         attributes:
@@ -174,11 +174,13 @@ class Article(ImageNameMixins, CurrentSlugMixin, DragDropMixins):
                     self.article_preview.name = self.get_image_name(name=self.slug, filename=self.article_preview.name)
                     if not self.img_alt:
                         self.img_alt = self.title
+            super(Article, self).save(*args, **kwargs)
         else:
             self.article_preview.name = self.get_image_name(name=self.slug, filename=self.article_preview.name)
             if not self.img_alt:
                 self.img_alt = self.title
-        super(Article, self).save(*args, **kwargs)
+            super(Article, self).save(*args, **kwargs)
+            self.send_to_subscriptions(article=self)
 
     def get_absolute_url(self) -> str:
         """

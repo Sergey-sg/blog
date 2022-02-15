@@ -16,10 +16,20 @@ class FavoritesArticleSerializer(serializers.ModelSerializer):
         fields = ['url', 'subscriber', 'article']
 
 
-class ScoreSerializer(serializers.ModelSerializer):
-    class Meta:
-        model = Score
-        fields = ['url', 'author', 'article', 'score', 'status']
+# class ScoreSerializer(serializers.ModelSerializer):
+#     class Meta:
+#         model = Score
+#         fields = ['url', 'author', 'article', 'score', 'status']
+#
+#     # def update(self, instance, validated_data):
+#     #     raise ValueError('there in')
+#     #     score = instance # Score.objects.get(pk=self.data['pk'])
+#     #     if (validated_data.get('score'),) == score.score:
+#     #         score.delete()
+#     #     else:
+#     #         score.score = validated_data.get('score')
+#     #         score.save()
+#     #     return instance
 
 
 class AuthorSubscriptionSerializer(serializers.ModelSerializer):
@@ -30,7 +40,7 @@ class AuthorSubscriptionSerializer(serializers.ModelSerializer):
         fields = ['pk', 'user_email', 'subscription']
 
     def update(self, instance, validated_data):
-        user = get_user_model().objects.get(pk=self.data['pk'])
+        user = instance
         for subscription in validated_data.get('subscription'):
             if subscription in user.subscription.all():
                 user.subscription.remove(subscription)

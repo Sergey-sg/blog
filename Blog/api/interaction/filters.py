@@ -1,3 +1,4 @@
+from django.contrib.auth import get_user_model
 from django_filters import rest_framework as filters
 
 from apps.interaction.models import CommentArticle, FavoritesArticle, Score
@@ -19,9 +20,17 @@ class FavoritesArticleFilter(filters.FilterSet):
         fields = ('article', 'subscriber')
 
 
-class ScoreFilter(filters.FilterSet):
+# class ScoreFilter(filters.FilterSet):
+#     """filter for Comments"""
+#
+#     class Meta:
+#         model = Score
+#         fields = ('article', 'author')
+
+
+class SubscriptionFilter(filters.FilterSet):
     """filter for Comments"""
 
     class Meta:
-        model = Score
-        fields = ('article', 'author')
+        model = get_user_model()
+        fields = ('email',)
