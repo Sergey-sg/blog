@@ -22,13 +22,19 @@ class ScoreSerializer(serializers.ModelSerializer):
         fields = ['url', 'author', 'article', 'score', 'status']
 
 
-# class AuthorSubscriptionSerializer(serializers.ModelSerializer):
-#     class Meta:
-#         model = get_user_model()
-#         fields = ['url', 'email', 'subscription']
-#
-#     def update(self, instance, validated_data):
-#         if
-#         instance.subscription = validated_data.get('subscription', instance.subscription)
-#         instance.save()
-#         return instance
+class AuthorSubscriptionSerializer(serializers.ModelSerializer):
+    user_email = serializers.ReadOnlyField(source='email')
+
+    class Meta:
+        model = get_user_model()
+        fields = ['pk', 'user_email', 'subscription']
+
+    def update(self, instance, validated_data):
+        user = get_user_model().objects.get(pk=self.data['pk'])
+        for subscription in validated_data.get('subscription'):
+            if subscription in user.subscription.all():
+                user.subscription.remove(subscription)
+            else:
+                user.subscription.add(subscription)
+        user.save()
+        return instance

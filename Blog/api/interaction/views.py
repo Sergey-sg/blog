@@ -1,8 +1,9 @@
+from django.contrib.auth import get_user_model
 from rest_framework import generics
 from rest_framework import filters
 
 from .filters import CommentFilter, FavoritesArticleFilter, ScoreFilter
-from .serializers import CommentSerializer, FavoritesArticleSerializer, ScoreSerializer
+from .serializers import CommentSerializer, FavoritesArticleSerializer, ScoreSerializer, AuthorSubscriptionSerializer
 from apps.interaction.models import CommentArticle, FavoritesArticle, Score
 
 
@@ -39,33 +40,12 @@ class ScoreDetailView(generics.RetrieveUpdateDestroyAPIView):
     serializer_class = ScoreSerializer
 
 
-# class AddSubscription():
-#     """
-#     Adding an author subscription
-#     """
-#     def post(self, *args, **kwargs):
-#         """Adding an author subscription"""
-#         user = self.request.user
-#         try:
-#             author = get_user_model().objects.get(pk=self.kwargs['pk'])
-#             user.subscription.add(author)
-#             user.save()
-#         except Exception:
-#             pass
-#         return redirect(self.request.META.get('HTTP_REFERER'))
-#
-#
-# class SubscriptionDelete():
-#     """
-#     Deleting an author's subscription
-#     """
-#     def post(self, *args, **kwargs):
-#         """Deleting an author's subscription"""
-#         user = self.request.user
-#         try:
-#             author = get_user_model().objects.get(pk=self.kwargs['pk'])
-#             user.subscription.remove(author)
-#             user.save()
-#         except Exception:
-#             pass
-#         return redirect(self.request.META.get('HTTP_REFERER'))
+class AuthorSubscriptionListView(generics.ListAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = AuthorSubscriptionSerializer
+    # filterset_class = ScoreFilter
+
+
+class AuthorSubscriptionDetailView(generics.RetrieveUpdateAPIView):
+    queryset = get_user_model().objects.all()
+    serializer_class = AuthorSubscriptionSerializer
