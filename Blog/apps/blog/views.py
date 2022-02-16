@@ -12,7 +12,6 @@ from django.views.generic.list import MultipleObjectMixin
 from django.contrib.auth import get_user_model
 from django_filters.views import FilterView
 
-from shared.mixins.views_mixins import CurrentSlugMixin
 from .filters import ArticleFilter
 from .forms import ArticleForm, ImageArticleInlineFormset
 from .models import Article, Category, TextPage
@@ -140,7 +139,7 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
         return self.render_to_response(self.get_context_data(form=form, imagearticle_form=args[0]))
 
 
-class ArticleUpdate(LoginRequiredMixin, CurrentSlugMixin, UpdateView):
+class ArticleUpdate(LoginRequiredMixin, UpdateView):
     """
     Displays a form for editing information about article.
     """

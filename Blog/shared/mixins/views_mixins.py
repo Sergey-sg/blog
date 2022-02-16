@@ -1,10 +1,16 @@
 from django.conf import settings
 from django.contrib.auth import get_user_model
 from django.contrib.sites.models import Site
-from django.core.mail import send_mass_mail
+from django.contrib.sites.shortcuts import get_current_site
+from django.core.mail import send_mass_mail, send_mail
+from django.template.loader import render_to_string
 from django.urls import reverse_lazy
+from django.utils.encoding import force_bytes
+from django.utils.http import urlsafe_base64_encode
 from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
+
+from apps.accounts.tokens import account_activation_token
 
 
 class ScoreCommentMixin:
@@ -62,20 +68,46 @@ class SendSubscriptionMixin:
 
 
 class CurrentSlugMixin:
-    @staticmethod
-    def get_current_slug(slug, alt, model):
+
+    def get_current_slug(self, slug, alt, model, pk):
         if not slug:
             slug = slugify(alt)
         else:
             slug = slugify(slug)
         try:
-            m_slug = model.objects.get(slug=slug)
+            origin = model.objects.get(slug=slug)
         except Exception:
-            m_slug = False
-        if m_slug:
+            origin = False
+        if origin and origin.pk != pk:
             numb = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
-            if m_slug.slug[-1] in set(numb):
-                slug = slug[:-1] + str(int(m_slug.slug[-1]) + 1)
+            if origin.slug[-1] in set(numb):
+                slug = slug[:-1] + str(int(origin.slug[-1]) + 1)
             else:
                 slug += '1'
-        return slug
+        try:
+            model.objects.get(slug=slug)
+            return self.get_current_slug(slug, alt, model, pk)
+        except Exception:
+            return slug
+
+
+def send_activate_message(user, request):
+
+    to_email = user.email
+    current_site = get_current_site(request)
+    mail_subject = _('Activating your account')
+    message = render_to_string(
+        'registration/msg.jinja2',
+        {
+            'domain': current_site.domain,
+            'uid': urlsafe_base64_encode(force_bytes(user.pk)),
+            'token': account_activation_token.make_token(user),
+        }
+    )
+    send_mail(
+        mail_subject,
+        from_email=settings.EMAIL_HOST_USER,
+        message=_('link to confirm email and complete registration'),
+        recipient_list=[to_email],
+        html_message=message,
+    )

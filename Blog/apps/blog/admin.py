@@ -10,7 +10,7 @@ from .models import Category, Article, ImageArticle, TextPage
 
 
 class CategoryAdmin(TreeAdmin, TranslationAdmin):
-    list_display = ['name', 'created']
+    list_display = ['name', 'slug', 'created']
     search_fields = ('name', )
     exclude = ('path', 'depth', 'numchild', '_position')
     form = movenodeform_factory(Category)

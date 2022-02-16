@@ -13,7 +13,7 @@ from treebeard.mp_tree import MP_Node
 from slugify import slugify
 
 from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, ImageNameMixins
-from shared.mixins.views_mixins import CurrentSlugMixin, SendSubscriptionMixin
+from shared.mixins.views_mixins import SendSubscriptionMixin, CurrentSlugMixin
 
 from .constants import Published
 from .managers import TextPageManager
@@ -54,12 +54,7 @@ class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
 
     def save(self, *args: Any, **kwargs: dict[str, Any]) -> None:
         """if the slug is not created then it is created from the name of the category"""
-        origin = Category.objects.get(pk=self.pk)
-        if origin and self.slug == origin.slug:
-            pass
-        else:
-            self.slug = self.get_current_slug(slug=self.slug, alt=self.name, model=Category)
-        self.slug = self.get_current_slug(slug=self.slug, alt=self.name, model=Category)
+        self.slug = self.get_current_slug(slug=self.slug, alt=self.name, model=Category, pk=self.pk)
         super(Category, self).save(*args, **kwargs)
 
 
@@ -90,7 +85,6 @@ class Article(DragDropMixins, ImageNameMixins, CurrentSlugMixin, SendSubscriptio
         help_text=_('title of article')
     )
     slug = models.SlugField(
-        unique=True,
         help_text=_('used to generate URL'),
         null=True,
         blank=True
@@ -160,28 +154,14 @@ class Article(DragDropMixins, ImageNameMixins, CurrentSlugMixin, SendSubscriptio
     def save(self, *args, **kwargs) -> None:
         """if the slug is not created then it is created from the title of the article
         and rename article preview image"""
-        try:
-            origin = Article.objects.get(pk=self.pk)
-        except Exception:
-            origin = False
-        if origin and self.slug == origin.slug:
-            pass
-        else:
-            self.slug = self.get_current_slug(slug=self.slug, alt=self.title, model=Article)
-        if self.pk is not None:    # if the article already exists then it is checked for a change in the preview image
-            orig = Article.objects.get(pk=self.pk)
-            if orig.article_preview.name != self.article_preview.name:
-                if self.article_preview:
-                    self.article_preview.name = self.get_image_name(name=self.slug, filename=self.article_preview.name)
-                    if not self.img_alt:
-                        self.img_alt = self.title
-            super(Article, self).save(*args, **kwargs)
-        else:
-            self.article_preview.name = self.get_image_name(name=self.slug, filename=self.article_preview.name)
-            if not self.img_alt:
-                self.img_alt = self.title
-            super(Article, self).save(*args, **kwargs)
-            self.send_to_subscriptions(article=self)
+        self.slug = self.get_current_slug(slug=self.slug, alt=self.title, model=Article, pk=self.pk)
+        field_name_image = self.get_current_image_name(model=Article)
+        if field_name_image['new']:
+            self.article_preview.name = field_name_image['image_name']
+        if not self.img_alt:
+            self.img_alt = self.title
+        super(Article, self).save(*args, **kwargs)
+        self.send_to_subscriptions(article=self)
 
     def get_absolute_url(self) -> str:
         """

@@ -25,6 +25,19 @@ class ImageNameMixins:
         extension = filename.split('.')[-1]
         return f'{name}-{datetime.now()}.{extension}'
 
+    def get_current_image_name(self, model):
+        if self.pk is not None:    # if the article already exists then it is checked for a change in the preview image
+            orig = model.objects.get(pk=self.pk)
+            if orig.article_preview.name != self.article_preview.name:
+                if self.article_preview:
+                    name = self.get_image_name(name=self.title, filename=self.article_preview.name)
+                    return {'image_name': name, 'new': True}
+            else:
+                return {'new': False}
+        else:
+            name = self.get_image_name(name=self.title, filename=self.article_preview.name)
+            return {'image_name': name, 'new': True}
+
     class Meta:
         abstract = True
 
@@ -36,3 +49,4 @@ class ScoreMixins:
         rating = score.aggregate(Avg('score'))['score__avg'] or 0
         article.average_rating = rating
         article.save()
+

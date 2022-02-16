@@ -1,24 +1,18 @@
 from typing import Any, Union
 
-from django.conf import settings
 from django.contrib.auth.forms import PasswordChangeForm
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib.auth.views import PasswordChangeView, LoginView
-from django.contrib.sites.shortcuts import get_current_site
 from django.db.models import QuerySet
 from django.http import HttpResponse, HttpResponseRedirect, HttpResponsePermanentRedirect
 from django.shortcuts import redirect
 from django.urls import reverse_lazy
-from django.utils.encoding import force_bytes
-from django.utils.http import urlsafe_base64_encode, urlsafe_base64_decode
-from django.utils.translation import ugettext as _
+from django.utils.http import urlsafe_base64_decode
 
 from django.views.generic import UpdateView, CreateView, ListView, TemplateView, FormView
 from django.contrib.auth import get_user_model
 
-from django.core.mail import send_mail
-from django.template.loader import render_to_string
-
+from shared.mixins.views_mixins import send_activate_message
 from .forms import CustomUserChangeForm, CustomUserLoginForm, CustomRegistrationForm, UserProfileChangeForm
 from .tokens import account_activation_token
 from ..blog.models import Article
@@ -80,24 +74,7 @@ class UserCreateView(CreateView):
         user = form.save(commit=False)
         user.is_active = False
         user.save()
-        to_email = user.email
-        current_site = get_current_site(self.request)
-        mail_subject = _('Activating your account')
-        message = render_to_string(
-            'registration/msg.jinja2',
-            {
-                'domain': current_site.domain,
-                'uid': urlsafe_base64_encode(force_bytes(user.pk)),
-                'token': account_activation_token.make_token(user),
-            }
-        )
-        send_mail(
-            mail_subject,
-            from_email=settings.EMAIL_HOST_USER,
-            message=_('link to confirm email and complete registration'),
-            recipient_list=[to_email],
-            html_message=message,
-        )
+        send_activate_message(user=user, request=self.request)
         return super(UserCreateView, self).form_valid(form)
 
 
