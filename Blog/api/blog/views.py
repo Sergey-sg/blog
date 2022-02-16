@@ -40,6 +40,7 @@ class ArticleListView(SendSubscriptionMixin, generics.ListCreateAPIView):
 class ArticleDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer
+    lookup_field = 'slug'
     # parser_classes = (FormParser, MultiPartParser, JSONParser)
 
 
@@ -61,3 +62,4 @@ class TextPageListView(generics.ListCreateAPIView):
 class TextPageDetailView(generics.RetrieveUpdateDestroyAPIView):
     queryset = TextPage.objects.all()
     serializer_class = TextPageSerializer
+    lookup_field = 'slug'

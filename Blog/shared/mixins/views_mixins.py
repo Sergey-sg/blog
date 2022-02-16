@@ -6,8 +6,6 @@ from django.urls import reverse_lazy
 from django.utils.translation import ugettext_lazy as _
 from slugify import slugify
 
-# from apps.interaction.models import Score, CommentArticle
-
 
 class ScoreCommentMixin:
     @staticmethod
@@ -75,7 +73,8 @@ class CurrentSlugMixin:
         except Exception:
             m_slug = False
         if m_slug:
-            if m_slug.slug[-1] in '123456789':
+            numb = ['1', '2', '3', '4', '5', '6', '7', '8', '9', '0']
+            if m_slug.slug[-1] in set(numb):
                 slug = slug[:-1] + str(int(m_slug.slug[-1]) + 1)
             else:
                 slug += '1'

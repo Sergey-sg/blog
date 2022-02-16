@@ -1,6 +1,6 @@
 <html lang="ru">
     <body>
         <p>{{_('закончите регистрацию перейдя по ссылке')}}</p>
-        <a href="{{ domain }}{% url 'user_activate' uid=uid token=token %}">{{_('ссылка')}}</a>
+        <a href="{{ domain }}{{ url('user_activate', uid=uid, token=token) }}">{{_('ссылка')}}</a>
     </body>
 </html>

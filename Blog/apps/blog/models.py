@@ -16,6 +16,7 @@ from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, Image
 from shared.mixins.views_mixins import CurrentSlugMixin, SendSubscriptionMixin
 
 from .constants import Published
+from .managers import TextPageManager
 
 
 class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
@@ -62,7 +63,7 @@ class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
         super(Category, self).save(*args, **kwargs)
 
 
-class Article(ImageNameMixins, CurrentSlugMixin, SendSubscriptionMixin, DragDropMixins):
+class Article(DragDropMixins, ImageNameMixins, CurrentSlugMixin, SendSubscriptionMixin):
     """
     Article model
         attributes:
@@ -276,6 +277,8 @@ class TextPage(CreatedUpdateMixins):
         help_text=_('used to generate URL'),
         null=True, blank=True
     )
+
+    objects = TextPageManager()
 
     class Meta:
         verbose_name = _('text page')

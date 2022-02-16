@@ -25,11 +25,11 @@ urlpatterns = [
     path('admin/', admin.site.urls),
     path('ckeditor/', include('ckeditor_uploader.urls')),
     path('accounts/', include('django.contrib.auth.urls')),
-    path('', include('api.blog.urls')),
 ]
 
 urlpatterns += i18n_patterns(
     path('', include('apps.blog.urls')),
+    path('api/', include('api.blog.urls')),
 )
 
 handler404 = "Blog.views.page_not_found_view"

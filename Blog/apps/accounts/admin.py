@@ -1,14 +1,14 @@
 from django.contrib import admin
 from django.contrib.auth.admin import UserAdmin
 
-from .forms import CustomUserCreationForm, CustomUserChangeForm
+from .forms import CustomUserLoginForm, CustomUserChangeForm
 from .models import User
 
 from modeltranslation.admin import TranslationAdmin
 
 
 class CustomUserAdmin(TranslationAdmin, UserAdmin):
-    add_form = CustomUserCreationForm
+    add_form = CustomUserLoginForm
     form = CustomUserChangeForm
     model = User
     list_display = ('email', 'is_staff', 'is_active',)

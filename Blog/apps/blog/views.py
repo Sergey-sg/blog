@@ -25,7 +25,7 @@ class ArticleListView(FilterView):
     Generates a list of article with filter
     """
     template_name = 'blog/home.jinja2'
-    paginate_by = 2
+    paginate_by = 16
     filterset_class = ArticleFilter
     model = Article
 
@@ -106,16 +106,13 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
     def get(self, *args: Any, **kwargs: dict[str, Any]) -> TemplateResponse:
         """send context to response"""
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
         imagearticle_form = ImageArticleInlineFormset()
-        return self.render_to_response(self.get_context_data(form=form, imagearticle_form=imagearticle_form))
+        return self.render_to_response(self.get_context_data(imagearticle_form=imagearticle_form))
 
     def post(self, request, *args: Any, **kwargs: dict[str, Any]) -> Union[HttpResponseRedirect, TemplateResponse]:
         """checks valid of filling out the class form and imagearticle form"""
         self.object = None
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+        form = self.get_form()
         imagearticle_form = ImageArticleInlineFormset(request.POST, request.FILES)
         if form.is_valid() and imagearticle_form.is_valid():
             return self.form_valid(form, imagearticle_form)
@@ -157,16 +154,13 @@ class ArticleUpdate(LoginRequiredMixin, CurrentSlugMixin, UpdateView):
     def get(self, *args: Any, **kwargs: dict[str, Any]) -> TemplateResponse:
         """send context to response"""
         self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
         imagearticle_form = ImageArticleInlineFormset(instance=self.object)
-        return self.render_to_response(self.get_context_data(form=form, imagearticle_form=imagearticle_form))
+        return self.render_to_response(self.get_context_data(imagearticle_form=imagearticle_form))
 
     def post(self, request, *args: Any, **kwargs: dict[str, Any]) -> Union[HttpResponseRedirect, TemplateResponse]:
         """checks valid of filling out the class form and imagearticle form"""
         self.object = self.get_object()
-        form_class = self.get_form_class()
-        form = self.get_form(form_class)
+        form = self.get_form()
         imagearticle_form = ImageArticleInlineFormset(request.POST, request.FILES, instance=self.object)
         if form.is_valid() and imagearticle_form.is_valid():
             return self.form_valid(form, imagearticle_form)
@@ -193,7 +187,7 @@ class TextPageList(ListView):
 
     def get_queryset(self) -> QuerySet[TextPage]:
         """returns only published pages"""
-        return TextPage.objects.filter(published='p')
+        return TextPage.objects.published()
 
 
 class TextPageDetail(DetailView):
@@ -204,4 +198,4 @@ class TextPageDetail(DetailView):
     def get_queryset(self) -> TextPage:
         """returns only published page"""
         queryset = super(TextPageDetail, self).get_queryset()
-        return queryset.filter(published='p')
+        return queryset.published()

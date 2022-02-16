@@ -1,7 +1,7 @@
 from datetime import datetime
 
 from django.db import models
-from django.db.models import Sum
+from django.db.models import Avg
 
 
 class CreatedUpdateMixins(models.Model):
@@ -33,10 +33,6 @@ class ScoreMixins:
     @staticmethod
     def add_rating_to_article(article, score):
         article.number_of_likes = score.count()
-        total_score = score.aggregate(total_score=Sum('score'))['total_score']
-        if total_score:
-            rating = int(total_score) / score.count()
-        else:
-            rating = 0
+        rating = score.aggregate(Avg('score'))['score__avg'] or 0
         article.average_rating = rating
         article.save()

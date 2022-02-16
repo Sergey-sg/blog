@@ -19,7 +19,7 @@ from django.contrib.auth import get_user_model
 from django.core.mail import send_mail
 from django.template.loader import render_to_string
 
-from .forms import CustomUserChangeForm, CustomUserCreationForm, CustomRegistrationForm, UserPhotoChangeForm
+from .forms import CustomUserChangeForm, CustomUserLoginForm, CustomRegistrationForm, UserProfileChangeForm
 from .tokens import account_activation_token
 from ..blog.models import Article
 
@@ -64,7 +64,7 @@ class CustomLoginView(LoginView):
     def get_context_data(self, *args, **kwargs) -> dict[str, Any]:
         """return form for login and create new user"""
         context = super(CustomLoginView, self).get_context_data(**kwargs)
-        context['create_user_form'] = CustomUserCreationForm()
+        context['create_user_form'] = CustomUserLoginForm()
         return context
 
 
@@ -78,12 +78,13 @@ class UserCreateView(CreateView):
     def form_valid(self, form: CustomRegistrationForm, *args: Any, **kwargs: dict[str, Any]) -> HttpResponseRedirect:
         """saves the user with the inactive status and sends an email message to confirm the identity"""
         user = form.save(commit=False)
+        user.is_active = False
         user.save()
         to_email = user.email
         current_site = get_current_site(self.request)
         mail_subject = _('Activating your account')
         message = render_to_string(
-            'registration/msg.html',
+            'registration/msg.jinja2',
             {
                 'domain': current_site.domain,
                 'uid': urlsafe_base64_encode(force_bytes(user.pk)),
@@ -115,7 +116,7 @@ class ActivateAccount(FormView):
         if user is not None and account_activation_token.check_token(user, token):
             user.is_active = True
             user.save()
-            return redirect('login')
+            return redirect('activate_done')
         else:
             return HttpResponse('Activation link is invalid!')
 
@@ -139,5 +140,6 @@ class PersonalArea(LoginRequiredMixin, ListView):
 
     def get_context_data(self, *, object_list=None, **kwargs):
         context = super(PersonalArea, self).get_context_data(**kwargs)
-        context['user_photo_form'] = UserPhotoChangeForm(instance=self.request.user)
+        context['user_profile_form'] = UserProfileChangeForm(instance=self.request.user)
+        context['password_change_form'] = PasswordChangeForm(user=self.request.user)
         return context

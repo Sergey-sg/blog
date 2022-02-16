@@ -75,19 +75,18 @@
                             <form action="{{ url('create_user') }}" method="post" enctype="multipart/form-data" id="post-form">
                                 {% csrf_token %}
                                 <table>
+                                    <p>{{ create_user_form.email.label }}{{ create_user_form.email }}{{ create_user_form.email.help_text|safe }}</p>
                                    {% for row in create_user_form %}
-                                       {% if 'Password' or 'Пароль' in row.label %}
+                                       {% if create_user_form.password1 == row %}
                                            {{ row.label }}
-                                           {% if create_user_form.password1 == row %}
-                                               <input id="register-password1-input" type="password" name="password1" autocomplete="new-password">
-                                               <label><input type="checkbox" class="register-password1-checkbox"> {{ _('показать пароль') }}</label></br>
-                                           {% elif create_user_form.password2 == row %}
-                                               <input id="register-password2-input" type="password" name="password2" autocomplete="new-password">
-                                               <label><input type="checkbox" class="register-password2-checkbox"> {{ _('показать пароль') }}</label></br>
-                                           {% endif %}
+                                           <input id="register-password1-input" type="password" name="password1" autocomplete="new-password">
+                                           <label><input type="checkbox" class="register-password1-checkbox"> {{ _('показать пароль') }}</label></br>
                                            {{ row.help_text|safe }} {{ row.error }} </br>
-                                       {% else %}
-                                           {{ row.label }} {{ row }} {{ row.help_text|safe }} {{ row.error }} </br>
+                                       {% elif create_user_form.password2 == row %}
+                                           {{ row.label }}
+                                           <input id="register-password2-input" type="password" name="password2" autocomplete="new-password">
+                                           <label><input type="checkbox" class="register-password2-checkbox"> {{ _('показать пароль') }}</label></br>
+                                           {{ row.help_text|safe }} {{ row.error }} </br>
                                        {% endif %}
                                    {% endfor %}
                                 </table>

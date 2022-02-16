@@ -26,15 +26,21 @@ class ImageArticleSerializer(serializers.ModelSerializer):
 
 class ArticleSerializer(serializers.ModelSerializer):
 
-    # preview = serializers.ImageField(source='article_preview', use_url=False, initial='article_preview')
-
     class Meta:
         model = Article
         fields = ('url', 'title', 'slug', 'article_preview', 'img_alt', 'author', 'category', 'short_description',
                   'content', 'recommended', 'average_rating', 'number_of_likes')
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }
 
 
 class TextPageSerializer(serializers.ModelSerializer):
     class Meta:
         model = TextPage
         fields = ('url', 'title', 'slug', 'content', 'published',)
+        lookup_field = 'slug'
+        extra_kwargs = {
+            'url': {'lookup_field': 'slug'}
+        }

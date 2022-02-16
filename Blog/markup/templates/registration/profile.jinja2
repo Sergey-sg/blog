@@ -10,12 +10,36 @@
             <div style="margin-top: 10px">
                 <form action="{{ url('user-change') }}" method="post" enctype="multipart/form-data">
                     {% csrf_token %}
-                    {{ user_photo_form.as_p() }}
-                    <p><input class="btn btn-secondary text-black" type="submit" value="{{_('изменить фото')}}"></p>
+                    <p>{{ user_profile_form.photo }}</p>
+                    <p>{{ user_profile_form.first_name.label }}<br>{{ user_profile_form.first_name }}</p>
+                    <p>{{ user_profile_form.last_name.label }}<br>{{ user_profile_form.last_name }}</p>
+                    <p>{{ user_profile_form.phone_number.label }}<br>{{ user_profile_form.phone_number }}<br>{{ user_profile_form.phone_number.help_text|safe }}</p>
+                    <p><input class="btn btn-secondary text-black" type="submit" value="{{_('сохранить информацию')}}"></p>
+                </form>
+                <form action="{{ url('password-change') }}" method="post">
+                    {% csrf_token %}
+                    <table>
+                        {% for row in password_change_form %}
+                            <tr>
+                               <td>{{ row.label }}:</td>
+                               {% if password_change_form.old_password == row %}
+                                   <td><label><input id="password-input" type="password" name="old_password" autocomplete="current-password"></label></td>
+                                   <td><label><input type="checkbox" class="password-checkbox"> {{ _('показать пароль')}}</label></td>
+                               {% elif password_change_form.new_password1 == row %}
+                                   <td><input id="register-password1-input" type="password" name="new_password1" autocomplete="new-password"></td>
+                                   <td><label><input type="checkbox" class="register-password1-checkbox"> {{ _('показать пароль')}}</label></td>
+                               {% elif password_change_form.new_password2 == row %}
+                                   <td><input id="register-password2-input" type="password" name="new_password2" autocomplete="new-password"></td>
+                                   <td><label><input type="checkbox" class="register-password2-checkbox"> {{ _('показать пароль')}}</label></td>
+                               {% endif %}
+                               <td>{{ row.errors }}</td>
+                            </tr>
+                            {{ row.help_text|safe }}
+                       {% endfor %}
+                    </table>
+                    <input class="btn btn-primary" type="submit" value="{{ _('Submit') }}" />
                 </form>
             </div>
-            <br>
-            <p><strong>{% if request.user.first_name %}{{ request.user.get_full_name() }}{% endif %}</strong></p>
             <br>
             <p>email: {{ request.user.email }}</p>
             <br>
@@ -66,4 +90,8 @@
             </div>
         </div>
     </div>
+
+<script src="https://bootstraptema.ru/plugins/jquery/jquery-1.11.3.min.js"></script>
+<script src="{{ static ('script/script.js') }}"></script>
+
 {% endblock %}
