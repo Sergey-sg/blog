@@ -132,7 +132,7 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
                         inlineform_object.save()
                 except Exception:
                     pass
-        return super(ArticleCreate, self).form_valid(form)
+        return redirect('article_detail', object_form.slug)
 
     def form_invalid(self, form: ArticleForm, *args: Any) -> TemplateResponse:
         """returns a form for correcting errors"""
@@ -172,7 +172,7 @@ class ArticleUpdate(LoginRequiredMixin, UpdateView):
         inlineform_object = args[0]
         inlineform_object.article = obj_form
         inlineform_object.save()
-        return super(ArticleUpdate, self).form_valid(form)
+        return redirect('article_detail', obj_form.slug)
 
     def form_invalid(self, form: ArticleForm, *args: Any) -> TemplateResponse:
         """returns a form for correcting errors"""

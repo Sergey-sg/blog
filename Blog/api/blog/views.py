@@ -6,7 +6,6 @@ from api.blog.serializers import ArticleSerializer, UserSerializer, CategorySeri
     TextPageSerializer
 from apps.blog.filters import ArticleFilter
 from apps.blog.models import Article, Category, ImageArticle, TextPage
-from shared.mixins.views_mixins import SendSubscriptionMixin
 
 
 class UserViewSet(viewsets.ModelViewSet):
@@ -23,7 +22,7 @@ class CategoryViewSet(viewsets.ModelViewSet):
     serializer_class = CategorySerializer
 
 
-class ArticleListView(SendSubscriptionMixin, generics.ListCreateAPIView):
+class ArticleListView(generics.ListCreateAPIView):
 
     queryset = Article.objects.all()
     serializer_class = ArticleSerializer

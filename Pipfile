@@ -19,6 +19,8 @@ django-utils-six = "*"
 django-modeltranslation = "*"
 django-rosetta = "*"
 djangorestframework = "*"
+celery = "*"
+redis = "*"
 
 [dev-packages]
 django-debug-toolbar= "3.2.4"

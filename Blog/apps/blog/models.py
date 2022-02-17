@@ -4,6 +4,7 @@ from django.conf import settings
 import datetime
 
 from ckeditor.fields import RichTextField
+from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.urls import reverse_lazy
@@ -13,10 +14,11 @@ from treebeard.mp_tree import MP_Node
 from slugify import slugify
 
 from shared.mixins.model_utils import CreatedUpdateMixins, DragDropMixins, ImageNameMixins
-from shared.mixins.views_mixins import SendSubscriptionMixin, CurrentSlugMixin
+from shared.mixins.views_mixins import CurrentSlugMixin
 
 from .constants import Published
 from .managers import TextPageManager
+from .tasks import send_to_subscriptions
 
 
 class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
@@ -58,7 +60,7 @@ class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
         super(Category, self).save(*args, **kwargs)
 
 
-class Article(DragDropMixins, ImageNameMixins, CurrentSlugMixin, SendSubscriptionMixin):
+class Article(DragDropMixins, ImageNameMixins, CurrentSlugMixin):
     """
     Article model
         attributes:
@@ -160,8 +162,11 @@ class Article(DragDropMixins, ImageNameMixins, CurrentSlugMixin, SendSubscriptio
             self.article_preview.name = field_name_image['image_name']
         if not self.img_alt:
             self.img_alt = self.title
+        if self.pk is None:
+            super(Article, self).save(*args, **kwargs)
+            send_to_subscriptions.delay(author_pk=self.author.pk, title=self.title, slug=self.slug)
+            return None
         super(Article, self).save(*args, **kwargs)
-        self.send_to_subscriptions(article=self)
 
     def get_absolute_url(self) -> str:
         """
