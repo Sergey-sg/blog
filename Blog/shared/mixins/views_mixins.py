@@ -15,7 +15,7 @@ from apps.accounts.tokens import account_activation_token
 
 class ScoreCommentMixin:
     @staticmethod
-    def get_score_for_comment(author, article, model) -> Union[list[bool], list[bool, object]]:
+    def get_score_for_comment(author, article, model):
         """return list [True, Score] or [False]"""
         try:
             score = model.objects.get(author=author, article=article)
@@ -29,7 +29,7 @@ class ScoreCommentMixin:
 
 class CommentScoreMixin:
     @staticmethod
-    def get_comments_for_score(author, article, model) -> Union[list[bool], list[bool, QuerySet]]:
+    def get_comments_for_score(author, article, model):
         """return list [True, CommentArticle] or [False]"""
         try:
             comments = model.objects.filter(author=author, article=article)

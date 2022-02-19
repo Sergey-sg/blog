@@ -35,7 +35,7 @@ class ArticleListView(FilterView):
             qs = qs.filter(category_id=self.request.GET['filter_category'])
         return qs
 
-    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+    def get_context_data(self, **kwargs: dict) -> dict:
         """Add to context filter as "filterset" """
         context = super(ArticleListView, self).get_context_data()
         context['filterset'] = self.filterset
@@ -52,7 +52,7 @@ class ArticleDetailView(DetailView, MultipleObjectMixin):
     paginate_by = 8
     object_list = None
 
-    def get_context_data(self, **kwargs: dict[str, Any]) -> dict[str, Any]:
+    def get_context_data(self, **kwargs: dict) -> dict:
         """Add to context ScoreForm, CommentArticleForm and AuthenticationForm and create object_list of comments"""
         self.object_list = CommentArticle.objects.filter(article__slug=self.kwargs['slug'])
         context = super().get_context_data(**kwargs)
@@ -66,7 +66,7 @@ class AddSubscription(LoginRequiredMixin, View):
     """
     Adding an author subscription
     """
-    def post(self, *args: Any, **kwargs: dict[str, Any]) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
+    def post(self, *args: Any, **kwargs: dict) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
         """Adding an author subscription"""
         user = self.request.user
         try:
@@ -82,7 +82,7 @@ class SubscriptionDelete(LoginRequiredMixin, View):
     """
     Deleting an author's subscription
     """
-    def post(self, *args: Any, **kwargs: dict[str, Any]) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
+    def post(self, *args: Any, **kwargs: dict) -> Union[HttpResponsePermanentRedirect, HttpResponseRedirect]:
         """Deleting an author's subscription"""
         user = self.request.user
         try:
@@ -102,13 +102,13 @@ class ArticleCreate(LoginRequiredMixin, CreateView):
     form_class = ArticleForm
     template_name = 'blog/article_create.jinja2'
 
-    def get(self, *args: Any, **kwargs: dict[str, Any]) -> TemplateResponse:
+    def get(self, *args: Any, **kwargs: dict) -> TemplateResponse:
         """send context to response"""
         self.object = None
         imagearticle_form = ImageArticleInlineFormset()
         return self.render_to_response(self.get_context_data(imagearticle_form=imagearticle_form))
 
-    def post(self, request, *args: Any, **kwargs: dict[str, Any]) -> Union[HttpResponseRedirect, TemplateResponse]:
+    def post(self, request, *args: Any, **kwargs: dict) -> Union[HttpResponseRedirect, TemplateResponse]:
         """checks valid of filling out the class form and imagearticle form"""
         self.object = None
         form = self.get_form()
@@ -150,13 +150,13 @@ class ArticleUpdate(LoginRequiredMixin, UpdateView):
         """get object of Article if user is the author"""
         return get_object_or_404(Article, author=self.request.user, slug=self.kwargs['slug'])
 
-    def get(self, *args: Any, **kwargs: dict[str, Any]) -> TemplateResponse:
+    def get(self, *args: Any, **kwargs: dict) -> TemplateResponse:
         """send context to response"""
         self.object = self.get_object()
         imagearticle_form = ImageArticleInlineFormset(instance=self.object)
         return self.render_to_response(self.get_context_data(imagearticle_form=imagearticle_form))
 
-    def post(self, request, *args: Any, **kwargs: dict[str, Any]) -> Union[HttpResponseRedirect, TemplateResponse]:
+    def post(self, request, *args: Any, **kwargs: dict) -> Union[HttpResponseRedirect, TemplateResponse]:
         """checks valid of filling out the class form and imagearticle form"""
         self.object = self.get_object()
         form = self.get_form()

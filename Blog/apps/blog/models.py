@@ -4,7 +4,6 @@ from django.conf import settings
 import datetime
 
 from ckeditor.fields import RichTextField
-from django.contrib.auth import get_user_model
 from django.core.validators import MinLengthValidator
 from django.db import models
 from django.urls import reverse_lazy
@@ -54,7 +53,7 @@ class Category(MP_Node, CurrentSlugMixin, CreatedUpdateMixins):
         """class method returns the category in string representation"""
         return self.name
 
-    def save(self, *args: Any, **kwargs: dict[str, Any]) -> None:
+    def save(self, *args: Any, **kwargs: dict) -> None:
         """if the slug is not created then it is created from the name of the category"""
         self.slug = self.get_current_slug(slug=self.slug, alt=self.name, model=Category, pk=self.pk)
         super(Category, self).save(*args, **kwargs)

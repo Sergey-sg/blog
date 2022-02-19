@@ -55,7 +55,7 @@ class CustomLoginView(LoginView):
     """Login view with form for create new user"""
     template_name = 'registration/login.jinja2'
 
-    def get_context_data(self, *args, **kwargs) -> dict[str, Any]:
+    def get_context_data(self, *args, **kwargs) -> dict:
         """return form for login and create new user"""
         context = super(CustomLoginView, self).get_context_data(**kwargs)
         context['create_user_form'] = CustomUserLoginForm()
@@ -69,7 +69,7 @@ class UserCreateView(CreateView):
     form_class = CustomRegistrationForm
     success_url = reverse_lazy('confirm_registration')
 
-    def form_valid(self, form: CustomRegistrationForm, *args: Any, **kwargs: dict[str, Any]) -> HttpResponseRedirect:
+    def form_valid(self, form: CustomRegistrationForm, *args: Any, **kwargs: dict) -> HttpResponseRedirect:
         """saves the user with the inactive status and sends an email message to confirm the identity"""
         user = form.save(commit=False)
         user.is_active = False
